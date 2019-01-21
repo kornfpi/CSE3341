@@ -5,6 +5,7 @@
  */
 
 import java.io.*;
+import java.util.*;
 
 public class Tokenizer {
      
@@ -17,6 +18,11 @@ public class Tokenizer {
      * String to denote input file location
      */
     private String inFile;
+    
+    /**
+     * Array list of string array containing tokens parsed by delimeters
+     */
+    private ArrayList<String[]> lines;
     
     /**
      * Constructor
@@ -36,10 +42,11 @@ public class Tokenizer {
         // Create tokenizer object
         Tokenizer tokenizer;
         if(args.length != 0) {  // Argument passed
+            
             // Begin main tokenizing loop
             tokenizer = new Tokenizer(args[0]);
-            
-            //Get next line and split using next word or separator method
+            tokenizer.parseToLines();
+            tokenizer.printAllLines();
             
             // Close input file
             tokenizer.closeInputFile();
@@ -54,7 +61,6 @@ public class Tokenizer {
      * Private method to open input file and catch IO exceptions
      */
     private void openInputFile() {
-        // Try to open input file, display error and exit on exception
         try {   
             this.input = new BufferedReader(new FileReader(this.inFile));  
         }catch (IOException e) {
@@ -67,7 +73,6 @@ public class Tokenizer {
      * Public method to close input file and catch IO exceptions
      */
     public void closeInputFile() {  
-        // Try to open input file, display error and exit on exception
         try {   
             this.input.close();  
         }catch (IOException e) {
@@ -75,5 +80,50 @@ public class Tokenizer {
             System.exit(0);
         }
     } 
+    
+    /**
+     * Private method to get next line of text from input file
+     * @returns the next line of the input file
+     */
+    private String getLine() {  
+        String tempLine = null;
+        try {   
+            tempLine = this.input.readLine();
+        }catch (IOException e) {
+            System.out.println("[ERROR] Unable to read line from input file!\n" + e);
+            System.exit(0);
+        }
+        return tempLine;
+    } 
+    
+    /**
+     * Parse all lines of input file to entries in array list
+     * Lines are split into string arrays by whitespace delimeters.
+     */
+    public void parseToLines() {  
+        this.lines = new ArrayList<String[]>();
+        String tempLine;
+        while((tempLine = getLine()) != null) {
+            String[] splitTempLine = tempLine.split("\n\t\r");
+            for(int i = 0 ; i < splitTempLine.length ; i++){
+                splitTempLine[i] = splitTempLine[i].trim();
+            }
+            this.lines.add(splitTempLine);
+        }
+    } 
+    
+    /**
+     * Method to print all lines as currently parsed to the console.
+     * For dubugging purposes.
+     */
+    public void printAllLines(){
+        for(int i = 0 ; i < this.lines.size() ; i++){
+            String[] tempTokens = this.lines.get(i);
+            for(String s : tempTokens) {
+                System.out.print(s + " ");
+            }
+            System.out.println();
+        }
+    }
     
 }
