@@ -39,6 +39,7 @@ public class Tokenizer {
             // Begin main tokenizing loop
             tokenizer = new Tokenizer(args[0]);
             
+            //Get next line and split using next word or separator method
             
             // Close input file
             tokenizer.closeInputFile();
