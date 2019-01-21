@@ -1,5 +1,4 @@
 /**
- * 
  * Tokenizer class which takes CORE  language file as input and converts it to proper object file.
  * @author John E Wolford
  * @date 1/20/2019
@@ -36,7 +35,7 @@ public class Tokenizer {
     public static void main(String[] args) {
         // Create tokenizer object
         Tokenizer tokenizer;
-        if(!args[0].equals(null)) {  // Argument passed
+        if(args.length != 0) {  // Argument passed
             // Begin main tokenizing loop
             tokenizer = new Tokenizer(args[0]);
             
