@@ -114,7 +114,7 @@ public class Tokenizer {
         int lineCount = 0;
         this.lines = new ArrayList<ArrayList<String>>();
         while((currentLine = getLine()) != null) {
-            ArrayList lineTokens = new ArrayList<String>();
+            ArrayList<String> lineTokens = new ArrayList<String>();
             for (int i = 0 ; i < currentLine.length() ; i++) {
                 if(DELIMITERS.contains(currentLine.charAt(i))) {
                     continue;

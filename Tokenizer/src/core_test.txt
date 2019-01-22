@@ -1,5 +1,8 @@
 program
-int          ABcd;
+int ABcd;
             begin
     write ABcd;
           end
+   if(i<=j)
+   i*j
+   apple===orange+1*17
