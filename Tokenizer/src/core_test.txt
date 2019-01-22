@@ -1,5 +1,5 @@
 program
-int ABcd;
-begin
+int          ABcd;
+            begin
     write ABcd;
-end
+          end

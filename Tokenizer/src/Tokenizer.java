@@ -8,6 +8,16 @@ import java.io.*;
 import java.util.*;
 
 public class Tokenizer {
+    
+    /**
+     * Special characters, delimiters, and special character arrangements stored as a set
+     */
+    public static final Character[] SPEC_CHARS_ARRAY = new Character[]{';',',','=','!','[',']','(',')','+','-','*','<','>'};
+    public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
+    public static final String[] SPEC_OPS_ARRAY = new String[]{"!=","==",">=","<=",""};
+    public static final Set<String> SPEC_OPS = new HashSet<>(Arrays.asList(SPEC_OPS_ARRAY));
+    public static final Character[] DELIMITERS_ARRAY = new Character[]{' ','\n','\r','\t'};
+    public static final Set<Character> DELIMITERS = new HashSet<>(Arrays.asList(DELIMITERS_ARRAY));
      
     /**
      * Buffered reader for reading lines from input file
@@ -20,9 +30,9 @@ public class Tokenizer {
     private String inFile;
     
     /**
-     * Array list of string array containing tokens parsed by delimeters
+     * ArrayList of ArrayList of String array containing parsed tokens indexed by lines
      */
-    private ArrayList<String[]> lines;
+    private ArrayList<ArrayList<String>> lines;
     
     /**
      * Constructor
@@ -95,22 +105,40 @@ public class Tokenizer {
         }
         return tempLine;
     } 
-    
+
     /**
-     * Parse all lines of input file to entries in array list
-     * Lines are split into string arrays by whitespace delimeters.
+     * Method to break a single string into individual tokens based on specified strings, chars, and delimiters
      */
-    public void parseToLines() {  
-        this.lines = new ArrayList<String[]>();
-        String tempLine;
-        while((tempLine = getLine()) != null) {
-            String[] splitTempLine = tempLine.split("\n\t\r");
-            for(int i = 0 ; i < splitTempLine.length ; i++){
-                splitTempLine[i] = splitTempLine[i].trim();
+    public void parseToLines() {
+        String currentLine = null;
+        int lineCount = 0;
+        this.lines = new ArrayList<ArrayList<String>>();
+        while((currentLine = getLine()) != null) {
+            ArrayList lineTokens = new ArrayList<String>();
+            for (int i = 0 ; i < currentLine.length() ; i++) {
+                if(DELIMITERS.contains(currentLine.charAt(i))) {
+                    continue;
+                }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){
+                    int nextBreak = 1, j = i + 1;
+                    while(j < currentLine.length() && !SPEC_CHARS.contains(currentLine.charAt(j)) 
+                            && !DELIMITERS.contains(currentLine.charAt(j))) {
+                        nextBreak ++;
+                        j++;
+                    }
+                    lineTokens.add(currentLine.substring(i, i + nextBreak));
+                    i += (nextBreak - 1);
+    
+                }else if((i + 1) < currentLine.length() && SPEC_OPS.contains(currentLine.substring(i, i + 2))){
+                    lineTokens.add(currentLine.substring(i, i + 2));
+                    i++;
+                }else {
+                    lineTokens.add("" + currentLine.charAt(i));
+                }
             }
-            this.lines.add(splitTempLine);
+            this.lines.add(lineCount, lineTokens);
+            lineCount ++;
         }
-    } 
+    }
     
     /**
      * Method to print all lines as currently parsed to the console.
@@ -118,9 +146,10 @@ public class Tokenizer {
      */
     public void printAllLines(){
         for(int i = 0 ; i < this.lines.size() ; i++){
-            String[] tempTokens = this.lines.get(i);
+            ArrayList<String> tempTokens = this.lines.get(i);
+            System.out.print("Line " + (i + 1) + " Tokens: ");
             for(String s : tempTokens) {
-                System.out.print(s + " ");
+                System.out.print("(" + s + ") ");
             }
             System.out.println();
         }
