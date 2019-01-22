@@ -116,9 +116,9 @@ public class Tokenizer {
         while((currentLine = getLine()) != null) {
             ArrayList<String> lineTokens = new ArrayList<String>();
             for (int i = 0 ; i < currentLine.length() ; i++) {
-                if(DELIMITERS.contains(currentLine.charAt(i))) {
+                if(DELIMITERS.contains(currentLine.charAt(i))) { // Skip symbol: whitespace
                     continue;
-                }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){
+                }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){ // Symbol is identifier
                     int nextBreak = 1, j = i + 1;
                     while(j < currentLine.length() && !SPEC_CHARS.contains(currentLine.charAt(j)) 
                             && !DELIMITERS.contains(currentLine.charAt(j))) {
@@ -127,11 +127,12 @@ public class Tokenizer {
                     }
                     lineTokens.add(currentLine.substring(i, i + nextBreak));
                     i += (nextBreak - 1);
-                }else if((i + 1) < currentLine.length() && SPEC_OPS.contains(currentLine.substring(i, i + 2))){
+                }else if((i + 1) < currentLine.length() 
+                        && SPEC_OPS.contains(currentLine.substring(i, i + 2))){ // Symbol is operator
                     lineTokens.add(currentLine.substring(i, i + 2));
                     i++;
-                }else {
-                    lineTokens.add("" + currentLine.charAt(i));
+                }else { // Symbol is special char
+                    lineTokens.add("" + currentLine.charAt(i)); 
                 }
             }
             this.lines.add(lineCount, lineTokens);
