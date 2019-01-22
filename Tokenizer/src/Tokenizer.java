@@ -127,7 +127,6 @@ public class Tokenizer {
                     }
                     lineTokens.add(currentLine.substring(i, i + nextBreak));
                     i += (nextBreak - 1);
-    
                 }else if((i + 1) < currentLine.length() && SPEC_OPS.contains(currentLine.substring(i, i + 2))){
                     lineTokens.add(currentLine.substring(i, i + 2));
                     i++;
