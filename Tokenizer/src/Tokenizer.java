@@ -1,7 +1,7 @@
 /**
  * Tokenizer class which takes CORE  language file as input and converts it to proper object file.
  * @author John E Wolford
- * @date 1/20/2019
+ * @date 1/23/2019
  */
 
 import java.io.*;
