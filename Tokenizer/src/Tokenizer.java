@@ -30,6 +30,11 @@ public class Tokenizer {
     private String inFile;
     
     /**
+     * Amount of lines parsed by tokenizer
+     */
+    private int lineCount;
+    
+    /**
      * ArrayList of Token objects that have been parsed from input file
      */
     private ArrayList<Token> tokensParsed;
@@ -39,7 +44,6 @@ public class Tokenizer {
      * @param inputFile the file to be converted passed by command line
      */
     public Tokenizer(String inputFile) {
-        // Set private members and ensure input is valid
         this.inFile = inputFile;
         openInputFile();  
     }
@@ -111,34 +115,42 @@ public class Tokenizer {
      */
     public void parseToTokens() {
         String currentLine = null;
-        int lineCount = 0;
+        this.lineCount = 0;
         this.tokensParsed = new ArrayList<Token>();
         while((currentLine = getLine()) != null) {
-            for (int i = 0 ; i < currentLine.length() ; i++) {
-                if(DELIMITERS.contains(currentLine.charAt(i))) { // Skip symbol: whitespace
-                    continue;
-                }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){ // Symbol is identifier
-                    int nextBreak = 1, j = i + 1;
-                    while(isIdentChar(j, currentLine)) {
-                        nextBreak ++;
-                        j++;
-                    }
-                    String identifier = currentLine.substring(i, i + nextBreak);
-                    Token newToken = new Token(identifier, lineCount, "Identifier [unchecked]");
-                    this.tokensParsed.add(newToken);
-                    i += (nextBreak - 1);
-                }else if(isOperator(i, currentLine)) { // Symbol is operator
-                    String operator = currentLine.substring(i, i + 2);
-                    Token newToken = new Token(operator, lineCount, "Special Operator");
-                    this.tokensParsed.add(newToken);
-                    i++;
-                }else { // Symbol is special char
-                    String specChar = "" + currentLine.charAt(i);
-                    Token newToken = new Token(specChar, lineCount, "Special Character");
-                    this.tokensParsed.add(newToken);
-                }
-            }
+            tokenizeLine(currentLine);
             lineCount ++;
+        }
+    }
+    
+    /**
+     * Method to tokenize individual string into token objects
+     * @param currentLine the line to be parsed into tokens
+     */
+    private void tokenizeLine(String currentLine) {
+        for (int i = 0 ; i < currentLine.length() ; i++) {
+            if(DELIMITERS.contains(currentLine.charAt(i))) { // Skip symbol: whitespace
+                continue;
+            }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){ // Symbol is identifier
+                int nextBreak = 1, j = i + 1;
+                while(isIdentChar(j, currentLine)) {
+                    nextBreak ++;
+                    j++;
+                }
+                String identifier = currentLine.substring(i, i + nextBreak);
+                Token newToken = new Token(identifier, lineCount, "Identifier [unchecked]");
+                this.tokensParsed.add(newToken);
+                i += (nextBreak - 1);
+            }else if(isOperator(i, currentLine)) { // Symbol is operator
+                String operator = currentLine.substring(i, i + 2);
+                Token newToken = new Token(operator, lineCount, "Special Operator");
+                this.tokensParsed.add(newToken);
+                i++;
+            }else { // Symbol is special char
+                String specChar = "" + currentLine.charAt(i);
+                Token newToken = new Token(specChar, lineCount, "Special Character");
+                this.tokensParsed.add(newToken);
+            }
         }
     }
     
@@ -147,7 +159,7 @@ public class Tokenizer {
      * @param currentIndex index location of char in currentLine
      * @param currentLine the line currently being parsed
      */
-    public boolean isIdentChar(int currentIndex, String currentLine){
+    private boolean isIdentChar(int currentIndex, String currentLine){
         boolean a = currentIndex < currentLine.length();
         boolean b = a && !SPEC_CHARS.contains(currentLine.charAt(currentIndex));
         boolean c = a && !DELIMITERS.contains(currentLine.charAt(currentIndex));
@@ -159,7 +171,7 @@ public class Tokenizer {
      * @param currentIndex index location of char in currentLine
      * @param currentLine the line currently being parsed
      */
-    public boolean isOperator(int currentIndex, String currentLine){
+    private boolean isOperator(int currentIndex, String currentLine){
         boolean a = (currentIndex + 1) < currentLine.length(); 
         return a && SPEC_OPS.contains(currentLine.substring(currentIndex, currentIndex + 2));
     }
