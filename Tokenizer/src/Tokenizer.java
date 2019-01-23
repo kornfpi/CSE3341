@@ -30,9 +30,9 @@ public class Tokenizer {
     private String inFile;
     
     /**
-     * ArrayList of ArrayList of String array containing parsed tokens indexed by lines
+     * ArrayList of Token objects that have been parsed from input file
      */
-    private ArrayList<ArrayList<String>> lines;
+    private ArrayList<Token> tokensParsed;
     
     /**
      * Constructor
@@ -55,8 +55,8 @@ public class Tokenizer {
             
             // Begin main tokenizing loop
             tokenizer = new Tokenizer(args[0]);
-            tokenizer.parseToLines();
-            tokenizer.printAllLines();
+            tokenizer.parseToTokens();
+            tokenizer.printAllTokens();
             
             // Close input file
             tokenizer.closeInputFile();
@@ -107,52 +107,109 @@ public class Tokenizer {
     } 
 
     /**
-     * Method to break a single string into individual tokens based on specified strings, chars, and delimiters
+     * Method to tokenize strings based on specified strings, chars, and delimiters
      */
-    public void parseToLines() {
+    public void parseToTokens() {
         String currentLine = null;
         int lineCount = 0;
-        this.lines = new ArrayList<ArrayList<String>>();
+        this.tokensParsed = new ArrayList<Token>();
         while((currentLine = getLine()) != null) {
-            ArrayList<String> lineTokens = new ArrayList<String>();
             for (int i = 0 ; i < currentLine.length() ; i++) {
                 if(DELIMITERS.contains(currentLine.charAt(i))) { // Skip symbol: whitespace
                     continue;
                 }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){ // Symbol is identifier
                     int nextBreak = 1, j = i + 1;
-                    while(j < currentLine.length() && !SPEC_CHARS.contains(currentLine.charAt(j)) 
-                            && !DELIMITERS.contains(currentLine.charAt(j))) {
+                    while(isIdentChar(j, currentLine)) {
                         nextBreak ++;
                         j++;
                     }
-                    lineTokens.add(currentLine.substring(i, i + nextBreak));
+                    String identifier = currentLine.substring(i, i + nextBreak);
+                    Token newToken = new Token(identifier, lineCount, "Identifier [unchecked]");
+                    this.tokensParsed.add(newToken);
                     i += (nextBreak - 1);
-                }else if((i + 1) < currentLine.length() 
-                        && SPEC_OPS.contains(currentLine.substring(i, i + 2))){ // Symbol is operator
-                    lineTokens.add(currentLine.substring(i, i + 2));
+                }else if(isOperator(i, currentLine)) { // Symbol is operator
+                    String operator = currentLine.substring(i, i + 2);
+                    Token newToken = new Token(operator, lineCount, "Special Operator");
+                    this.tokensParsed.add(newToken);
                     i++;
                 }else { // Symbol is special char
-                    lineTokens.add("" + currentLine.charAt(i)); 
+                    String specChar = "" + currentLine.charAt(i);
+                    Token newToken = new Token(specChar, lineCount, "Special Character");
+                    this.tokensParsed.add(newToken);
                 }
             }
-            this.lines.add(lineCount, lineTokens);
             lineCount ++;
         }
+    }
+    
+    /**
+     * Conditional check to determine if char is end of identifier string
+     * @param currentIndex index location of char in currentLine
+     * @param currentLine the line currently being parsed
+     */
+    public boolean isIdentChar(int currentIndex, String currentLine){
+        boolean a = currentIndex < currentLine.length();
+        boolean b = a && !SPEC_CHARS.contains(currentLine.charAt(currentIndex));
+        boolean c = a && !DELIMITERS.contains(currentLine.charAt(currentIndex));
+        return b && c;
+    }
+    
+    /**
+     * Conditional check to determine if pair of chars is operator
+     * @param currentIndex index location of char in currentLine
+     * @param currentLine the line currently being parsed
+     */
+    public boolean isOperator(int currentIndex, String currentLine){
+        boolean a = (currentIndex + 1) < currentLine.length(); 
+        return a && SPEC_OPS.contains(currentLine.substring(currentIndex, currentIndex + 2));
     }
     
     /**
      * Method to print all lines as currently parsed to the console.
      * For dubugging purposes.
      */
-    public void printAllLines(){
-        for(int i = 0 ; i < this.lines.size() ; i++){
-            ArrayList<String> tempTokens = this.lines.get(i);
-            System.out.print("Line " + (i + 1) + " Tokens: ");
-            for(String s : tempTokens) {
-                System.out.print("(" + s + ") ");
-            }
+    public void printAllTokens(){
+        for(int i = 0 ; i < this.tokensParsed.size() ; i++){
+            Token tempToken = this.tokensParsed.get(i);
+            System.out.print("Line: " + (tempToken.line + 1) + " Token: " 
+            + tempToken.symbol + " Info: " + tempToken.info);
             System.out.println();
         }
+    }
+    
+    /**
+     * Private class to hold information relevant to each token
+     */
+    private class Token{
+        
+        /**
+         * Stores the token as parsed
+         */
+        public String symbol;
+        
+        /**
+         * Stores the line of code which token was parsed from
+         */
+        public int line;
+        
+        /**
+         * Stores any information about the token
+         */
+        public String info;
+        
+        /**
+         * Constructor
+         * 
+         * @param symboIn symbol to be stored in this token
+         * @param lineIn line number of this token
+         * @param infoIn info about this token
+         */
+        public Token(String symbolIn, int lineIn, String infoIn) {
+            this.symbol = symbolIn;
+            this.line = lineIn;
+            this.info = infoIn;
+        }
+        
     }
     
 }
