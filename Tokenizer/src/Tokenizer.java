@@ -129,29 +129,40 @@ public class Tokenizer {
      */
     private void tokenizeLine(String currentLine) {
         for (int i = 0 ; i < currentLine.length() ; i++) {
+            String symbol = null, type = null;
             if(DELIMITERS.contains(currentLine.charAt(i))) { // Skip symbol: whitespace
                 continue;
             }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){ // Symbol is identifier
-                int nextBreak = 1, j = i + 1;
-                while(isIdentChar(j, currentLine)) {
-                    nextBreak ++;
-                    j++;
-                }
-                String identifier = currentLine.substring(i, i + nextBreak);
-                Token newToken = new Token(identifier, lineCount, "Identifier [unchecked]");
-                this.tokensParsed.add(newToken);
+                int nextBreak = getNextBreak(i, currentLine);
+                symbol = currentLine.substring(i, i + nextBreak);
+                type = "Identifier [unchecked]";
                 i += (nextBreak - 1);
             }else if(isOperator(i, currentLine)) { // Symbol is operator
-                String operator = currentLine.substring(i, i + 2);
-                Token newToken = new Token(operator, lineCount, "Special Operator");
-                this.tokensParsed.add(newToken);
+                symbol = currentLine.substring(i, i + 2);
+                type = "Special Operator";
                 i++;
             }else { // Symbol is special char
-                String specChar = "" + currentLine.charAt(i);
-                Token newToken = new Token(specChar, lineCount, "Special Character");
-                this.tokensParsed.add(newToken);
+                symbol = "" + currentLine.charAt(i);
+                type = "Special Character";
             }
+            Token newToken = new Token(symbol, this.lineCount, type);
+            this.tokensParsed.add(newToken);
         }
+    }
+    
+    /**
+     * Method which finds the next non-identifier char of a given string.
+     * @param index current char which is identifier in input string
+     * @param currentLine the current line being tokenized
+     * @return the number of chars between index and next break 
+     */
+    private int getNextBreak(int index, String currentLine) {
+        int nextBreak = 1, j = index + 1;
+        while(isIdentChar(j, currentLine)) {
+            nextBreak ++;
+            j++;
+        }  
+        return nextBreak; 
     }
     
     /**
@@ -184,8 +195,8 @@ public class Tokenizer {
         for(int i = 0 ; i < this.tokensParsed.size() ; i++){
             Token tempToken = this.tokensParsed.get(i);
             System.out.print("Line: " + (tempToken.line + 1) + " Token: " 
-            + tempToken.symbol + " Info: " + tempToken.info);
-            System.out.println();
+            + tempToken.symbol + "\nInfo: " + tempToken.info);
+            System.out.println("\n");
         }
     }
     
