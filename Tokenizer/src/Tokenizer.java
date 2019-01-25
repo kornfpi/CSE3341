@@ -56,6 +56,7 @@ public class Tokenizer {
         openInputFile();  
         parseToTokens();
         closeInputFile();
+        checkTokens();
     }
     
     /** 
@@ -63,14 +64,11 @@ public class Tokenizer {
      * @param args[0] location of input file to be converted
      */
     public static void main(String[] args) {
-        // Create tokenizer object
         Tokenizer tokenizer;
         if(args.length != 0) {  // Argument passed
-            
             // Begin main tokenizing loop
             tokenizer = new Tokenizer(args[0]);
             tokenizer.printAllTokens();
-            
         }else { // No argument passed
             System.out.println("[ERROR] No input file specefied in command line!");
             System.exit(0);
@@ -205,6 +203,21 @@ public class Tokenizer {
         return a && SPEC_OPS.contains(currentLine.substring(currentIndex, currentIndex + 2));
     }
     
+    /**
+     * Check the syntax of all tokens
+     */
+    private void checkTokens() {
+        while(this.tokenIndex < this.tokensParsed.size()) {
+            if(currentToken().info.equals("Identifier [unchecked]")){
+                currentToken().info = "CHECKED";
+                Token newToken = new Token(currentToken().symbol, currentToken().line, currentToken().info);
+                newToken.info = "HOLY CRAPOLA";
+            }
+            nextToken();
+        }
+        this.tokenIndex = 0; // Reset index
+    }
+      
     /**
      * Method to print all lines as currently parsed to the console.
      * For dubugging purposes.
