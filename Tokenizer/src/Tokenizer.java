@@ -40,12 +40,22 @@ public class Tokenizer {
     private ArrayList<Token> tokensParsed;
     
     /**
+     * index of current token in tokensParsed
+     */
+    private int tokenIndex;
+    
+    /**
      * Constructor
      * @param inputFile the file to be converted passed by command line
      */
     public Tokenizer(String inputFile) {
         this.inFile = inputFile;
+        this.lineCount = 0;
+        this.tokensParsed = new ArrayList<Token>();
+        this.tokenIndex = 0;
         openInputFile();  
+        parseToTokens();
+        closeInputFile();
     }
     
     /** 
@@ -59,11 +69,7 @@ public class Tokenizer {
             
             // Begin main tokenizing loop
             tokenizer = new Tokenizer(args[0]);
-            tokenizer.parseToTokens();
             tokenizer.printAllTokens();
-            
-            // Close input file
-            tokenizer.closeInputFile();
             
         }else { // No argument passed
             System.out.println("[ERROR] No input file specefied in command line!");
@@ -86,7 +92,7 @@ public class Tokenizer {
     /**
      * Public method to close input file and catch IO exceptions
      */
-    public void closeInputFile() {  
+    private void closeInputFile() {  
         try {   
             this.input.close();  
         }catch (IOException e) {
@@ -115,12 +121,24 @@ public class Tokenizer {
      */
     public void parseToTokens() {
         String currentLine = null;
-        this.lineCount = 0;
-        this.tokensParsed = new ArrayList<Token>();
         while((currentLine = getLine()) != null) {
             tokenizeLine(currentLine);
             lineCount ++;
         }
+    }
+    
+    /**
+     * Returns token object at tokenIndex from tokensParsed
+     */
+    public Token currentToken() {
+        return this.tokensParsed.get(tokenIndex);
+    }
+    
+    /**
+     * increments tokenIndex
+     */
+    public void nextToken() {
+        this.tokenIndex ++;
     }
     
     /**
@@ -201,9 +219,9 @@ public class Tokenizer {
     }
     
     /**
-     * Private class to hold information relevant to each token
+     * Public class to hold information relevant to each token
      */
-    private class Token{
+    public class Token{
         
         /**
          * Stores the token as parsed
