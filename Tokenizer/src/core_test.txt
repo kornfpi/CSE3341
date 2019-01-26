@@ -1,9 +1,9 @@
 program
-int ABcd;
-            begin
-    wr£ite ABcd;
-          end
-          
-   if(i<=j)
-   i*j
-   apple===orange+1*17
+int X, Y;
+begin 
+  X=13;
+  while [(X>10) && (X<12)] loop
+    write X;
+    read X;
+    end;
+end

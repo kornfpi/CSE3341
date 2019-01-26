@@ -69,12 +69,9 @@ public class Tokenizer {
         this.tokensParsed = new ArrayList<Token>();
         this.tokenIndex = 0;
         this.convMap = popConvMap();
-        //DEBUG
-        System.out.print(this.convMap);
         openInputFile();  
         parseToTokens();
         closeInputFile();
-        checkTokens();
     }
     
     /** 
@@ -83,10 +80,9 @@ public class Tokenizer {
      */
     public static void main(String[] args) {
         Tokenizer tokenizer;
-        if(args.length != 0) {  // Argument passed
-            // Begin main tokenizing loop
+        if(args.length != 0) {
             tokenizer = new Tokenizer(args[0]);
-            tokenizer.printAllTokens();
+            tokenizer.printAllTokens(); //DEBUG line
         }else { // No argument passed
             System.out.println("[ERROR] No input file specefied in command line!");
             System.exit(0);
@@ -201,17 +197,17 @@ public class Tokenizer {
     private void tokenizeLine(String currentLine) {
         for (int i = 0 ; i < currentLine.length() ; i++) {
             String symbol = null, type = null;
-            checkChar(currentLine.charAt(i));
             if(checkWhite(currentLine.charAt(i))) { // Skip symbol: whitespace
                 continue;
             }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){ // Symbol is identifier
+                checkChar(currentLine.charAt(i));
                 int nextBreak = getNextBreak(i, currentLine);
                 symbol = currentLine.substring(i, i + nextBreak);
                 type = "Identifier [unchecked]";
                 i += (nextBreak - 1);
             }else if(isOperator(i, currentLine)) { // Symbol is operator
                 symbol = currentLine.substring(i, i + 2);
-                type = "Special Operator";
+                type = "Comp Operator";
                 i++;
             }else { // Symbol is special char
                 symbol = "" + currentLine.charAt(i);
@@ -228,8 +224,11 @@ public class Tokenizer {
      * @param inChar the char to be checked
      */
     private void checkChar(char inChar) { 
-        if(((int)(inChar) > 127)) { // Non-ASCII char found
-            System.out.print("[ERROR] Non-ASCII Character Found! '"); 
+        boolean a = (inChar >= 48 && inChar <= 57);
+        boolean b = (inChar >= 65 && inChar <= 90);
+        boolean c = (inChar >= 97 && inChar <= 122);
+        if(!(a||b||c)) {
+            System.out.print("[ERROR] Invalid character found! '"); 
             System.out.println(inChar + "' Line: " + this.lineCount);
             System.exit(0);
         }   
@@ -267,9 +266,9 @@ public class Tokenizer {
      */
     private boolean isIdentChar(int currentIndex, String currentLine){
         boolean a = currentIndex < currentLine.length();
-        if(a) checkChar(currentLine.charAt(currentIndex));
         boolean b = a && !SPEC_CHARS.contains(currentLine.charAt(currentIndex));
         boolean c = a && !checkWhite(currentLine.charAt(currentIndex));
+        if(b && c) checkChar(currentLine.charAt(currentIndex));
         return b && c;
     }
     
@@ -284,23 +283,67 @@ public class Tokenizer {
     }
     
     /**
-     * Check the syntax of all tokens
+     * Method to find the object code for a given symbol  
+     * @param inputSymbol they symbol to convert to object code
+     * @return the object code of the input symbol
      */
-    private void checkTokens() {
-        while(this.tokenIndex < this.tokensParsed.size()) {
-            if(currentToken().type.equals("Identifier [unchecked]")){
-                currentToken().type = "CHECKED";
-            }
-            nextToken();
-        }
-        this.tokenIndex = 0; // Reset index
-    }
-      
     private int getParseValue(String inputSymbol) {
-        return 0;
+        int parseValue = 0;
+        if(inputSymbol.length() > 8) {
+            System.out.print("[ERROR] Invalid identifier (length > 8) found! '"); 
+            System.out.println(inputSymbol + "' Line: " + this.lineCount);
+            System.exit(0);
+        }else if(this.convMap.containsKey(inputSymbol)) {
+            parseValue = this.convMap.get(inputSymbol);
+        }else if(isInt(inputSymbol)){
+            parseValue = 31;
+        }else if(checkIdent(inputSymbol)){
+            parseValue = 31;
+        }
+        return parseValue;
     }
     
+    /**
+     * Method to check that input symbol is an integer without leading zeros
+     * @param inputSymbol the string symbol to be checked
+     * @return true if identifier is proper integer, false otherwise
+     */
+    private boolean isInt(String inputSymbol) {
+        boolean isInteger = true;
+        try { 
+            int test = Integer.parseInt(inputSymbol); 
+            if(!inputSymbol.equals(Integer.toString(test))) {
+                System.out.print("[ERROR] Invalid identifier (leading zeros) found! '"); 
+                System.out.println(inputSymbol + "' Line: " + this.lineCount);
+                System.exit(0);   
+            }
+        } catch(NumberFormatException e) { 
+            isInteger = false; 
+        } 
+        return isInteger;
+    }
     
+    /**
+     * Method to check if format of identifier string is proper
+     * @param inputSymbol the string to be checked
+     * @return true if string is valid identifier, false otherwise
+     */
+    private boolean checkIdent(String inputSymbol) {
+        if(!inputSymbol.toUpperCase().equals(inputSymbol)) {
+            System.out.print("[ERROR] Invalid identifier (lower case chars) found! '"); 
+            System.out.println(inputSymbol + "' Line: " + this.lineCount);
+            System.exit(0);
+        }else if(Character.isDigit(inputSymbol.charAt(0)) ) {
+            System.out.print("[ERROR] Invalid identifier (leading digits) found! '"); 
+            System.out.println(inputSymbol + "' Line: " + this.lineCount);
+            System.exit(0);
+        }else if(inputSymbol.split("[0123456789]+").length > 1 ) {
+            System.out.print("[ERROR] Invalid identifier (mixed digits) found! '"); 
+            System.out.println(inputSymbol + "' Line: " + this.lineCount);
+            System.exit(0);
+        }
+        return true;
+    }
     
     /**
      * Method to print all lines as currently parsed to the console.
@@ -311,6 +354,7 @@ public class Tokenizer {
             Token tempToken = this.tokensParsed.get(i);
             System.out.print("Line: " + (tempToken.line + 1) + " Token: " 
             + tempToken.symbol + "\nType: " + tempToken.type);
+            System.out.println(tempToken.parse);
             System.out.println("\n");
         }
     }
