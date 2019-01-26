@@ -10,16 +10,24 @@ import java.util.*;
 public class Tokenizer {
     
     /**
-     * Special characters, delimiters, and special character arrangements stored as a set
+     * Special characters, as Array and Set
      */
     public static final Character[] SPEC_CHARS_ARRAY = new Character[]{';',',','=','!',
             '[',']','(',')','+','-','*','<','>'};
+    public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
+    
+    /**
+     * Reserved words, as Array and Set
+     */
     public static final String[] RES_WORDS_ARRAY = new String[]{"program", "begin", "end",
             "int", "if", "then", "else", "while", "loop", "read", "write", "and", "or"};
-    public static final String[] SPEC_OPS_ARRAY = new String[]{"!=","==",">=","<=",""};
-    public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
-    public static final Set<String> SPEC_OPS = new HashSet<>(Arrays.asList(SPEC_OPS_ARRAY));
     public static final Set<String> RES_WORDS = new HashSet<>(Arrays.asList(RES_WORDS_ARRAY));
+    
+    /**
+     * Comparison operators, as Array and Set
+     */
+    public static final String[] COMP_OPS_ARRAY = new String[]{"!=","==",">=","<=",};
+    public static final Set<String> COMP_OPS = new HashSet<>(Arrays.asList(COMP_OPS_ARRAY));
    
     /**
      * Buffered reader for reading lines from input file
@@ -234,7 +242,7 @@ public class Tokenizer {
      */
     private boolean isOperator(int currentIndex, String currentLine){
         boolean a = (currentIndex + 1) < currentLine.length(); 
-        return a && SPEC_OPS.contains(currentLine.substring(currentIndex, currentIndex + 2));
+        return a && COMP_OPS.contains(currentLine.substring(currentIndex, currentIndex + 2));
     }
     
     /**
