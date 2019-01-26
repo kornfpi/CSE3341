@@ -12,10 +12,15 @@ public class Tokenizer {
     /**
      * Special characters, delimiters, and special character arrangements stored as a set
      */
-    public static final Character[] SPEC_CHARS_ARRAY = new Character[]{';',',','=','!','[',']','(',')','+','-','*','<','>'};
-    public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
+    public static final Character[] SPEC_CHARS_ARRAY = new Character[]{';',',','=','!',
+            '[',']','(',')','+','-','*','<','>'};
+    public static final String[] RES_WORDS_ARRAY = new String[]{"program", "begin", "end",
+            "int", "if", "then", "else", "while", "loop", "read", "write", "and", "or"};
     public static final String[] SPEC_OPS_ARRAY = new String[]{"!=","==",">=","<=",""};
+    public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
     public static final Set<String> SPEC_OPS = new HashSet<>(Arrays.asList(SPEC_OPS_ARRAY));
+    public static final Set<String> RES_WORDS = new HashSet<>(Arrays.asList(RES_WORDS_ARRAY));
+
      
     /**
      * Buffered reader for reading lines from input file
@@ -122,7 +127,7 @@ public class Tokenizer {
             tokenizeLine(currentLine);
         }
         // Add EOF token
-        Token newToken = new Token("EOF", this.lineCount + 1, "EOF");
+        Token newToken = new Token("EOF", this.lineCount + 1, "EOF", 33);
         this.tokensParsed.add(newToken);
     }
     
@@ -163,9 +168,13 @@ public class Tokenizer {
                 symbol = "" + currentLine.charAt(i);
                 type = "Special Character";
             }
-            Token newToken = new Token(symbol, this.lineCount, type);
+            Token newToken = new Token(symbol, this.lineCount, type, getParseValue(symbol));
             this.tokensParsed.add(newToken);
         }
+    }
+    
+    private int getParseValue(String inputSymbol) {
+        return 0;
     }
     
     /**
@@ -234,8 +243,8 @@ public class Tokenizer {
      */
     private void checkTokens() {
         while(this.tokenIndex < this.tokensParsed.size()) {
-            if(currentToken().info.equals("Identifier [unchecked]")){
-                currentToken().info = "CHECKED";
+            if(currentToken().type.equals("Identifier [unchecked]")){
+                currentToken().type = "CHECKED";
             }
             nextToken();
         }
@@ -250,7 +259,7 @@ public class Tokenizer {
         for(int i = 0 ; i < this.tokensParsed.size() ; i++){
             Token tempToken = this.tokensParsed.get(i);
             System.out.print("Line: " + (tempToken.line + 1) + " Token: " 
-            + tempToken.symbol + "\nInfo: " + tempToken.info);
+            + tempToken.symbol + "\nType: " + tempToken.type);
             System.out.println("\n");
         }
     }
@@ -261,19 +270,24 @@ public class Tokenizer {
     public class Token{
         
         /**
-         * Stores the token as parsed
+         * Stores the token as parsed from input
          */
         public String symbol;
         
         /**
-         * Stores the line of code which token was parsed from
+         * Line of input file from which token was parsed
          */
         public int line;
         
         /**
-         * Stores any information about the token
+         * Stores the type of token
          */
-        public String info;
+        public String type;
+        
+        /**
+         * Integer value of parsed token type
+         */
+        public int parse;
         
         /**
          * Constructor
@@ -282,10 +296,11 @@ public class Tokenizer {
          * @param lineIn line number of this token
          * @param infoIn info about this token
          */
-        public Token(String symbolIn, int lineIn, String infoIn) {
+        public Token(String symbolIn, int lineIn, String infoIn, int parseValue) {
             this.symbol = symbolIn;
             this.line = lineIn;
-            this.info = infoIn;
+            this.type = infoIn;
+            this.parse = parseValue;
         }
         
     }
