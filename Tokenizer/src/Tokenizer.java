@@ -16,8 +16,6 @@ public class Tokenizer {
     public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
     public static final String[] SPEC_OPS_ARRAY = new String[]{"!=","==",">=","<=",""};
     public static final Set<String> SPEC_OPS = new HashSet<>(Arrays.asList(SPEC_OPS_ARRAY));
-    public static final Character[] DELIMITERS_ARRAY = new Character[]{' ','\n','\r','\t'};
-    public static final Set<Character> DELIMITERS = new HashSet<>(Arrays.asList(DELIMITERS_ARRAY));
      
     /**
      * Buffered reader for reading lines from input file
@@ -120,9 +118,12 @@ public class Tokenizer {
     public void parseToTokens() {
         String currentLine = null;
         while((currentLine = getLine()) != null) {
-            tokenizeLine(currentLine);
             lineCount ++;
+            tokenizeLine(currentLine);
         }
+        // Add EOF token
+        Token newToken = new Token("EOF", this.lineCount + 1, "EOF");
+        this.tokensParsed.add(newToken);
     }
     
     /**
@@ -146,7 +147,8 @@ public class Tokenizer {
     private void tokenizeLine(String currentLine) {
         for (int i = 0 ; i < currentLine.length() ; i++) {
             String symbol = null, type = null;
-            if(DELIMITERS.contains(currentLine.charAt(i))) { // Skip symbol: whitespace
+            checkChar(currentLine.charAt(i));
+            if(checkWhite(currentLine.charAt(i))) { // Skip symbol: whitespace
                 continue;
             }else if (!SPEC_CHARS.contains(currentLine.charAt(i))){ // Symbol is identifier
                 int nextBreak = getNextBreak(i, currentLine);
@@ -164,6 +166,29 @@ public class Tokenizer {
             Token newToken = new Token(symbol, this.lineCount, type);
             this.tokensParsed.add(newToken);
         }
+    }
+    
+    /**
+     * Method to check if char is in ASCII 8-Bit set. 
+     * reports error and exits on detection of non-ASCII char.
+     * @param inChar the char to be checked
+     */
+    private void checkChar(char inChar) { 
+        if(((int)(inChar) > 127)) { // Non-ASCII char found
+            System.out.print("[ERROR] Non-ASCII Character Found! '"); 
+            System.out.println(inChar + "' Line: " + this.lineCount);
+            System.exit(0);
+        }   
+    }
+    
+    /**
+     * Method to check if character is non-visible/white space char
+     * @param inChar the char to be checked
+     * @return true if char is invisible/whitespace
+     */
+    private boolean checkWhite(char inChar) {
+        int charInt = inChar;
+        return (charInt < 33 || charInt == 127);
     }
     
     /**
@@ -188,8 +213,9 @@ public class Tokenizer {
      */
     private boolean isIdentChar(int currentIndex, String currentLine){
         boolean a = currentIndex < currentLine.length();
+        if(a) checkChar(currentLine.charAt(currentIndex));
         boolean b = a && !SPEC_CHARS.contains(currentLine.charAt(currentIndex));
-        boolean c = a && !DELIMITERS.contains(currentLine.charAt(currentIndex));
+        boolean c = a && !checkWhite(currentLine.charAt(currentIndex));
         return b && c;
     }
     
@@ -210,8 +236,6 @@ public class Tokenizer {
         while(this.tokenIndex < this.tokensParsed.size()) {
             if(currentToken().info.equals("Identifier [unchecked]")){
                 currentToken().info = "CHECKED";
-                Token newToken = new Token(currentToken().symbol, currentToken().line, currentToken().info);
-                newToken.info = "HOLY CRAPOLA";
             }
             nextToken();
         }

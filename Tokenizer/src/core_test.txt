@@ -1,8 +1,9 @@
 program
 int ABcd;
             begin
-    write ABcd;
+    wr£ite ABcd;
           end
+          
    if(i<=j)
    i*j
    apple===orange+1*17
