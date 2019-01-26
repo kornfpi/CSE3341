@@ -13,7 +13,7 @@ public class Tokenizer {
      * Special characters, as Array and Set
      */
     public static final Character[] SPEC_CHARS_ARRAY = new Character[]{';',',','=','!',
-            '[',']','(',')','+','-','*','<','>'};
+            '[',']','(',')','+','-','*','>','<'};
     public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
     
     /**
@@ -55,6 +55,11 @@ public class Tokenizer {
     private int tokenIndex;
     
     /**
+     * map of symbol types to their associated object codes
+     */
+    private Map<String, Integer> convMap;
+    
+    /**
      * Constructor
      * @param inputFile the file to be converted passed by command line
      */
@@ -63,6 +68,9 @@ public class Tokenizer {
         this.lineCount = 0;
         this.tokensParsed = new ArrayList<Token>();
         this.tokenIndex = 0;
+        this.convMap = popConvMap();
+        //DEBUG
+        System.out.print(this.convMap);
         openInputFile();  
         parseToTokens();
         closeInputFile();
@@ -83,6 +91,40 @@ public class Tokenizer {
             System.out.println("[ERROR] No input file specefied in command line!");
             System.exit(0);
         }   
+    }
+    
+    /**
+     * This method places all reserved symbols into a map with their corresponding 
+     * object code. Note the shifting of the index of the > and < chars to correspond
+     * with the addition of operator values which come before them in the project assignment.
+     * @return
+     */
+    private static Map<String, Integer> popConvMap() {
+        Map<String, Integer> convMap = new HashMap<String, Integer>();
+        int i = 1;
+        for(String resWord : RES_WORDS_ARRAY) {
+            convMap.put(resWord, i);
+            i++;
+        }
+        for(char specChar : SPEC_CHARS_ARRAY) {
+            if(specChar == '>') {
+                convMap.put("" + specChar, i + 4);
+                i++;
+                continue;
+            }
+            if(specChar == '<') {
+                convMap.put("" + specChar, i + 4);
+                i++;
+                continue;
+            }
+            convMap.put("" + specChar, i);
+            i++;
+        }
+        for(String op : COMP_OPS_ARRAY) {
+            convMap.put(op, i - 2);
+            i++;
+        }
+        return convMap;
     }
     
     /**
@@ -180,10 +222,6 @@ public class Tokenizer {
         }
     }
     
-    private int getParseValue(String inputSymbol) {
-        return 0;
-    }
-    
     /**
      * Method to check if char is in ASCII 8-Bit set. 
      * reports error and exits on detection of non-ASCII char.
@@ -258,6 +296,12 @@ public class Tokenizer {
         this.tokenIndex = 0; // Reset index
     }
       
+    private int getParseValue(String inputSymbol) {
+        return 0;
+    }
+    
+    
+    
     /**
      * Method to print all lines as currently parsed to the console.
      * For dubugging purposes.
