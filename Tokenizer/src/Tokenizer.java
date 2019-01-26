@@ -20,8 +20,7 @@ public class Tokenizer {
     public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
     public static final Set<String> SPEC_OPS = new HashSet<>(Arrays.asList(SPEC_OPS_ARRAY));
     public static final Set<String> RES_WORDS = new HashSet<>(Arrays.asList(RES_WORDS_ARRAY));
-
-     
+   
     /**
      * Buffered reader for reading lines from input file
      */
