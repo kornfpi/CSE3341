@@ -187,7 +187,17 @@ public class Tokenizer {
      * increments tokenIndex
      */
     public void nextToken() {
-        this.tokenIndex ++;
+        if(this.tokenIndex < this.tokensParsed.size() - 1) {
+            this.tokenIndex ++;
+        }
+    }
+    
+    /**
+     * Reports the total number of tokens parsed
+     * @return the number of entries in this.tokensParsed
+     */
+    public int tokenCount() {
+        return this.tokensParsed.size();
     }
     
     /**
@@ -354,7 +364,7 @@ public class Tokenizer {
             Token tempToken = this.tokensParsed.get(i);
             System.out.print("Line: " + (tempToken.line + 1) + " Token: " 
             + tempToken.symbol + "\nType: " + tempToken.type);
-            System.out.println(tempToken.parse);
+            System.out.println(tempToken.parsedValue);
             System.out.println("\n");
         }
     }
@@ -382,7 +392,7 @@ public class Tokenizer {
         /**
          * Integer value of parsed token type
          */
-        public int parse;
+        public int parsedValue;
         
         /**
          * Constructor
@@ -395,7 +405,7 @@ public class Tokenizer {
             this.symbol = symbolIn;
             this.line = lineIn;
             this.type = infoIn;
-            this.parse = parseValue;
+            this.parsedValue = parseValue;
         }
         
     }

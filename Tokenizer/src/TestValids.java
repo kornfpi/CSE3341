@@ -1,9 +1,15 @@
-import java.io.*;
-import org.junit.Test.*;
-public class Test {
+import static org.junit.jupiter.api.Assertions.*;
 
-    public static void main(String[] args) {
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import org.junit.jupiter.api.Test;
+
+class TestValids {
+
+    @Test
+    void test() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("src/testOutput.txt"));
             Tokenizer tokenizer = new Tokenizer("src/validWhitespaceBetweenTokens.core");
@@ -19,6 +25,7 @@ public class Test {
         }catch(IOException e){
             System.exit(0);
         }
+        
         
     }
 
