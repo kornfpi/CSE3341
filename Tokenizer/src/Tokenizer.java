@@ -203,15 +203,15 @@ public class Tokenizer {
                 checkChar(currentLine.charAt(i));
                 int nextBreak = getNextBreak(i, currentLine);
                 symbol = currentLine.substring(i, i + nextBreak);
-                type = "Identifier [unchecked]";
+                type = "IDENT";
                 i += (nextBreak - 1);
             }else if(isOperator(i, currentLine)) { // Symbol is operator
                 symbol = currentLine.substring(i, i + 2);
-                type = "Comp Operator";
+                type = "COMP";
                 i++;
             }else { // Symbol is special char
                 symbol = "" + currentLine.charAt(i);
-                type = "Special Character";
+                type = "SPEC";
             }
             Token newToken = new Token(symbol, this.lineCount, type, getParseValue(symbol));
             this.tokensParsed.add(newToken);
@@ -219,8 +219,8 @@ public class Tokenizer {
     }
     
     /**
-     * Method to check if char is in ASCII 8-Bit set. 
-     * reports error and exits on detection of non-ASCII char.
+     * Method to check if char is in valid range for CORE
+     * reports error and exits on detection of invalid char
      * @param inChar the char to be checked
      */
     private void checkChar(char inChar) { 
