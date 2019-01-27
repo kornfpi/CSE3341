@@ -298,7 +298,7 @@ public class Tokenizer {
         }else if(isInt(inputSymbol)){
             parseValue = 31;
         }else if(checkIdent(inputSymbol)){
-            parseValue = 31;
+            parseValue = 32;
         }
         return parseValue;
     }
