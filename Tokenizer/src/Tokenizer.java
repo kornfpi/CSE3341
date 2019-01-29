@@ -1,5 +1,10 @@
 /**
- * Tokenizer class which takes CORE  language file as input and converts it to proper object file.
+ * Tokenizer class which takes CORE language file as input, and converts into properly formatted CORE object code.
+ * Follows all instructions as required by PA1 documentation. For CSE3341, SP19, Professor Joshi
+ * Instantiation of this class will not produce any output unless the Tokenizer.printParseValues() method 
+ * is called upon from the instantiation class. When this class is executed on it's own with a command line argument, 
+ * the main method will parse all tokens from args[0] and print thir object code to the screen. Other args are ignored.
+ * 
  * @author John E Wolford
  * @date 1/23/2019
  */
@@ -10,21 +15,21 @@ import java.util.*;
 public class Tokenizer {
     
     /**
-     * Special characters, as Array and Set
+     * Special characters from CORE grammar, as Array and Set
      */
     public static final Character[] SPEC_CHARS_ARRAY = new Character[]{';',',','=','!',
             '[',']','(',')','+','-','*','>','<'};
     public static final Set<Character> SPEC_CHARS = new HashSet<>(Arrays.asList(SPEC_CHARS_ARRAY));
     
     /**
-     * Reserved words, as Array and Set
+     * Reserved words from CORE grammar, as Array and Set
      */
     public static final String[] RES_WORDS_ARRAY = new String[]{"program", "begin", "end",
             "int", "if", "then", "else", "while", "loop", "read", "write", "and", "or"};
     public static final Set<String> RES_WORDS = new HashSet<>(Arrays.asList(RES_WORDS_ARRAY));
     
     /**
-     * Comparison operators, as Array and Set
+     * Comparison operators from CORE grammar, as Array and Set
      */
     public static final String[] COMP_OPS_ARRAY = new String[]{"!=","==",">=","<=",};
     public static final Set<String> COMP_OPS = new HashSet<>(Arrays.asList(COMP_OPS_ARRAY));
@@ -40,7 +45,7 @@ public class Tokenizer {
     private String inFile;
     
     /**
-     * Amount of lines parsed by tokenizer
+     * Total number of lines parsed by the Tokenizer from the input file
      */
     private int lineCount;
     
@@ -50,18 +55,20 @@ public class Tokenizer {
     private ArrayList<Token> tokensParsed;
     
     /**
-     * index of current token in tokensParsed
+     * index of current token in tokensParsed, used for returning specific tokens
      */
     private int tokenIndex;
     
     /**
-     * map of symbol types to their associated object codes
+     * Map of CORE characters and data types to their associated integer parse values
+     * Populated by call to popConvMap()
      */
     private Map<String, Integer> convMap;
     
     /**
      * Constructor
-     * @param inputFile the file to be converted passed by command line
+     * Automatically parses input file, but does not print parsed values.
+     * @param inputFile the file to be converted (passed by command line)
      */
     public Tokenizer(String inputFile) {
         this.inFile = inputFile;
@@ -75,7 +82,8 @@ public class Tokenizer {
     }
     
     /** 
-     * Main method
+     * Main method for running Tokenizer as main instead of as an object.
+     * This method will automatically print out parsed values to the console.
      * @param args[0] location of input file to be converted
      */
     public static void main(String[] args) {
@@ -93,7 +101,7 @@ public class Tokenizer {
      * This method places all reserved symbols into a map with their corresponding 
      * object code. Note the shifting of the index of the > and < chars to correspond
      * with the addition of operator values which come before them in the project assignment.
-     * @return
+     * @return a Map which pairs a valid symbol to it's integer parse value
      */
     private static Map<String, Integer> popConvMap() {
         Map<String, Integer> convMap = new HashMap<String, Integer>();
@@ -124,7 +132,7 @@ public class Tokenizer {
     }
     
     /**
-     * Private method to open input file and catch IO exceptions
+     * Private method to open input file and catch IOExceptions
      */
     private void openInputFile() {
         try {   
@@ -136,7 +144,7 @@ public class Tokenizer {
     }
     
     /**
-     * Public method to close input file and catch IO exceptions
+     * Public method to close input file and catch IOExceptions
      */
     private void closeInputFile() {  
         try {   
@@ -148,7 +156,7 @@ public class Tokenizer {
     } 
     
     /**
-     * Private method to get next line of text from input file
+     * Private method to get next line of text from input file and handle IOExceptions
      * @returns the next line of the input file
      */
     private String getLine() {  
@@ -163,7 +171,9 @@ public class Tokenizer {
     } 
 
     /**
-     * Method to tokenize strings based on specified strings, chars, and delimiters
+     * Method which passes complex strings from input to tokenizing methods until
+     * all strings from the input have been tokenized. Keeps track of the number of
+     * lines parsed from the input.
      */
     public void parseToTokens() {
         String currentLine = null;
@@ -177,14 +187,15 @@ public class Tokenizer {
     }
     
     /**
-     * Returns token object at tokenIndex from tokensParsed
+     * Method to retrive a token from a given index within this.tokensParsed
+     * @return token object at tokenIndex from this.tokensParsed
      */
     public Token currentToken() {
         return this.tokensParsed.get(tokenIndex);
     }
     
     /**
-     * increments tokenIndex
+     * increments tokenIndex by 1
      */
     public void nextToken() {
         if(this.tokenIndex < this.tokensParsed.size() - 1) {
@@ -193,7 +204,7 @@ public class Tokenizer {
     }
     
     /**
-     * Reports the total number of tokens parsed
+     * Reports the total number of tokens parsed by the tokenizer
      * @return the number of entries in this.tokensParsed
      */
     public int tokenCount() {
@@ -201,8 +212,8 @@ public class Tokenizer {
     }
     
     /**
-     * Method to tokenize individual string into token objects
-     * @param currentLine the line to be parsed into tokens
+     * Method to tokenize a complex string into individual tokens
+     * @param currentLine the line to be parsed into individual tokens
      */
     private void tokenizeLine(String currentLine) {
         for (int i = 0 ; i < currentLine.length() ; i++) {
@@ -229,8 +240,9 @@ public class Tokenizer {
     }
     
     /**
-     * Method to check if char is in valid range for CORE
-     * reports error and exits on detection of invalid char
+     * Method to check if char is in valid range for CORE grammar rules,
+     * reports error and exits on detection of invalid char as defined
+     * by the ASCII 8bit standard.
      * @param inChar the char to be checked
      */
     private void checkChar(char inChar) { 
@@ -245,7 +257,8 @@ public class Tokenizer {
     }
     
     /**
-     * Method to check if character is non-visible/white space char
+     * Method to check if character is non-visible/white space char as
+     * given by the ASCII 8bit standard.
      * @param inChar the char to be checked
      * @return true if char is invisible/whitespace
      */
@@ -255,7 +268,8 @@ public class Tokenizer {
     }
     
     /**
-     * Method which finds the next non-identifier char of a given string.
+     * Method which finds the next non-identifier char of a given string
+     * used for pasing identifier tokens from more complex strings
      * @param index current char which is identifier in input string
      * @param currentLine the current line being tokenized
      * @return the number of chars between index and next break 
@@ -273,6 +287,7 @@ public class Tokenizer {
      * Conditional check to determine if char is end of identifier string
      * @param currentIndex index location of char in currentLine
      * @param currentLine the line currently being parsed
+     * @return true if char is an identifier char, false otherwise
      */
     private boolean isIdentChar(int currentIndex, String currentLine){
         boolean a = currentIndex < currentLine.length();
@@ -283,9 +298,10 @@ public class Tokenizer {
     }
     
     /**
-     * Conditional check to determine if pair of chars is operator
+     * Conditional check to determine if pair of chars is operator type symbol
      * @param currentIndex index location of char in currentLine
      * @param currentLine the line currently being parsed
+     * @return true if pair is operator, false otherwise
      */
     private boolean isOperator(int currentIndex, String currentLine){
         boolean a = (currentIndex + 1) < currentLine.length(); 
@@ -293,8 +309,8 @@ public class Tokenizer {
     }
     
     /**
-     * Method to find the object code for a given symbol  
-     * @param inputSymbol they symbol to convert to object code
+     * Method to find the object code for a given symbol based upon CORE object code rules.
+     * @param inputSymbol the symbol to convert to object code
      * @return the object code of the input symbol
      */
     private int getParseValue(String inputSymbol) {
@@ -314,9 +330,9 @@ public class Tokenizer {
     }
     
     /**
-     * Method to check that input symbol is an integer without leading zeros
+     * Method to check if string is an integer type based on CORE grammar
      * @param inputSymbol the string symbol to be checked
-     * @return true if identifier is proper integer, false otherwise
+     * @return true if string is properly formatted integer, false otherwise
      */
     private boolean isInt(String inputSymbol) {
         boolean isInteger = true;
