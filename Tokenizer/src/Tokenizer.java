@@ -354,6 +354,7 @@ public class Tokenizer {
      * CORE grammar rules which define a properly formatted identifier type. 
      * @param inputSymbol string parsed from input to be checked for syntax
      * @return true if string is proper identifier, false otherwise
+     * @requires that the inputSymbol has already been determined to not be integer type
      */
     private boolean checkIdent(String inputSymbol) {
         if(!inputSymbol.toUpperCase().equals(inputSymbol)) {
