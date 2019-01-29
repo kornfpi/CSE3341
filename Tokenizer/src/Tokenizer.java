@@ -334,9 +334,10 @@ public class Tokenizer {
     }
     
     /**
-     * Method to check if format of identifier string is proper
-     * @param inputSymbol the string to be checked
-     * @return true if string is valid identifier, false otherwise
+     * This method will check that a given string meets all of the
+     * CORE grammar rules which define a properly formatted identifier type. 
+     * @param inputSymbol string parsed from input to be checked for syntax
+     * @return true if string is proper identifier, false otherwise
      */
     private boolean checkIdent(String inputSymbol) {
         if(!inputSymbol.toUpperCase().equals(inputSymbol)) {
@@ -356,10 +357,11 @@ public class Tokenizer {
     }
     
     /**
-     * Method to print all lines as currently parsed to the console.
-     * For dubugging purposes.
+     * Private debugging method which prints all data fields from each token
+     * in this.tokensParsed. This method is not used locally except for purposes
+     * of testing new Tokenizer functionality.
      */
-    public void printAllTokens(){
+    private void printAllTokens(){
         for(int i = 0 ; i < this.tokensParsed.size() ; i++){
             Token tempToken = this.tokensParsed.get(i);
             System.out.print("Line: " + (tempToken.line + 1) + " Token: " 
@@ -370,7 +372,9 @@ public class Tokenizer {
     }
     
     /**
-     * Prints the parse value of all tokens in order they were tokenized
+     * Method to print all the parse values from each token in this.tokensParsed
+     * Makes repeated calls to currentToken() and nextToken() methods, included
+     * to satisfy project requirements.
      */
     public void printParseValues(){
         for(int i = 0 ; i < this.tokensParsed.size() ; i++){
@@ -380,12 +384,14 @@ public class Tokenizer {
     }
     
     /**
-     * Public class to hold information relevant to each token
+     * Public class to define public members which define a token type object.
+     * All data members are public access and have no get/set methods. All
+     * fields must be defined on instantiation, there is no no-argument constructor.
      */
     public class Token{
         
         /**
-         * Stores the token as parsed from input
+         * Original string which defines the token
          */
         public String symbol;
         
@@ -400,21 +406,21 @@ public class Tokenizer {
         public String type;
         
         /**
-         * Integer value of parsed token type
+         * Integer value of parsed token
          */
         public int parsedValue;
         
         /**
-         * Constructor
-         * 
-         * @param symboIn symbol to be stored in this token
-         * @param lineIn line number of this token
-         * @param infoIn info about this token
+         * Public constructor class for creating Token object
+         * @param symbolIn the string value of the token as parsed from input
+         * @param lineIn the line from the input source corresponding to the token
+         * @param typeIn general type of the token associated with symbol
+         * @param parseValue the CORE object code corresponding to the token
          */
-        public Token(String symbolIn, int lineIn, String infoIn, int parseValue) {
+        public Token(String symbolIn, int lineIn, String typeIn, int parseValue) {
             this.symbol = symbolIn;
             this.line = lineIn;
-            this.type = infoIn;
+            this.type = typeIn;
             this.parsedValue = parseValue;
         }
         
