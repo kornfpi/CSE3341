@@ -82,7 +82,7 @@ public class Tokenizer {
         Tokenizer tokenizer;
         if(args.length != 0) {
             tokenizer = new Tokenizer(args[0]);
-            tokenizer.printAllTokens(); //DEBUG line
+            tokenizer.printParseValues();
         }else { // No argument passed
             System.out.println("[ERROR] No input file specefied in command line!");
             System.exit(0);
@@ -366,6 +366,16 @@ public class Tokenizer {
             + tempToken.symbol + "\nType: " + tempToken.type);
             System.out.println(tempToken.parsedValue);
             System.out.println("\n");
+        }
+    }
+    
+    /**
+     * Prints the parse value of all tokens in order they were tokenized
+     */
+    public void printParseValues(){
+        for(int i = 0 ; i < this.tokensParsed.size() ; i++){
+            System.out.println(currentToken().parsedValue);
+            nextToken();
         }
     }
     
