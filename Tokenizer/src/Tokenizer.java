@@ -6,7 +6,7 @@
  * the main method will parse all tokens from args[0] and print thir object code to the screen. Other args are ignored.
  * 
  * @author John E Wolford
- * @date 1/23/2019
+ * @date 1/31/2019
  */
 
 import java.io.*;
