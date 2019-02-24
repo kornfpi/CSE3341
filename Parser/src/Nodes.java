@@ -203,11 +203,15 @@ public class Nodes {
                 this.alt = 2;
                 this.ss = new StmtSeq();
                 this.ss.parseStmtSeq();
-            }
-            
+            }  
         }
         private void printStmtSeq() {
-            
+            increaseIndent();
+            this.s.printStmt();
+            if(this.alt == 2) {
+                this.ss.printStmtSeq();
+            }
+            decreaseIndent();
         }
         private void execStmtSeq() {
             // Left blank for Project 2
@@ -216,29 +220,29 @@ public class Nodes {
     
     private class Stmt{
         private int alt;
-        private Assign a;
+//        private Assign a;
 //        private If i_f;
 //        private Loop l;
-//        private In i_n;
-//        private Out o;
+        private In i_n;
+        private Out o;
         private Stmt() {
             this.alt = stmtType(tokenizer.currentToken().symbol);
             switch (this.alt) {
-                case(1):
-                    this.a = new Assign();
-                    break;
+//                case(1):
+//                    this.a = new Assign();
+//                    break;
 //                case(2):
 //                    this.i_f = new If();
 //                    break;
 //                case(3):
 //                    this.loop = new Loop;
 //                    break;
-//                case(4):
-//                    this.i_n = new In();
-//                    break;
-//                case(5):
-//                    this.Out = new Out();
-//                    break;
+                case(4):
+                    this.i_n = new In();
+                    break;
+                case(5):
+                   this.o = new Out();
+                    break;
                 default:
                     String tokenSymbol = tokenizer.currentToken().symbol;
                     int tokenLine = tokenizer.currentToken().line;
@@ -248,29 +252,108 @@ public class Nodes {
         }
         private void parseStmt() {
             switch (this.alt) {
-                case(1):
-                    this.a.parseAssign();
-                    break;
+//                case(1):
+//                    this.a.parseAssign();
+//                    break;
 //                case(2):
 //                    this.i_f.parseIf();
 //                    break;
 //                case(3):
 //                    this.loop.parseLoop();
 //                    break;
-//                case(4):
-//                    this.i_n.parseIn();
-//                    break;
-//                case(5):
-//                    this.Out.parseOut();
-//                    break;
+                case(4):
+                    this.i_n.parseIn();
+                    break;
+                case(5):
+                    this.o.parseOut();
+                    break;
             }     
         }
-        private void printStmtSeq() {
-            
+        private void printStmt() {
+            switch (this.alt) {
+//          case(1):
+//              this.a.printAssign();
+//              break;
+//          case(2):
+//              this.i_f.printIf();
+//              break;
+//          case(3):
+//              this.loop.printLoop();
+//              break;
+                case(4):
+                    this.i_n.printIn();
+                    break;
+                case(5):
+                    this.o.printOut();
+                    break;
+            }  
         }
-        private void execStmtSeq() {
+        private void execStmt() {
             // Left blank for Project 2
         }
     }
       
+//    private class Assign{
+//        private String id;
+//        private Expr e;
+//        private Assign() {
+//            this.id = null;
+//            this.e = new Expr();
+//        }
+//        private void parseStmtSeq() {
+//            this.s.parseStmt();
+//            if(stmtType(tokenizer.currentToken().symbol) > 0) {
+//                this.alt = 2;
+//                this.ss = new StmtSeq();
+//                this.ss.parseStmtSeq();
+//            }  
+//        }
+//        private void printStmtSeq() {
+//            
+//        }
+//        private void execStmtSeq() {
+//            // Left blank for Project 2
+//        }
+//    }
+    
+    private class In{
+        private IDList idl;
+        private In() {
+            this.idl = new IDList();
+        }
+        private void parseIn() {
+            matchConsume("read");
+            this.idl.parseIDList();
+            matchConsume(";");
+        }
+        private void printIn() {
+            System.out.print(indent + "read ");
+            this.idl.printIDList();
+            System.out.print(";\n");
+        }
+        private void execIn() {
+            // Left blank for Project 2
+        }
+    }
+    
+    private class Out{
+        private IDList idl;
+        private Out() {
+            this.idl = new IDList();
+        }
+        private void parseOut() {
+            matchConsume("write");
+            this.idl.parseIDList();
+            matchConsume(";");
+        }
+        private void printOut() {
+            System.out.print(indent + "write ");
+            this.idl.printIDList();
+            System.out.print(";\n");
+        }
+        private void execIn() {
+            // Left blank for Project 2
+        }
+    }
+    
 }
