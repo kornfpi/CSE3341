@@ -44,7 +44,7 @@ public class Nodes {
     
     private int stmtType(String inString) {
         int type = 0;
-        if(symbolTable.containsKey(inString)) type = 1;
+        if(this.symbolTable.containsKey(inString)) type = 1;
         if(inString.equals("if")) type = 2;
         if(inString.equals("while")) type = 3;
         if(inString.equals("read")) type = 4;
@@ -63,7 +63,7 @@ public class Nodes {
             matchConsume("program");
             this.ds.parseDeclSeq();
             matchConsume("begin");
-            //this.ss.parseStmtSeq();
+            this.ss.parseStmtSeq();
             //matchConsume("end");
         }
         private void printBegin() {
@@ -226,31 +226,9 @@ public class Nodes {
         private In i_n;
         private Out o;
         private Stmt() {
-            this.alt = stmtType(tokenizer.currentToken().symbol);
-            switch (this.alt) {
-//                case(1):
-//                    this.a = new Assign();
-//                    break;
-//                case(2):
-//                    this.i_f = new If();
-//                    break;
-//                case(3):
-//                    this.loop = new Loop;
-//                    break;
-                case(4):
-                    this.i_n = new In();
-                    break;
-                case(5):
-                   this.o = new Out();
-                    break;
-                default:
-                    String tokenSymbol = tokenizer.currentToken().symbol;
-                    int tokenLine = tokenizer.currentToken().line;
-                    System.out.println("Error! (Line " + tokenLine + ") Expected identifier, if, loop, in, out but found \"" + tokenSymbol + "\"");
-                    System.exit(0);
-            }
         }
         private void parseStmt() {
+            this.alt = stmtType(tokenizer.currentToken().symbol);
             switch (this.alt) {
 //                case(1):
 //                    this.a.parseAssign();
@@ -262,11 +240,18 @@ public class Nodes {
 //                    this.loop.parseLoop();
 //                    break;
                 case(4):
+                    this.i_n = new In();
                     this.i_n.parseIn();
                     break;
                 case(5):
+                    this.o = new Out();
                     this.o.parseOut();
                     break;
+                default:
+                    String tokenSymbol = tokenizer.currentToken().symbol;
+                    int tokenLine = tokenizer.currentToken().line;
+                    System.out.println("Error! (Line " + tokenLine + ") Expected identifier, if, loop, in, out but found \"" + tokenSymbol + "\"");
+                    System.exit(0);
             }     
         }
         private void printStmt() {
@@ -317,41 +302,91 @@ public class Nodes {
 //    }
     
     private class In{
-        private IDList idl;
+        private ArrayList<String> idList;
         private In() {
-            this.idl = new IDList();
+            this.idList = new ArrayList<String>();
         }
         private void parseIn() {
             matchConsume("read");
-            this.idl.parseIDList();
-            matchConsume(";");
+            boolean identifiersRemain = true;
+            while(identifiersRemain) {
+                String identifier = tokenizer.currentToken().symbol;
+                if(symbolTable.containsKey(identifier)) {
+                    this.idList.add(identifier);
+                    tokenizer.nextToken();
+                }else {
+                    System.out.println("Error: Undefined Identifier!");
+                    System.exit(0);
+                }
+                if(tokenizer.currentToken().symbol.equals(";")) {
+                    identifiersRemain = false;
+                    tokenizer.nextToken();
+                }else if(tokenizer.currentToken().symbol.equals(",")) {
+                    tokenizer.nextToken();
+                }else {
+                    System.out.println("Error: Expected , or ;");
+                    System.exit(0);
+                }
+            }
         }
         private void printIn() {
             System.out.print(indent + "read ");
-            this.idl.printIDList();
+            int i = 0;
+            while(i < this.idList.size()) {
+                System.out.print(this.idList.get(i));
+                if(i != this.idList.size() - 1) {
+                    System.out.print(", ");
+                }
+                i++;
+            }
             System.out.print(";\n");
         }
         private void execIn() {
             // Left blank for Project 2
         }
     }
-    
+ 
     private class Out{
-        private IDList idl;
+        private ArrayList<String> idList;
         private Out() {
-            this.idl = new IDList();
+            this.idList = new ArrayList<String>();
         }
         private void parseOut() {
             matchConsume("write");
-            this.idl.parseIDList();
-            matchConsume(";");
+            boolean identifiersRemain = true;
+            while(identifiersRemain) {
+                String identifier = tokenizer.currentToken().symbol;
+                if(symbolTable.containsKey(identifier)) {
+                    this.idList.add(identifier);
+                    tokenizer.nextToken();
+                }else {
+                    System.out.println("Error: Undefined Identifier!");
+                    System.exit(0);
+                }
+                if(tokenizer.currentToken().symbol.equals(";")) {
+                    identifiersRemain = false;
+                    tokenizer.nextToken();
+                }else if(tokenizer.currentToken().symbol.equals(",")) {
+                    tokenizer.nextToken();
+                }else {
+                    System.out.println("Error: Expected , or ;");
+                    System.exit(0);
+                }
+            }
         }
         private void printOut() {
             System.out.print(indent + "write ");
-            this.idl.printIDList();
+            int i = 0;
+            while(i < this.idList.size()) {
+                System.out.print(this.idList.get(i));
+                if(i != this.idList.size() - 1) {
+                    System.out.print(", ");
+                }
+                i++;
+            }
             System.out.print(";\n");
         }
-        private void execIn() {
+        private void execOut() {
             // Left blank for Project 2
         }
     }
