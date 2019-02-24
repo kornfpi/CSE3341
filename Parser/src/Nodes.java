@@ -4,19 +4,24 @@ public class Nodes {
     /**
      * The initial starting node of the program (program node)
      */
+    private Tokenizer tokenizer;
     private Begin programStart;
     
-    public Nodes() {
-        String[] tokens = {"Apple", "Orange", "Grape"};
-        matchConsume("Orange", tokens);
+    public Nodes(Tokenizer tokenizer) {
+        this.tokenizer = tokenizer;
         this.programStart = new Begin();
+        matchConsume("program");
         programStart.parseBegin();
     }
     
-    private void matchConsume(String matchString, String[] tokens) {
-        if(!matchString.equals(tokens[1])) {
-            System.out.println("Error! Expected \"" + tokens[1] + "\", But Was \"" + matchString + "\"" );
+    private void matchConsume(String matchString) {
+        String tokenSymbol = this.tokenizer.currentToken().symbol;
+        int tokenLine = this.tokenizer.currentToken().line;
+        if(!matchString.equals(tokenSymbol)) {
+            System.out.println("Error! (Line " + tokenLine + ") Expected \"" + matchString + "\" but found \"" + tokenSymbol + "\"" );
             System.exit(0);
+        }else {
+            this.tokenizer.nextToken();
         }
     }
     
