@@ -1,10 +1,23 @@
 
 public class Nodes {
 
+    /**
+     * The initial starting node of the program (program node)
+     */
     private Begin programStart;
     
     public Nodes() {
+        String[] tokens = {"Apple", "Orange", "Grape"};
+        matchConsume("Orange", tokens);
         this.programStart = new Begin();
+        programStart.parseBegin();
+    }
+    
+    private void matchConsume(String matchString, String[] tokens) {
+        if(!matchString.equals(tokens[1])) {
+            System.out.println("Error! Expected \"" + tokens[1] + "\", But Was \"" + matchString + "\"" );
+            System.exit(0);
+        }
     }
     
     private class Begin{
