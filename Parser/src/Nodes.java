@@ -17,7 +17,8 @@ public class Nodes {
         String tokenSymbol = this.tokenizer.currentToken().symbol;
         int tokenLine = this.tokenizer.currentToken().line;
         if(!matchString.equals(tokenSymbol)) {
-            System.out.println("Error! (Line " + tokenLine + ") Expected \"" + matchString + "\" but found \"" + tokenSymbol + "\"" );
+            System.out.println("Error! (Line " + tokenLine + ") Expected \"" 
+                    + matchString + "\" but found \"" + tokenSymbol + "\"" );
             System.exit(0);
         }else {
             this.tokenizer.nextToken();
@@ -102,6 +103,7 @@ public class Nodes {
             this.id.parseID();
             if(tokenizer.currentToken().symbol.equals(",")) {
                 tokenizer.nextToken();
+                this.alt = 2;
                 this.idl = new IDList();
                 this.idl.parseIDList();
             }
