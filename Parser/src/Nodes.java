@@ -1,15 +1,20 @@
-
+import java.util.*;
 public class Nodes {
 
     private String indent;
     private Tokenizer tokenizer;
     private Begin programStart;
+    private HashMap<String, Integer> symbolTable;
     
     public Nodes(Tokenizer tokenizer) {
         this.indent = "";
         this.tokenizer = tokenizer;
         this.programStart = new Begin();
-        programStart.parseBegin();
+        this.symbolTable = new HashMap<String, Integer>();
+    }
+    
+    public void parseTokens() {
+        this.programStart.parseBegin();
     }
     
     public void prettyPrint() {
@@ -20,8 +25,7 @@ public class Nodes {
         String tokenSymbol = this.tokenizer.currentToken().symbol;
         int tokenLine = this.tokenizer.currentToken().line;
         if(!matchString.equals(tokenSymbol)) {
-            System.out.println("Error! (Line " + tokenLine + ") Expected \"" 
-                    + matchString + "\" but found \"" + tokenSymbol + "\"" );
+            System.out.println("Error! (Line " + tokenLine + ") Expected \"" + matchString + "\" but found \"" + tokenSymbol + "\"" );
             System.exit(0);
         }else {
             this.tokenizer.nextToken();
@@ -155,9 +159,16 @@ public class Nodes {
             if(tokenizer.currentToken().type.equals("IDENT")) {
                 this.identifier = tokenizer.currentToken().symbol;
                 tokenizer.nextToken(); // Consume name
+                if(symbolTable.containsKey(this.identifier)) {
+                    System.out.println("Error! Multiple declarations of identifier \"" + this.identifier + "\"");
+                    System.exit(0);
+                }else {
+                    symbolTable.put(this.identifier, 0);
+                }
             }else {
-                System.out.println("ERROR");
-                System.out.println(tokenizer.currentToken().symbol);
+                String tokenSymbol = tokenizer.currentToken().symbol;
+                int tokenLine = tokenizer.currentToken().line;
+                System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
                 System.exit(0);
             }
             
