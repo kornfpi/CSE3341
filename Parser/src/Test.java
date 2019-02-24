@@ -1,9 +1,12 @@
 
 public class Test {
 
+
+    
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        // CHANGES
+        Nodes nodeBuilder = new Nodes();
+        Nodes.Banana newBanana = nodeBuilder.newBananaNode();
+        Nodes.Banana newBanana2 = nodeBuilder.new Banana("Type");
     }
 
 }
