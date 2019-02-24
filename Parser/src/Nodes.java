@@ -42,6 +42,16 @@ public class Nodes {
         }
     }
     
+    private int stmtType(String inString) {
+        int type = 0;
+        if(symbolTable.containsKey(inString)) type = 1;
+        if(inString.equals("if")) type = 2;
+        if(inString.equals("while")) type = 3;
+        if(inString.equals("read")) type = 4;
+        if(inString.equals("write")) type = 5;
+        return type;
+    }
+    
     private class Begin{
         private DeclSeq ds;
         private StmtSeq ss;
@@ -79,7 +89,6 @@ public class Nodes {
         private DeclSeq() {
             this.alt = 1;
             this.d = new Decl();
-            this.ds = null;
         }
         private void parseDeclSeq() {
             this.d.parseDecl();
@@ -127,7 +136,6 @@ public class Nodes {
         private IDList() {
             this.alt = 1;
             this.id = new ID();
-            this.idl = null;
         }
         private void parseIDList() {
             this.id.parseID();
@@ -183,19 +191,85 @@ public class Nodes {
     
     private class StmtSeq{
         private int alt;
-        private Decl d;
-        private DeclSeq ds;
+        private Stmt s;
+        private StmtSeq ss;
         private StmtSeq() {
-
+            this.alt = 1;
+            this.s = new Stmt();
         }
         private void parseStmtSeq() {
+            this.s.parseStmt();
+            if(stmtType(tokenizer.currentToken().symbol) > 0) {
+                this.alt = 2;
+                this.ss = new StmtSeq();
+                this.ss.parseStmtSeq();
+            }
             
         }
         private void printStmtSeq() {
             
         }
         private void execStmtSeq() {
+            // Left blank for Project 2
+        }
+    }
+    
+    private class Stmt{
+        private int alt;
+        private Assign a;
+//        private If i_f;
+//        private Loop l;
+//        private In i_n;
+//        private Out o;
+        private Stmt() {
+            this.alt = stmtType(tokenizer.currentToken().symbol);
+            switch (this.alt) {
+                case(1):
+                    this.a = new Assign();
+                    break;
+//                case(2):
+//                    this.i_f = new If();
+//                    break;
+//                case(3):
+//                    this.loop = new Loop;
+//                    break;
+//                case(4):
+//                    this.i_n = new In();
+//                    break;
+//                case(5):
+//                    this.Out = new Out();
+//                    break;
+                default:
+                    String tokenSymbol = tokenizer.currentToken().symbol;
+                    int tokenLine = tokenizer.currentToken().line;
+                    System.out.println("Error! (Line " + tokenLine + ") Expected identifier, if, loop, in, out but found \"" + tokenSymbol + "\"");
+                    System.exit(0);
+            }
+        }
+        private void parseStmt() {
+            switch (this.alt) {
+                case(1):
+                    this.a.parseAssign();
+                    break;
+//                case(2):
+//                    this.i_f.parseIf();
+//                    break;
+//                case(3):
+//                    this.loop.parseLoop();
+//                    break;
+//                case(4):
+//                    this.i_n.parseIn();
+//                    break;
+//                case(5):
+//                    this.Out.parseOut();
+//                    break;
+            }     
+        }
+        private void printStmtSeq() {
             
+        }
+        private void execStmtSeq() {
+            // Left blank for Project 2
         }
     }
       
