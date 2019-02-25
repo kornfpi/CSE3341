@@ -64,7 +64,7 @@ public class Nodes {
             this.ds.parseDeclSeq();
             matchConsume("begin");
             this.ss.parseStmtSeq();
-            //matchConsume("end");
+            matchConsume("end");
         }
         private void printBegin() {
             System.out.print("program\n");
@@ -158,6 +158,35 @@ public class Nodes {
         }
     }
     
+    private class IDList_Exec{
+        private int alt;
+        private ID_Exec id;
+        private IDList_Exec idl;
+        private IDList_Exec() {
+            this.alt = 1;
+            this.id = new ID_Exec();
+        }
+        private void parseIDList_Exec() {
+            this.id.parseID_Exec();
+            if(tokenizer.currentToken().symbol.equals(",")) {
+                tokenizer.nextToken();
+                this.alt = 2;
+                this.idl = new IDList_Exec();
+                this.idl.parseIDList_Exec();
+            }
+        }
+        private void printIDList_Exec() {
+            this.id.printID_Exec();
+            if(this.alt == 2) {
+                System.out.print(", ");
+                this.idl.printIDList_Exec();
+            }
+        }
+        private void execIDList_Exec() {
+            // Left blank for Project 2
+        }
+    }
+    
     private class ID{
         private String identifier;
         public ID() {
@@ -189,6 +218,34 @@ public class Nodes {
         }
     }
     
+    private class ID_Exec{
+        private String identifier;
+        public ID_Exec() {
+            this.identifier = null;
+        }
+        private void parseID_Exec() {
+            String tokenSymbol = tokenizer.currentToken().symbol;
+            int tokenLine = tokenizer.currentToken().line;
+            if(tokenizer.currentToken().type.equals("IDENT")) {
+                this.identifier = tokenizer.currentToken().symbol;
+                tokenizer.nextToken(); // Consume name
+                if(!symbolTable.containsKey(this.identifier)) {
+                    System.out.println("Error! (Line " + tokenLine + ") Undeclared identifier \"" + tokenSymbol + "\"");
+                    System.exit(0);
+                }
+            }else {
+                System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
+                System.exit(0);
+            }   
+        }
+        private void printID_Exec() {
+            System.out.print(this.identifier);
+        }
+        private void execID_Exec() {
+            // Left blank for Project 2
+        }
+    }
+    
     private class StmtSeq{
         private int alt;
         private Stmt s;
@@ -206,12 +263,10 @@ public class Nodes {
             }  
         }
         private void printStmtSeq() {
-            increaseIndent();
             this.s.printStmt();
             if(this.alt == 2) {
                 this.ss.printStmtSeq();
             }
-            decreaseIndent();
         }
         private void execStmtSeq() {
             // Left blank for Project 2
@@ -256,9 +311,9 @@ public class Nodes {
         }
         private void printStmt() {
             switch (this.alt) {
-//          case(1):
-//              this.a.printAssign();
-//              break;
+//                case(1):
+//                    this.a.printAssign();
+//                    break;
 //          case(2):
 //              this.i_f.printIf();
 //              break;
@@ -300,90 +355,40 @@ public class Nodes {
 //            // Left blank for Project 2
 //        }
 //    }
-    
+ 
     private class In{
-        private ArrayList<String> idList;
+        private IDList_Exec idl;
         private In() {
-            this.idList = new ArrayList<String>();
+            this.idl = new IDList_Exec();
         }
         private void parseIn() {
             matchConsume("read");
-            boolean identifiersRemain = true;
-            while(identifiersRemain) {
-                String identifier = tokenizer.currentToken().symbol;
-                if(symbolTable.containsKey(identifier)) {
-                    this.idList.add(identifier);
-                    tokenizer.nextToken();
-                }else {
-                    System.out.println("Error: Undefined Identifier!");
-                    System.exit(0);
-                }
-                if(tokenizer.currentToken().symbol.equals(";")) {
-                    identifiersRemain = false;
-                    tokenizer.nextToken();
-                }else if(tokenizer.currentToken().symbol.equals(",")) {
-                    tokenizer.nextToken();
-                }else {
-                    System.out.println("Error: Expected , or ;");
-                    System.exit(0);
-                }
-            }
+            this.idl.parseIDList_Exec();
+            matchConsume(";");
         }
         private void printIn() {
             System.out.print(indent + "read ");
-            int i = 0;
-            while(i < this.idList.size()) {
-                System.out.print(this.idList.get(i));
-                if(i != this.idList.size() - 1) {
-                    System.out.print(", ");
-                }
-                i++;
-            }
+            this.idl.printIDList_Exec();
             System.out.print(";\n");
         }
         private void execIn() {
             // Left blank for Project 2
         }
     }
- 
+    
     private class Out{
-        private ArrayList<String> idList;
+        private IDList_Exec idl;
         private Out() {
-            this.idList = new ArrayList<String>();
+            this.idl = new IDList_Exec();
         }
         private void parseOut() {
             matchConsume("write");
-            boolean identifiersRemain = true;
-            while(identifiersRemain) {
-                String identifier = tokenizer.currentToken().symbol;
-                if(symbolTable.containsKey(identifier)) {
-                    this.idList.add(identifier);
-                    tokenizer.nextToken();
-                }else {
-                    System.out.println("Error: Undefined Identifier!");
-                    System.exit(0);
-                }
-                if(tokenizer.currentToken().symbol.equals(";")) {
-                    identifiersRemain = false;
-                    tokenizer.nextToken();
-                }else if(tokenizer.currentToken().symbol.equals(",")) {
-                    tokenizer.nextToken();
-                }else {
-                    System.out.println("Error: Expected , or ;");
-                    System.exit(0);
-                }
-            }
+            this.idl.parseIDList_Exec();
+            matchConsume(";");
         }
         private void printOut() {
             System.out.print(indent + "write ");
-            int i = 0;
-            while(i < this.idList.size()) {
-                System.out.print(this.idList.get(i));
-                if(i != this.idList.size() - 1) {
-                    System.out.print(", ");
-                }
-                i++;
-            }
+            this.idl.printIDList_Exec();
             System.out.print(";\n");
         }
         private void execOut() {

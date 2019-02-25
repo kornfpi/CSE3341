@@ -1,1 +1,1 @@
-program int X, Y; int Z, W; begin write Y, Y; read X, Y; end
+program int X, Y, I, J; int Z, W; begin write Y, Y; read X, I, J; end
