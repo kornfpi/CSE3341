@@ -4,13 +4,11 @@ public class Nodes {
     private String indent;
     private Tokenizer tokenizer;
     private Begin programStart;
-    private HashMap<String, Integer> symbolTable;
     
     public Nodes(Tokenizer tokenizer) {
         this.indent = "";
         this.tokenizer = tokenizer;
         this.programStart = new Begin();
-        this.symbolTable = new HashMap<String, Integer>();
     }
     
     public void parseTokens() {
@@ -44,7 +42,7 @@ public class Nodes {
     
     private int stmtType(String inString) {
         int type = 0;
-        if(this.symbolTable.containsKey(inString)) type = 1;
+        if(SymbolTable.hasSymbol(inString)) type = 1;
         if(inString.equals("if")) type = 2;
         if(inString.equals("while")) type = 3;
         if(inString.equals("read")) type = 4;
@@ -110,9 +108,9 @@ public class Nodes {
     }
     
     private class Decl{
-        private IDList idl;
+        private IDList_B idl;
         private Decl() {
-            this.idl = new IDList();
+            this.idl = new IDList_B(true);
         }
         private void parseDecl() {
             matchConsume("int");
@@ -129,20 +127,23 @@ public class Nodes {
         }
     }
     
-    private class IDList{
+    
+    private class IDList_B{
+        private boolean isDecl;
         private int alt;
-        private ID id;
-        private IDList idl;
-        private IDList() {
+        private ID_B id;
+        private IDList_B idl;
+        private IDList_B(boolean isDecl) {
+            this.isDecl = isDecl;
             this.alt = 1;
-            this.id = new ID();
+            this.id = new ID_B(isDecl);
         }
         private void parseIDList() {
             this.id.parseID();
             if(tokenizer.currentToken().symbol.equals(",")) {
                 tokenizer.nextToken();
                 this.alt = 2;
-                this.idl = new IDList();
+                this.idl = new IDList_B(isDecl);
                 this.idl.parseIDList();
             }
         }
@@ -158,55 +159,51 @@ public class Nodes {
         }
     }
     
-    private class IDList_Exec{
-        private int alt;
-        private ID_Exec id;
-        private IDList_Exec idl;
-        private IDList_Exec() {
-            this.alt = 1;
-            this.id = new ID_Exec();
-        }
-        private void parseIDList_Exec() {
-            this.id.parseID_Exec();
-            if(tokenizer.currentToken().symbol.equals(",")) {
-                tokenizer.nextToken();
-                this.alt = 2;
-                this.idl = new IDList_Exec();
-                this.idl.parseIDList_Exec();
-            }
-        }
-        private void printIDList_Exec() {
-            this.id.printID_Exec();
-            if(this.alt == 2) {
-                System.out.print(", ");
-                this.idl.printIDList_Exec();
-            }
-        }
-        private void execIDList_Exec() {
-            // Left blank for Project 2
-        }
-    }
-    
-    private class ID{
+    private class ID_B{
         private String identifier;
-        public ID() {
+        private boolean isDecl;
+        public ID_B(boolean isDecl) {
+            this.isDecl = isDecl;
             this.identifier = null;
         }
         private void parseID() {
-            if(tokenizer.currentToken().type.equals("IDENT")) {
-                this.identifier = tokenizer.currentToken().symbol;
-                tokenizer.nextToken(); // Consume name
-                if(symbolTable.containsKey(this.identifier)) {
-                    System.out.println("Error! Multiple declarations of identifier \"" + this.identifier + "\"");
-                    System.exit(0);
+            
+            if(isDecl) {
+            
+                if(tokenizer.currentToken().type.equals("IDENT")) {
+                    this.identifier = tokenizer.currentToken().symbol;
+                    tokenizer.nextToken(); // Consume name
+                    if(SymbolTable.hasSymbol(this.identifier)) {
+                        System.out.println("Error! Multiple declarations of identifier \"" + this.identifier + "\"");
+                        System.exit(0);
+                    }else {
+                        SymbolTable.addSymbol(this.identifier);
+                    }
                 }else {
-                    symbolTable.put(this.identifier, 0);
+                    String tokenSymbol = tokenizer.currentToken().symbol;
+                    int tokenLine = tokenizer.currentToken().line;
+                    System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
+                    System.exit(0);
                 }
+            
             }else {
+                
+                
                 String tokenSymbol = tokenizer.currentToken().symbol;
                 int tokenLine = tokenizer.currentToken().line;
-                System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
-                System.exit(0);
+                if(tokenizer.currentToken().type.equals("IDENT")) {
+                    this.identifier = tokenizer.currentToken().symbol;
+                    tokenizer.nextToken(); // Consume name
+                    if(!SymbolTable.hasSymbol(this.identifier)) {
+                        System.out.println("Error! (Line " + tokenLine + ") Undeclared identifier \"" + tokenSymbol + "\"");
+                        System.exit(0);
+                    }
+                }else {
+                    System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
+                    System.exit(0);
+                }   
+                          
+                
             }
             
         }
@@ -218,33 +215,8 @@ public class Nodes {
         }
     }
     
-    private class ID_Exec{
-        private String identifier;
-        public ID_Exec() {
-            this.identifier = null;
-        }
-        private void parseID_Exec() {
-            String tokenSymbol = tokenizer.currentToken().symbol;
-            int tokenLine = tokenizer.currentToken().line;
-            if(tokenizer.currentToken().type.equals("IDENT")) {
-                this.identifier = tokenizer.currentToken().symbol;
-                tokenizer.nextToken(); // Consume name
-                if(!symbolTable.containsKey(this.identifier)) {
-                    System.out.println("Error! (Line " + tokenLine + ") Undeclared identifier \"" + tokenSymbol + "\"");
-                    System.exit(0);
-                }
-            }else {
-                System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
-                System.exit(0);
-            }   
-        }
-        private void printID_Exec() {
-            System.out.print(this.identifier);
-        }
-        private void execID_Exec() {
-            // Left blank for Project 2
-        }
-    }
+    
+
     
     private class StmtSeq{
         private int alt;
@@ -357,18 +329,18 @@ public class Nodes {
 //    }
  
     private class In{
-        private IDList_Exec idl;
+        private IDList_B idl;
         private In() {
-            this.idl = new IDList_Exec();
+            this.idl = new IDList_B(false);
         }
         private void parseIn() {
             matchConsume("read");
-            this.idl.parseIDList_Exec();
+            this.idl.parseIDList();
             matchConsume(";");
         }
         private void printIn() {
             System.out.print(indent + "read ");
-            this.idl.printIDList_Exec();
+            this.idl.printIDList();
             System.out.print(";\n");
         }
         private void execIn() {
@@ -377,18 +349,18 @@ public class Nodes {
     }
     
     private class Out{
-        private IDList_Exec idl;
+        private IDList_B idl;
         private Out() {
-            this.idl = new IDList_Exec();
+            this.idl = new IDList_B(false);
         }
         private void parseOut() {
             matchConsume("write");
-            this.idl.parseIDList_Exec();
+            this.idl.parseIDList();
             matchConsume(";");
         }
         private void printOut() {
             System.out.print(indent + "write ");
-            this.idl.printIDList_Exec();
+            this.idl.printIDList();
             System.out.print(";\n");
         }
         private void execOut() {
