@@ -230,9 +230,11 @@ public class Nodes {
                     this.a.parseAssign();
                     break;
                 case(2):
+                    this.i_f = new If();
                     this.i_f.parseIf();
                     break;
                 case(3):
+                    this.loop = new Loop();
                     this.loop.parseLoop();
                     break;
                 case(4):
@@ -333,12 +335,12 @@ public class Nodes {
             this.ss1.printStmtSeq();
             Global.decreaseIndent();
             if(this.alt == 2) {
-                System.out.print("else");
+                System.out.print(Global.indent + "else\n");
                 Global.increaseIndent();
                 this.ss2.printStmtSeq();
                 Global.decreaseIndent();
             }
-            System.out.print("end;\n");
+            System.out.print(Global.indent + "end;\n");
             
         }
         private void execIf() {
@@ -368,7 +370,7 @@ public class Nodes {
             Global.increaseIndent();
             this.ss.printStmtSeq();
             Global.decreaseIndent();
-            System.out.print("end;\n");
+            System.out.print(Global.indent + "end;\n");
             
         }
         private void execLoop() {
@@ -390,7 +392,7 @@ public class Nodes {
             Global.matchConsume("(");
             this.fac1.parseFac();
             if(!Global.tokenizer.currentToken().type.equals("COMP")) {
-                System.out.println("ERROR");
+                System.out.println("ERROR expected comp");
                 System.exit(0);
             }
             this.compOp = Global.tokenizer.currentToken().symbol;
@@ -399,7 +401,7 @@ public class Nodes {
             Global.matchConsume(")");
         }
         private void printComp() {
-            System.out.print(Global.indent + "( ");
+            System.out.print("( ");
             this.fac1.printFac();
             System.out.print(" " + this.compOp + " ");
             this.fac2.printFac();
