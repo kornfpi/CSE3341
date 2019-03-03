@@ -1,1 +1,1 @@
-program int X, Y, I, J; int Z, W; begin write Y, X; read X, I, J; end
+program int X, Y, I, J, Q; int Z, W; begin X = 5 * (I * (Q + 45)); write Y, X; read X, I, J; end

@@ -216,8 +216,8 @@ public class Nodes {
     private class Stmt{
         private int alt;
         private Assign a;
-//        private If i_f;
-//        private Loop l;
+        private If i_f;
+        private Loop loop;
         private In i_n;
         private Out o;
         private Stmt() {
@@ -229,12 +229,12 @@ public class Nodes {
                     this.a = new Assign();
                     this.a.parseAssign();
                     break;
-//                case(2):
-//                    this.i_f.parseIf();
-//                    break;
-//                case(3):
-//                    this.loop.parseLoop();
-//                    break;
+                case(2):
+                    this.i_f.parseIf();
+                    break;
+                case(3):
+                    this.loop.parseLoop();
+                    break;
                 case(4):
                     this.i_n = new In();
                     this.i_n.parseIn();
@@ -255,12 +255,12 @@ public class Nodes {
                 case(1):
                     this.a.printAssign();
                     break;
-//          case(2):
-//              this.i_f.printIf();
-//              break;
-//          case(3):
-//              this.loop.printLoop();
-//              break;
+                case(2):
+                    this.i_f.printIf();
+                    break;
+                case(3):
+                    this.loop.printLoop();
+                    break;
                 case(4):
                     this.i_n.printIn();
                     break;
@@ -288,6 +288,7 @@ public class Nodes {
             Global.matchConsume(";");
         }
         private void printAssign() {
+            System.out.print(Global.indent);
             this.id.printID();
             System.out.print(" = ");
             this.expr.printExpr();
@@ -298,9 +299,192 @@ public class Nodes {
             // Left blank for Project 2
         }
     }
+    
+    
+    private class If{
+        private int alt;
+        private Cond cond;
+        private StmtSeq ss1;
+        private StmtSeq ss2;
+        private If() {
+            this.alt = 1;
+            this.cond = new Cond();
+            this.ss1 = new StmtSeq();
+        }
+        private void parseIf() {
+            Global.matchConsume("if");
+            this.cond.parseCond();
+            Global.matchConsume("then");
+            this.ss1.parseStmtSeq();
+            if(Global.tokenizer.currentToken().symbol.equals("else")) {
+                Global.tokenizer.nextToken();
+                this.alt = 2;
+                this.ss2 = new StmtSeq();
+                this.ss2.parseStmtSeq();
+            }
+            Global.matchConsume("end");
+            Global.matchConsume(";");
+        }
+        private void printIf() {
+            System.out.print(Global.indent + "if ");
+            this.cond.printCond();
+            System.out.print(" then\n");
+            Global.increaseIndent();
+            this.ss1.printStmtSeq();
+            Global.decreaseIndent();
+            if(this.alt == 2) {
+                System.out.print("else");
+                Global.increaseIndent();
+                this.ss2.printStmtSeq();
+                Global.decreaseIndent();
+            }
+            System.out.print("end;\n");
+            
+        }
+        private void execIf() {
+            // Left blank for Project 2
+        }
+    }
  
+    private class Loop{
+        private Cond cond;
+        private StmtSeq ss;
+        private Loop() {
+            this.cond = new Cond();
+            this.ss = new StmtSeq();
+        }
+        private void parseLoop() {
+            Global.matchConsume("while");
+            this.cond.parseCond();
+            Global.matchConsume("loop");
+            this.ss.parseStmtSeq();
+            Global.matchConsume("end");
+            Global.matchConsume(";");
+        }
+        private void printLoop() {
+            System.out.print(Global.indent + "while ");
+            this.cond.printCond();
+            System.out.print(" loop\n");
+            Global.increaseIndent();
+            this.ss.printStmtSeq();
+            Global.decreaseIndent();
+            System.out.print("end;\n");
+            
+        }
+        private void execLoop() {
+            // Left blank for Project 2
+        }
+    }
     
     
+    
+    private class Comp{
+        private String compOp;
+        private Fac fac1;
+        private Fac fac2;
+        private Comp() {
+            this.fac1 = new Fac();
+            this.fac2 = new Fac();
+        }
+        private void parseComp() {
+            Global.matchConsume("(");
+            this.fac1.parseFac();
+            if(!Global.tokenizer.currentToken().type.equals("COMP")) {
+                System.out.println("ERROR");
+                System.exit(0);
+            }
+            this.compOp = Global.tokenizer.currentToken().symbol;
+            Global.tokenizer.nextToken();
+            this.fac2.parseFac();
+            Global.matchConsume(")");
+        }
+        private void printComp() {
+            System.out.print(Global.indent + "( ");
+            this.fac1.printFac();
+            System.out.print(" " + this.compOp + " ");
+            this.fac2.printFac();
+            System.out.print(" )");
+            
+        }
+        private void execComp() {
+            // Left blank for Project 2
+        }
+    }
+    
+    
+    
+    private class Cond{
+        private int alt;
+        private Comp comp;
+        private Cond cond1;
+        private Cond cond2;
+        private Cond() {
+        }
+        private void parseCond() {
+            if(Global.tokenizer.currentToken().symbol.equals("!")) {
+                Global.tokenizer.nextToken();
+                this.alt = 2;
+                this.cond1 = new Cond();
+                this.cond1.parseCond();
+            }else if(Global.tokenizer.currentToken().symbol.equals("[")) {
+                Global.tokenizer.nextToken();
+                this.cond1 = new Cond();
+                this.cond1.parseCond();
+                if(Global.tokenizer.currentToken().symbol.equals("and")) {
+                    Global.tokenizer.nextToken();
+                    this.alt = 3;
+                    this.cond2 = new Cond();
+                    this.cond2.parseCond();
+                    Global.matchConsume("]");
+                }else if(Global.tokenizer.currentToken().symbol.equals("or")) {
+                    Global.tokenizer.nextToken();
+                    this.alt = 4;
+                    this.cond2 = new Cond();
+                    this.cond2.parseCond();
+                    Global.matchConsume("]");
+                }else {
+                    System.out.print("ERROR");
+                    System.exit(0);
+                }
+            }else {
+                this.alt = 1;
+                this.comp = new Comp();
+                this.comp.parseComp();
+            }  
+        }
+        private void printCond() {
+            switch(this.alt) {
+                case(1):
+                    this.comp.printComp();
+                    break;
+                case(2):
+                    System.out.print("!");
+                    this.cond1.printCond();
+                    break;
+                case(3):
+                    System.out.print("[ ");
+                    this.cond1.printCond();
+                    System.out.print(" and ");
+                    this.cond2.printCond();
+                    System.out.print(" ]");
+                    break;
+                case(4):
+                    System.out.print("[ ");
+                    this.cond1.printCond();
+                    System.out.print(" or ");
+                    this.cond2.printCond();
+                    System.out.print(" ]");
+                    break;
+            }
+
+        }
+        private void execCond() {
+            // Left blank for Project 2
+        }
+    }
+    
+    
+       
     private class Expr{
         private int alt;
         private Term term;
@@ -312,20 +496,24 @@ public class Nodes {
             this.term.parseTerm();
             String tokenSymbol = Global.tokenizer.currentToken().symbol;
             int tokenLine = Global.tokenizer.currentToken().line;
-            Global.tokenizer.nextToken(); 
             switch (tokenSymbol) {
                 case(";"):
                     this.alt = 1;
                     break;
                 case("+"):
                     this.alt = 2;
+                    Global.tokenizer.nextToken();
                     this.expr = new Expr();
                     this.expr.parseExpr();
                     break;
                 case("-"):
                     this.alt = 3;
+                    Global.tokenizer.nextToken();
                     this.expr = new Expr();
                     this.expr.parseExpr();
+                    break;
+                case(")"):
+                    this.alt = 4;
                     break;
                 default:
                     System.out.println("Error! Expression (Line " + tokenLine + ") Expected \";\", \"-\", or \"+\", but found \"" + tokenSymbol + "\"");
@@ -344,7 +532,6 @@ public class Nodes {
                     this.expr.printExpr();
                     break;
             }
-            System.out.print(";\n");
         }
         private void execExpr() {
             // Left blank for Project 2
@@ -367,7 +554,6 @@ public class Nodes {
                 this.term = new Term();
                 this.term.parseTerm();
             }
-            Global.matchConsume(";");
         }
         private void printTerm() {
             this.fac.printFac();
@@ -375,7 +561,6 @@ public class Nodes {
                 System.out.print(" * ");
                 this.term.printTerm();
             }
-            System.out.print(";\n"); 
         }
         private void execTerm() {
             // Left blank for Project 2
@@ -394,7 +579,6 @@ public class Nodes {
             String type = Global.tokenizer.currentToken().type;
             String tokenSymbol = Global.tokenizer.currentToken().symbol;
             int tokenLine = Global.tokenizer.currentToken().line;
-            //Global.tokenizer.nextToken(); 
             switch (type) {
                 case("IDENT"):
                     if(Global.isInt(tokenSymbol)) {
@@ -418,21 +602,21 @@ public class Nodes {
                     System.out.println("Error! Factor (Line " + tokenLine + ") Expected identifier, integer, or \"(\", but found \"" + tokenSymbol + "\"");
                     System.exit(0);
             }   
-            Global.matchConsume(";");
         }
         private void printFac() {
-            this.term.printTerm();
             switch (this.alt) {
+                case(1):
+                    System.out.print(this.intValue);
+                    break;
                 case(2):
-                    System.out.print(" + ");
-                    this.expr.printExpr();
+                    this.id.printID();
                     break;
                 case(3):
-                    System.out.print(" - ");
+                    System.out.print("( ");
                     this.expr.printExpr();
+                    System.out.print(" )");
                     break;
             }
-            System.out.print(";\n");
         }
         private void execFac() {
             // Left blank for Project 2
