@@ -215,7 +215,7 @@ public class Nodes {
     
     private class Stmt{
         private int alt;
-//        private Assign a;
+        private Assign a;
 //        private If i_f;
 //        private Loop l;
         private In i_n;
@@ -225,9 +225,10 @@ public class Nodes {
         private void parseStmt() {
             this.alt = Global.stmtType();
             switch (this.alt) {
-//                case(1):
-//                    this.a.parseAssign();
-//                    break;
+                case(1):
+                    this.a = new Assign();
+                    this.a.parseAssign();
+                    break;
 //                case(2):
 //                    this.i_f.parseIf();
 //                    break;
@@ -245,15 +246,15 @@ public class Nodes {
                 default:
                     String tokenSymbol = Global.tokenizer.currentToken().symbol;
                     int tokenLine = Global.tokenizer.currentToken().line;
-                    System.out.println("Error! (Line " + tokenLine + ") Expected identifier, if, loop, in, out but found \"" + tokenSymbol + "\"");
+                    System.out.println("Error! Statement (Line " + tokenLine + ") Expected identifier, if, loop, in, or out but found \"" + tokenSymbol + "\"");
                     System.exit(0);
             }     
         }
         private void printStmt() {
             switch (this.alt) {
-//                case(1):
-//                    this.a.printAssign();
-//                    break;
+                case(1):
+                    this.a.printAssign();
+                    break;
 //          case(2):
 //              this.i_f.printIf();
 //              break;
@@ -273,29 +274,84 @@ public class Nodes {
         }
     }
       
-//    private class Assign{
-//        private String id;
-//        private Expr e;
-//        private Assign() {
-//            this.id = null;
-//            this.e = new Expr();
-//        }
-//        private void parseStmtSeq() {
-//            this.s.parseStmt();
-//            if(stmtType(tokenizer.currentToken().symbol) > 0) {
-//                this.alt = 2;
-//                this.ss = new StmtSeq();
-//                this.ss.parseStmtSeq();
-//            }  
-//        }
-//        private void printStmtSeq() {
-//            
-//        }
-//        private void execStmtSeq() {
-//            // Left blank for Project 2
-//        }
-//    }
+    private class Assign{
+        private ID_B id;
+        private Expr expr;
+        private Assign() {
+            this.id = new ID_B(false);
+            this.expr = new Expr();
+        }
+        private void parseAssign() {
+            this.id.parseID();
+            Global.matchConsume("=");
+            this.expr.parseExpr();
+            Global.matchConsume(";");
+        }
+        private void printAssign() {
+            this.id.printID();
+            System.out.print(" = ");
+            this.expr.printExpr();
+            System.out.print(";\n");
+            
+        }
+        private void execAssign() {
+            // Left blank for Project 2
+        }
+    }
  
+    
+    
+    private class Expr{
+        private int alt;
+        private Term term;
+        private Expr expr;
+        private Expr() {
+            this.term = new Term();
+        }
+        private void parseExpr() {
+            this.term.parseTerm();
+            String tokenSymbol = Global.tokenizer.currentToken().symbol;
+            int tokenLine = Global.tokenizer.currentToken().line;
+            Global.tokenizer.nextToken(); 
+            switch (tokenSymbol) {
+                case(";"):
+                    this.alt = 1;
+                    break;
+                case("+"):
+                    this.alt = 2;
+                    this.expr = new Expr();
+                    this.expr.parseExpr();
+                    break;
+                case("-"):
+                    this.alt = 3;
+                    this.expr = new Expr();
+                    this.expr.parseExpr();
+                    break;
+                default:
+                    System.out.println("Error! Expression (Line " + tokenLine + ") Expected \";\", \"-\", or \"+\", but found \"" + tokenSymbol + "\"");
+                    System.exit(0);
+            }     
+        }
+        private void printExpr() {
+            this.term.printTerm();
+            switch (this.alt) {
+                case(2):
+                    System.out.print(" + ");
+                    this.expr.printExpr();
+                    break;
+                case(3):
+                    System.out.print(" - ");
+                    this.expr.printExpr();
+                    break;
+            }
+            System.out.print(";\n");
+        }
+        private void execExpr() {
+            // Left blank for Project 2
+        }
+    }
+    
+    
     private class In{
         private IDList_B idl;
         private In() {
