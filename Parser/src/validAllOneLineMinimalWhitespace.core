@@ -2,16 +2,16 @@ program int X, Y, I, J, Q; int Z, W;  begin
 while (X<=5) loop X = X + 5; end; 
 
 if (X<=5) then
-while(X<=5) loop
+while(X<5) loop
 X = X + 1;
 end;
 end;
 
 
-if (Y <= I) then
+if (Y >= I) then
 
 if (X<=5) then
-while(X<=5) loop
+while(X>5) loop
 X = X + 1;
 end;
 end;

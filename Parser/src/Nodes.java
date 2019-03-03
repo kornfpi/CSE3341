@@ -391,7 +391,7 @@ public class Nodes {
         private void parseComp() {
             Global.matchConsume("(");
             this.fac1.parseFac();
-            if(!Global.tokenizer.currentToken().type.equals("COMP")) {
+            if(!isComp(Global.tokenizer.currentToken().symbol)) {
                 System.out.println("ERROR expected comp");
                 System.exit(0);
             }
@@ -411,6 +411,13 @@ public class Nodes {
         private void execComp() {
             // Left blank for Project 2
         }
+        
+        private boolean isComp(String inString) {
+            String[] compOpsArray = new String[]{"!=","==",">=","<=","<",">"};
+            Set<String> compOpsSet = new HashSet<>(Arrays.asList(compOpsArray));
+            return compOpsSet.contains(inString);
+        }
+        
     }
     
     
