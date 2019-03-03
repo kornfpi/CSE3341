@@ -1,13 +1,9 @@
 import java.util.*;
 public class Nodes {
 
-    private String indent;
-    private Tokenizer tokenizer;
     private Begin programStart;
     
     public Nodes(Tokenizer tokenizer) {
-        this.indent = "";
-        this.tokenizer = tokenizer;
         this.programStart = new Begin();
     }
     
@@ -19,36 +15,8 @@ public class Nodes {
         this.programStart.printBegin();
     }
     
-    private void matchConsume(String matchString) {
-        String tokenSymbol = this.tokenizer.currentToken().symbol;
-        int tokenLine = this.tokenizer.currentToken().line;
-        if(!matchString.equals(tokenSymbol)) {
-            System.out.println("Error! (Line " + tokenLine + ") Expected \"" + matchString + "\" but found \"" + tokenSymbol + "\"" );
-            System.exit(0);
-        }else {
-            this.tokenizer.nextToken();
-        }
-    }
-    
-    private void increaseIndent() {
-        this.indent += "  ";
-    }
-    
-    private void decreaseIndent() {
-        if(indent.length() >= 2) {
-            this.indent = this.indent.substring(0, this.indent.length() - 2);
-        }
-    }
-    
-    private int stmtType(String inString) {
-        int type = 0;
-        if(SymbolTable.hasSymbol(inString)) type = 1;
-        if(inString.equals("if")) type = 2;
-        if(inString.equals("while")) type = 3;
-        if(inString.equals("read")) type = 4;
-        if(inString.equals("write")) type = 5;
-        return type;
-    }
+
+
     
     private class Begin{
         private DeclSeq ds;
@@ -58,22 +26,22 @@ public class Nodes {
             this.ss = new StmtSeq();
         }
         private void parseBegin() {
-            matchConsume("program");
+            Global.matchConsume("program");
             this.ds.parseDeclSeq();
-            matchConsume("begin");
+            Global.matchConsume("begin");
             this.ss.parseStmtSeq();
-            matchConsume("end");
+            Global.matchConsume("end");
         }
         private void printBegin() {
             System.out.print("program\n");
-            increaseIndent();
+            Global.increaseIndent();
             this.ds.printDeclSeq();
-            System.out.print(indent + "begin\n");
-            increaseIndent();
+            System.out.print(Global.indent + "begin\n");
+            Global.increaseIndent();
             this.ss.printStmtSeq();
-            decreaseIndent();
-            System.out.print(indent + "end");
-            decreaseIndent(); 
+            Global.decreaseIndent();
+            System.out.print(Global.indent + "end");
+            Global.decreaseIndent(); 
         }
         private void execBegin() {
             // Left blank for Project 2
@@ -90,7 +58,7 @@ public class Nodes {
         }
         private void parseDeclSeq() {
             this.d.parseDecl();
-            if(tokenizer.currentToken().symbol.equals("int")) {
+            if(Global.tokenizer.currentToken().symbol.equals("int")) {
                 this.alt = 2;
                 this.ds = new DeclSeq();
                 this.ds.parseDeclSeq();
@@ -113,12 +81,12 @@ public class Nodes {
             this.idl = new IDList_B(true);
         }
         private void parseDecl() {
-            matchConsume("int");
+            Global.matchConsume("int");
             this.idl.parseIDList();
-            matchConsume(";");
+            Global.matchConsume(";");
         }
         private void printDecl() {
-            System.out.print(indent + "int ");
+            System.out.print(Global.indent + "int ");
             this.idl.printIDList();
             System.out.print(";\n");
         }
@@ -140,8 +108,8 @@ public class Nodes {
         }
         private void parseIDList() {
             this.id.parseID();
-            if(tokenizer.currentToken().symbol.equals(",")) {
-                tokenizer.nextToken();
+            if(Global.tokenizer.currentToken().symbol.equals(",")) {
+                Global.tokenizer.nextToken();
                 this.alt = 2;
                 this.idl = new IDList_B(isDecl);
                 this.idl.parseIDList();
@@ -170,18 +138,18 @@ public class Nodes {
             
             if(isDecl) {
             
-                if(tokenizer.currentToken().type.equals("IDENT")) {
-                    this.identifier = tokenizer.currentToken().symbol;
-                    tokenizer.nextToken(); // Consume name
-                    if(SymbolTable.hasSymbol(this.identifier)) {
+                if(Global.tokenizer.currentToken().type.equals("IDENT")) {
+                    this.identifier = Global.tokenizer.currentToken().symbol;
+                    Global.tokenizer.nextToken(); // Consume name
+                    if(Global.hasSymbol(this.identifier)) {
                         System.out.println("Error! Multiple declarations of identifier \"" + this.identifier + "\"");
                         System.exit(0);
                     }else {
-                        SymbolTable.addSymbol(this.identifier);
+                        Global.addSymbol(this.identifier);
                     }
                 }else {
-                    String tokenSymbol = tokenizer.currentToken().symbol;
-                    int tokenLine = tokenizer.currentToken().line;
+                    String tokenSymbol = Global.tokenizer.currentToken().symbol;
+                    int tokenLine = Global.tokenizer.currentToken().line;
                     System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
                     System.exit(0);
                 }
@@ -189,12 +157,12 @@ public class Nodes {
             }else {
                 
                 
-                String tokenSymbol = tokenizer.currentToken().symbol;
-                int tokenLine = tokenizer.currentToken().line;
-                if(tokenizer.currentToken().type.equals("IDENT")) {
-                    this.identifier = tokenizer.currentToken().symbol;
-                    tokenizer.nextToken(); // Consume name
-                    if(!SymbolTable.hasSymbol(this.identifier)) {
+                String tokenSymbol = Global.tokenizer.currentToken().symbol;
+                int tokenLine = Global.tokenizer.currentToken().line;
+                if(Global.tokenizer.currentToken().type.equals("IDENT")) {
+                    this.identifier = Global.tokenizer.currentToken().symbol;
+                    Global.tokenizer.nextToken(); // Consume name
+                    if(!Global.hasSymbol(this.identifier)) {
                         System.out.println("Error! (Line " + tokenLine + ") Undeclared identifier \"" + tokenSymbol + "\"");
                         System.exit(0);
                     }
@@ -228,7 +196,7 @@ public class Nodes {
         }
         private void parseStmtSeq() {
             this.s.parseStmt();
-            if(stmtType(tokenizer.currentToken().symbol) > 0) {
+            if(Global.stmtType() > 0) {
                 this.alt = 2;
                 this.ss = new StmtSeq();
                 this.ss.parseStmtSeq();
@@ -255,7 +223,7 @@ public class Nodes {
         private Stmt() {
         }
         private void parseStmt() {
-            this.alt = stmtType(tokenizer.currentToken().symbol);
+            this.alt = Global.stmtType();
             switch (this.alt) {
 //                case(1):
 //                    this.a.parseAssign();
@@ -275,8 +243,8 @@ public class Nodes {
                     this.o.parseOut();
                     break;
                 default:
-                    String tokenSymbol = tokenizer.currentToken().symbol;
-                    int tokenLine = tokenizer.currentToken().line;
+                    String tokenSymbol = Global.tokenizer.currentToken().symbol;
+                    int tokenLine = Global.tokenizer.currentToken().line;
                     System.out.println("Error! (Line " + tokenLine + ") Expected identifier, if, loop, in, out but found \"" + tokenSymbol + "\"");
                     System.exit(0);
             }     
@@ -334,12 +302,12 @@ public class Nodes {
             this.idl = new IDList_B(false);
         }
         private void parseIn() {
-            matchConsume("read");
+            Global.matchConsume("read");
             this.idl.parseIDList();
-            matchConsume(";");
+            Global.matchConsume(";");
         }
         private void printIn() {
-            System.out.print(indent + "read ");
+            System.out.print(Global.indent + "read ");
             this.idl.printIDList();
             System.out.print(";\n");
         }
@@ -354,12 +322,12 @@ public class Nodes {
             this.idl = new IDList_B(false);
         }
         private void parseOut() {
-            matchConsume("write");
+            Global.matchConsume("write");
             this.idl.parseIDList();
-            matchConsume(";");
+            Global.matchConsume(";");
         }
         private void printOut() {
-            System.out.print(indent + "write ");
+            System.out.print(Global.indent + "write ");
             this.idl.printIDList();
             System.out.print(";\n");
         }

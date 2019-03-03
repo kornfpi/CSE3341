@@ -8,7 +8,7 @@ public class Test {
   
         if(args.length != 0) {
             tokenizer = new Tokenizer(args[0]);
-
+            Global.tokenizer = tokenizer;
             //tokenizer.printParseValues();
             Nodes parser = new Nodes(tokenizer);
             parser.parseTokens();
