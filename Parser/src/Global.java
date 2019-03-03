@@ -53,4 +53,14 @@ final class Global {
         return type;
     }
     
+    public static boolean isInt(String inString) {
+        boolean isInt = true;
+        try {
+            Integer.parseInt(inString);
+        }catch(NumberFormatException e){
+            isInt = false;
+        }
+        return isInt;
+    }
+    
 }

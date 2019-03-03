@@ -351,6 +351,94 @@ public class Nodes {
         }
     }
     
+    private class Term{
+        private int alt;
+        private Fac fac;
+        private Term term;
+        private Term() {
+            this.fac = new Fac();
+        }
+        private void parseTerm() {
+            this.alt = 1;
+            this.fac.parseFac();
+            if(Global.tokenizer.currentToken().symbol.equals("*")) {
+                Global.tokenizer.nextToken();
+                this.alt = 2;
+                this.term = new Term();
+                this.term.parseTerm();
+            }
+            Global.matchConsume(";");
+        }
+        private void printTerm() {
+            this.fac.printFac();
+            if(this.alt == 2) {
+                System.out.print(" * ");
+                this.term.printTerm();
+            }
+            System.out.print(";\n"); 
+        }
+        private void execTerm() {
+            // Left blank for Project 2
+        }
+    }
+    
+    
+    private class Fac{
+        private int alt;
+        private int intValue;
+        private ID_B id;
+        private Expr expr;
+        private Fac() {
+        }
+        private void parseFac() {
+            String type = Global.tokenizer.currentToken().type;
+            String tokenSymbol = Global.tokenizer.currentToken().symbol;
+            int tokenLine = Global.tokenizer.currentToken().line;
+            //Global.tokenizer.nextToken(); 
+            switch (type) {
+                case("IDENT"):
+                    if(Global.isInt(tokenSymbol)) {
+                        this.alt = 1;
+                        this.intValue = Integer.parseInt(tokenSymbol);
+                        Global.tokenizer.nextToken();
+                    }else {
+                        this.alt = 2;
+                        this.id = new ID_B(false);
+                        this.id.parseID();
+                    }
+                    break;
+                case("SPEC"):
+                    this.alt = 3;
+                    Global.matchConsume("(");
+                    this.expr = new Expr();
+                    this.expr.parseExpr();
+                    Global.matchConsume(")");
+                    break;
+                default:
+                    System.out.println("Error! Factor (Line " + tokenLine + ") Expected identifier, integer, or \"(\", but found \"" + tokenSymbol + "\"");
+                    System.exit(0);
+            }   
+            Global.matchConsume(";");
+        }
+        private void printFac() {
+            this.term.printTerm();
+            switch (this.alt) {
+                case(2):
+                    System.out.print(" + ");
+                    this.expr.printExpr();
+                    break;
+                case(3):
+                    System.out.print(" - ");
+                    this.expr.printExpr();
+                    break;
+            }
+            System.out.print(";\n");
+        }
+        private void execFac() {
+            // Left blank for Project 2
+        }
+    }
+    
     
     private class In{
         private IDList_B idl;
