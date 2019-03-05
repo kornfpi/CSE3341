@@ -10,7 +10,7 @@ public class StmtSeq{
         }
         public void parseStmtSeq() {
             this.s.parseStmt();
-            if(Global.stmtType() > 0) {
+            if(Parser.stmtType() > 0) {
                 this.alt = 2;
                 this.ss = new StmtSeq();
                 this.ss.parseStmtSeq();

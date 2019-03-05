@@ -9,21 +9,21 @@ public class Loop{
             this.ss = new StmtSeq();
         }
         public void parseLoop() {
-            Global.matchConsume("while");
+            Parser.matchConsume("while");
             this.cond.parseCond();
-            Global.matchConsume("loop");
+            Parser.matchConsume("loop");
             this.ss.parseStmtSeq();
-            Global.matchConsume("end");
-            Global.matchConsume(";");
+            Parser.matchConsume("end");
+            Parser.matchConsume(";");
         }
         public void printLoop() {
-            System.out.print(Global.indent + "while ");
+            System.out.print(Parser.indent() + "while ");
             this.cond.printCond();
             System.out.print(" loop\n");
-            Global.increaseIndent();
+            Parser.increaseIndent();
             this.ss.printStmtSeq();
-            Global.decreaseIndent();
-            System.out.print(Global.indent + "end;\n");
+            Parser.decreaseIndent();
+            System.out.print(Parser.indent() + "end;\n");
             
         }
         public void execLoop() {

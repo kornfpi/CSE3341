@@ -1,17 +1,17 @@
 
 
 public class Out{
-        private IDList_B idl;
+        private IDList idl;
         public Out() {
-            this.idl = new IDList_B(false);
+            this.idl = new IDList(false);
         }
         public void parseOut() {
-            Global.matchConsume("write");
+            Parser.matchConsume("write");
             this.idl.parseIDList();
-            Global.matchConsume(";");
+            Parser.matchConsume(";");
         }
         public void printOut() {
-            System.out.print(Global.indent + "write ");
+            System.out.print(Parser.indent() + "write ");
             this.idl.printIDList();
             System.out.print(";\n");
         }

@@ -9,21 +9,21 @@ public class Expr{
         }
         public void parseExpr() {
             this.term.parseTerm();
-            String tokenSymbol = Global.tokenizer.currentToken().symbol;
-            int tokenLine = Global.tokenizer.currentToken().line;
+            String tokenSymbol = Parser.currentToken().symbol;
+            int tokenLine = Parser.currentToken().line;
             switch (tokenSymbol) {
                 case(";"):
                     this.alt = 1;
                     break;
                 case("+"):
                     this.alt = 2;
-                    Global.tokenizer.nextToken();
+                    Parser.nextToken();
                     this.expr = new Expr();
                     this.expr.parseExpr();
                     break;
                 case("-"):
                     this.alt = 3;
-                    Global.tokenizer.nextToken();
+                    Parser.nextToken();
                     this.expr = new Expr();
                     this.expr.parseExpr();
                     break;

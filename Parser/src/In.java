@@ -1,17 +1,17 @@
 
 
 public class In{
-        private IDList_B idl;
+        private IDList idl;
         public In() {
-            this.idl = new IDList_B(false);
+            this.idl = new IDList(false);
         }
         public void parseIn() {
-            Global.matchConsume("read");
+            Parser.matchConsume("read");
             this.idl.parseIDList();
-            Global.matchConsume(";");
+            Parser.matchConsume(";");
         }
         public void printIn() {
-            System.out.print(Global.indent + "read ");
+            System.out.print(Parser.indent() + "read ");
             this.idl.printIDList();
             System.out.print(";\n");
         }

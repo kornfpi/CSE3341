@@ -7,27 +7,27 @@ public class Cond{
         public Cond() {
         }
         public void parseCond() {
-            if(Global.tokenizer.currentToken().symbol.equals("!")) {
-                Global.tokenizer.nextToken();
+            if(Parser.currentToken().symbol.equals("!")) {
+                Parser.nextToken();
                 this.alt = 2;
                 this.cond1 = new Cond();
                 this.cond1.parseCond();
-            }else if(Global.tokenizer.currentToken().symbol.equals("[")) {
-                Global.tokenizer.nextToken();
+            }else if(Parser.currentToken().symbol.equals("[")) {
+                Parser.nextToken();
                 this.cond1 = new Cond();
                 this.cond1.parseCond();
-                if(Global.tokenizer.currentToken().symbol.equals("and")) {
-                    Global.tokenizer.nextToken();
+                if(Parser.currentToken().symbol.equals("and")) {
+                    Parser.nextToken();
                     this.alt = 3;
                     this.cond2 = new Cond();
                     this.cond2.parseCond();
-                    Global.matchConsume("]");
-                }else if(Global.tokenizer.currentToken().symbol.equals("or")) {
-                    Global.tokenizer.nextToken();
+                    Parser.matchConsume("]");
+                }else if(Parser.currentToken().symbol.equals("or")) {
+                    Parser.nextToken();
                     this.alt = 4;
                     this.cond2 = new Cond();
                     this.cond2.parseCond();
-                    Global.matchConsume("]");
+                    Parser.matchConsume("]");
                 }else {
                     System.out.print("ERROR");
                     System.exit(0);

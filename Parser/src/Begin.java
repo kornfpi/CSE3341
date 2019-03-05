@@ -7,22 +7,22 @@ public class Begin{
             this.ss = new StmtSeq();
         }
         public void parseBegin() {
-            Global.matchConsume("program");
+            Parser.matchConsume("program");
             this.ds.parseDeclSeq();
-            Global.matchConsume("begin");
+            Parser.matchConsume("begin");
             this.ss.parseStmtSeq();
-            Global.matchConsume("end");
+            Parser.matchConsume("end");
         }
         public void printBegin() {
             System.out.print("program\n");
-            Global.increaseIndent();
+            Parser.increaseIndent();
             this.ds.printDeclSeq();
-            System.out.print(Global.indent + "begin\n");
-            Global.increaseIndent();
+            System.out.print(Parser.indent() + "begin\n");
+            Parser.increaseIndent();
             this.ss.printStmtSeq();
-            Global.decreaseIndent();
-            System.out.print(Global.indent + "end");
-            Global.decreaseIndent(); 
+            Parser.decreaseIndent();
+            System.out.print(Parser.indent() + "end");
+            Parser.decreaseIndent(); 
         }
         public void execBegin() {
             // Left blank for Project 2

@@ -11,16 +11,16 @@ public class Comp{
             this.fac2 = new Fac();
         }
         public void parseComp() {
-            Global.matchConsume("(");
+            Parser.matchConsume("(");
             this.fac1.parseFac();
-            if(!isComp(Global.tokenizer.currentToken().symbol)) {
+            if(!isComp(Parser.currentToken().symbol)) {
                 System.out.println("ERROR expected comp");
                 System.exit(0);
             }
-            this.compOp = Global.tokenizer.currentToken().symbol;
-            Global.tokenizer.nextToken();
+            this.compOp = Parser.currentToken().symbol;
+            Parser.nextToken();
             this.fac2.parseFac();
-            Global.matchConsume(")");
+            Parser.matchConsume(")");
         }
         public void printComp() {
             System.out.print("( ");

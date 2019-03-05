@@ -1,20 +1,20 @@
 
 
 public class Assign{
-        private ID_B id;
+        private ID id;
         private Expr expr;
         public Assign() {
-            this.id = new ID_B(false);
+            this.id = new ID(false);
             this.expr = new Expr();
         }
         public void parseAssign() {
             this.id.parseID();
-            Global.matchConsume("=");
+            Parser.matchConsume("=");
             this.expr.parseExpr();
-            Global.matchConsume(";");
+            Parser.matchConsume(";");
         }
         public void printAssign() {
-            System.out.print(Global.indent);
+            System.out.print(Parser.indent());
             this.id.printID();
             System.out.print(" = ");
             this.expr.printExpr();

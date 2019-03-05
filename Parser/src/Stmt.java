@@ -10,7 +10,7 @@ public class Stmt{
         public Stmt() {
         }
         public void parseStmt() {
-            this.alt = Global.stmtType();
+            this.alt = Parser.stmtType();
             switch (this.alt) {
                 case(1):
                     this.a = new Assign();
@@ -33,8 +33,8 @@ public class Stmt{
                     this.o.parseOut();
                     break;
                 default:
-                    String tokenSymbol = Global.tokenizer.currentToken().symbol;
-                    int tokenLine = Global.tokenizer.currentToken().line;
+                    String tokenSymbol = Parser.currentToken().symbol;
+                    int tokenLine = Parser.currentToken().line;
                     System.out.println("Error! Statement (Line " + tokenLine + ") Expected identifier, if, loop, in, or out but found \"" + tokenSymbol + "\"");
                     System.exit(0);
             }     

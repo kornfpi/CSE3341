@@ -1,17 +1,17 @@
 
 
 public class Decl{
-        private IDList_B idl;
+        private IDList idl;
         public Decl() {
-            this.idl = new IDList_B(true);
+            this.idl = new IDList(true);
         }
         public void parseDecl() {
-            Global.matchConsume("int");
+            Parser.matchConsume("int");
             this.idl.parseIDList();
-            Global.matchConsume(";");
+            Parser.matchConsume(";");
         }
         public void printDecl() {
-            System.out.print(Global.indent + "int ");
+            System.out.print(Parser.indent() + "int ");
             this.idl.printIDList();
             System.out.print(";\n");
         }

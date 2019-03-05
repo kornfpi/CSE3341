@@ -1,21 +1,21 @@
 
 
-public class IDList_B{
+public class IDList{
         private boolean isDecl;
         private int alt;
-        private ID_B id;
-        private IDList_B idl;
-        public IDList_B(boolean isDecl) {
+        private ID id;
+        private IDList idl;
+        public IDList(boolean isDecl) {
             this.isDecl = isDecl;
             this.alt = 1;
-            this.id = new ID_B(isDecl);
+            this.id = new ID(isDecl);
         }
         public void parseIDList() {
             this.id.parseID();
-            if(Global.tokenizer.currentToken().symbol.equals(",")) {
-                Global.tokenizer.nextToken();
+            if(Parser.currentToken().symbol.equals(",")) {
+                Parser.nextToken();
                 this.alt = 2;
-                this.idl = new IDList_B(isDecl);
+                this.idl = new IDList(isDecl);
                 this.idl.parseIDList();
             }
         }

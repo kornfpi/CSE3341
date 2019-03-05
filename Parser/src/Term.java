@@ -10,8 +10,8 @@ public class Term{
         public void parseTerm() {
             this.alt = 1;
             this.fac.parseFac();
-            if(Global.tokenizer.currentToken().symbol.equals("*")) {
-                Global.tokenizer.nextToken();
+            if(Parser.currentToken().symbol.equals("*")) {
+                Parser.nextToken();
                 this.alt = 2;
                 this.term = new Term();
                 this.term.parseTerm();

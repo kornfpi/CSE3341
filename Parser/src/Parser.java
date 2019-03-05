@@ -1,9 +1,47 @@
 import java.util.*;
-final class Global {
+
+public class Parser {
 
     private static HashMap<String, Integer> symbolTable =new HashMap<String, Integer>();
-    public static String indent = "";
-    public static Tokenizer tokenizer;
+    private static String indent = "";
+    private static Tokenizer tokenizer;
+    private static Begin programStart;
+    
+    public static void main(String[] args) {
+        
+        if(args.length != 0) {
+            tokenizer = new Tokenizer(args[0]);
+            parseTokens();
+            prettyPrint();
+            
+        }else { // No argument passed
+            System.out.println("[ERROR] No input file specefied in command line!");
+            System.exit(0);
+        }   
+    	
+    }
+    
+    public static Tokenizer.Token currentToken() {
+    	return tokenizer.currentToken();
+    	
+    }
+    
+    public static void nextToken() {
+    	tokenizer.nextToken();
+    	
+    }
+    
+    public static void parseTokens() {
+    	programStart = new Begin();
+    	programStart.parseBegin();
+    	
+    }
+    
+    public static void prettyPrint() {
+    	
+    	programStart.printBegin();
+    	
+    }
     
     public static boolean hasSymbol(String symbol) {
         return symbolTable.containsKey(symbol);
@@ -36,6 +74,10 @@ final class Global {
         indent += "  ";
     }
     
+    public static String indent() {
+        return indent;
+    }
+    
     public static void decreaseIndent() {
         if(indent.length() >= 2) {
             indent = indent.substring(0, indent.length() - 2);
@@ -45,7 +87,7 @@ final class Global {
     public static int stmtType() {
         int type = 0;
         String inString = tokenizer.currentToken().symbol;
-        if(Global.hasSymbol(inString)) type = 1;
+        if(Parser.hasSymbol(inString)) type = 1;
         if(inString.equals("if")) type = 2;
         if(inString.equals("while")) type = 3;
         if(inString.equals("read")) type = 4;
