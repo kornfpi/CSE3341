@@ -9,12 +9,12 @@ public class Loop{
             this.ss = new StmtSeq();
         }
         public void parseLoop() {
-            Parser.matchConsume("while");
+            Parser.matchConsume("while", "Loop");
             this.cond.parseCond();
-            Parser.matchConsume("loop");
+            Parser.matchConsume("loop", "Loop");
             this.ss.parseStmtSeq();
-            Parser.matchConsume("end");
-            Parser.matchConsume(";");
+            Parser.matchConsume("end", "Loop");
+            Parser.matchConsume(";", "Loop");
         }
         public void printLoop() {
             System.out.print(Parser.indent() + "while ");

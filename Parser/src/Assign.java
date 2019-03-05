@@ -9,9 +9,9 @@ public class Assign{
         }
         public void parseAssign() {
             this.id.parseID();
-            Parser.matchConsume("=");
+            Parser.matchConsume("=", "Assign");
             this.expr.parseExpr();
-            Parser.matchConsume(";");
+            Parser.matchConsume(";", "Assign");
         }
         public void printAssign() {
             System.out.print(Parser.indent());

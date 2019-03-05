@@ -6,9 +6,9 @@ public class Out{
             this.idl = new IDList(false);
         }
         public void parseOut() {
-            Parser.matchConsume("write");
+            Parser.matchConsume("write", "Out");
             this.idl.parseIDList();
-            Parser.matchConsume(";");
+            Parser.matchConsume(";", "Out");
         }
         public void printOut() {
             System.out.print(Parser.indent() + "write ");

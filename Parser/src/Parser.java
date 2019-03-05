@@ -21,70 +21,70 @@ public class Parser {
     	
     }
     
-    public static Tokenizer.Token currentToken() {
+    protected static Tokenizer.Token currentToken() {
     	return tokenizer.currentToken();
     	
     }
     
-    public static void nextToken() {
+    protected static void nextToken() {
     	tokenizer.nextToken();
     	
     }
     
-    public static void parseTokens() {
+    protected static void parseTokens() {
     	programStart = new Begin();
     	programStart.parseBegin();
     	
     }
     
-    public static void prettyPrint() {
+    protected static void prettyPrint() {
     	
     	programStart.printBegin();
     	
     }
     
-    public static boolean hasSymbol(String symbol) {
+    protected static boolean hasSymbol(String symbol) {
         return symbolTable.containsKey(symbol);
     }
     
-    public static void addSymbol(String symbol) {
+    protected static void addSymbol(String symbol) {
         if(!symbolTable.containsKey(symbol)) {
             symbolTable.put(symbol, 0);
         }  
     }
     
-    public static void setValue(String symbol, int value) {
+    protected static void setValue(String symbol, int value) {
         if(symbolTable.containsKey(symbol)) {
             symbolTable.replace(symbol, value);
         }  
     }
     
-    public static void matchConsume(String matchString) {
+    protected static void matchConsume(String matchString, String method) {
         String tokenSymbol = tokenizer.currentToken().symbol;
         int tokenLine = tokenizer.currentToken().line;
         if(!matchString.equals(tokenSymbol)) {
-            System.out.println("Error! (Line " + tokenLine + ") Expected \"" + matchString + "\" but found \"" + tokenSymbol + "\"" );
+            System.out.println("[Parse " + method + " Error!] (Line " + tokenLine + ") Expected \"" + matchString + "\" but found \"" + tokenSymbol + "\"" );
             System.exit(0);
         }else {
             tokenizer.nextToken();
         }
     }
     
-    public static void increaseIndent() {
+    protected static void increaseIndent() {
         indent += "  ";
     }
     
-    public static String indent() {
+    protected static String indent() {
         return indent;
     }
     
-    public static void decreaseIndent() {
+    protected static void decreaseIndent() {
         if(indent.length() >= 2) {
             indent = indent.substring(0, indent.length() - 2);
         }
     }
     
-    public static int stmtType() {
+    protected static int stmtType() {
         int type = 0;
         String inString = tokenizer.currentToken().symbol;
         if(Parser.hasSymbol(inString)) type = 1;
@@ -95,7 +95,7 @@ public class Parser {
         return type;
     }
     
-    public static boolean isInt(String inString) {
+    protected static boolean isInt(String inString) {
         boolean isInt = true;
         try {
             Integer.parseInt(inString);

@@ -7,11 +7,11 @@ public class Begin{
             this.ss = new StmtSeq();
         }
         public void parseBegin() {
-            Parser.matchConsume("program");
+            Parser.matchConsume("program", "Begin");
             this.ds.parseDeclSeq();
-            Parser.matchConsume("begin");
+            Parser.matchConsume("begin", "Begin");
             this.ss.parseStmtSeq();
-            Parser.matchConsume("end");
+            Parser.matchConsume("end", "Begin");
         }
         public void printBegin() {
             System.out.print("program\n");

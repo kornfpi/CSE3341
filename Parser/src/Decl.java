@@ -6,9 +6,9 @@ public class Decl{
             this.idl = new IDList(true);
         }
         public void parseDecl() {
-            Parser.matchConsume("int");
+            Parser.matchConsume("int", "Decl");
             this.idl.parseIDList();
-            Parser.matchConsume(";");
+            Parser.matchConsume(";", "Decl");
         }
         public void printDecl() {
             System.out.print(Parser.indent() + "int ");

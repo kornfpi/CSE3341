@@ -11,7 +11,7 @@ public class Comp{
             this.fac2 = new Fac();
         }
         public void parseComp() {
-            Parser.matchConsume("(");
+            Parser.matchConsume("(", "Comp");
             this.fac1.parseFac();
             if(!isComp(Parser.currentToken().symbol)) {
                 System.out.println("ERROR expected comp");
@@ -20,7 +20,7 @@ public class Comp{
             this.compOp = Parser.currentToken().symbol;
             Parser.nextToken();
             this.fac2.parseFac();
-            Parser.matchConsume(")");
+            Parser.matchConsume(")", "Comp");
         }
         public void printComp() {
             System.out.print("( ");

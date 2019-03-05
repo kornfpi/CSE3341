@@ -1,4 +1,4 @@
-program int X, Y, I, J, Q; int Z, W;  begin 
+program int X, Y, I, J, Q; int Z, W;  begin
 while (X<=5) loop X = X + 5; end; 
 
 if (X<=5) then

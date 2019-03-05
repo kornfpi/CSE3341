@@ -21,13 +21,13 @@ public class Cond{
                     this.alt = 3;
                     this.cond2 = new Cond();
                     this.cond2.parseCond();
-                    Parser.matchConsume("]");
+                    Parser.matchConsume("]", "Cond");
                 }else if(Parser.currentToken().symbol.equals("or")) {
                     Parser.nextToken();
                     this.alt = 4;
                     this.cond2 = new Cond();
                     this.cond2.parseCond();
-                    Parser.matchConsume("]");
+                    Parser.matchConsume("]", "Cond");
                 }else {
                     System.out.print("ERROR");
                     System.exit(0);

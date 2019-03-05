@@ -92,7 +92,7 @@ public class Tokenizer {
             tokenizer = new Tokenizer(args[0]);
             tokenizer.printParseValues();
         }else { // No argument passed
-            System.out.println("[ERROR] No input file specefied in command line!");
+            System.out.println("[Tokenizer Error!] No input file specefied in command line!");
             System.exit(0);
         }   
     }
@@ -138,7 +138,7 @@ public class Tokenizer {
         try {   
             this.input = new BufferedReader(new FileReader(this.inFile));  
         }catch (IOException e) {
-            System.out.println("[ERROR] Invalid input file \"" + this.inFile + "\"!\n" + e);
+            System.out.println("[Tokenizer Error!] Invalid input file \"" + this.inFile + "\"!\n" + e);
             System.exit(0);
         } 
     }
@@ -150,7 +150,7 @@ public class Tokenizer {
         try {   
             this.input.close();  
         }catch (IOException e) {
-            System.out.println("[ERROR] Unable to close input file \"" + this.inFile + "\"!\n" + e);
+            System.out.println("[Tokenizer Error!] Unable to close input file \"" + this.inFile + "\"!\n" + e);
             System.exit(0);
         }
     } 
@@ -164,7 +164,7 @@ public class Tokenizer {
         try {   
             tempLine = this.input.readLine();
         }catch (IOException e) {
-            System.out.println("[ERROR] Unable to read line from input file!\n" + e);
+            System.out.println("[Tokenizer Error!] Unable to read line from input file!\n" + e);
             System.exit(0);
         }
         return tempLine;
@@ -250,7 +250,7 @@ public class Tokenizer {
         boolean b = (inChar >= 65 && inChar <= 90);
         boolean c = (inChar >= 97 && inChar <= 122);
         if(!(a||b||c)) {
-            System.out.print("[ERROR] Invalid character found! '"); 
+            System.out.print("[Tokenizer Error!] Invalid character found! '"); 
             System.out.println(inChar + "' Line: " + this.lineCount);
             System.exit(0);
         }   
@@ -316,7 +316,7 @@ public class Tokenizer {
     private int getParseValue(String inputSymbol) {
         int parseValue = 0;
         if(inputSymbol.length() > 8) {
-            System.out.print("[ERROR] Invalid identifier (length > 8) found! '"); 
+            System.out.print("[Tokenizer Error!] Invalid identifier (length > 8) found! '"); 
             System.out.println(inputSymbol + "' Line: " + this.lineCount);
             System.exit(0);
         }else if(this.convMap.containsKey(inputSymbol)) {
@@ -339,7 +339,7 @@ public class Tokenizer {
         try { 
             int test = Integer.parseInt(inputSymbol); 
             if(!inputSymbol.equals(Integer.toString(test))) {
-                System.out.print("[ERROR] Invalid identifier (leading zeros) found! '"); 
+                System.out.print("[Tokenizer Error!] Invalid identifier (leading zeros) found! '"); 
                 System.out.println(inputSymbol + "' Line: " + this.lineCount);
                 System.exit(0);   
             }
@@ -358,15 +358,15 @@ public class Tokenizer {
      */
     private boolean checkIdent(String inputSymbol) {
         if(!inputSymbol.toUpperCase().equals(inputSymbol)) {
-            System.out.print("[ERROR] Invalid identifier (lower case chars) found! '"); 
+            System.out.print("[Tokenizer Error!] Invalid identifier (lower case chars) found! '"); 
             System.out.println(inputSymbol + "' Line: " + this.lineCount);
             System.exit(0);
         }else if(Character.isDigit(inputSymbol.charAt(0)) ) {
-            System.out.print("[ERROR] Invalid identifier (leading digits) found! '"); 
+            System.out.print("[Tokenizer Error!] Invalid identifier (leading digits) found! '"); 
             System.out.println(inputSymbol + "' Line: " + this.lineCount);
             System.exit(0);
         }else if(inputSymbol.split("[0123456789]+").length > 1 ) {
-            System.out.print("[ERROR] Invalid identifier (mixed digits) found! '"); 
+            System.out.print("[Tokenizer Error!] Invalid identifier (mixed digits) found! '"); 
             System.out.println(inputSymbol + "' Line: " + this.lineCount);
             System.exit(0);
         }

@@ -25,10 +25,10 @@ public class Fac{
                     break;
                 case("SPEC"):
                     this.alt = 3;
-                    Parser.matchConsume("(");
+                    Parser.matchConsume("(", "Fac");
                     this.expr = new Expr();
                     this.expr.parseExpr();
-                    Parser.matchConsume(")");
+                    Parser.matchConsume(")", "Fac");
                     break;
                 default:
                     System.out.println("Error! Factor (Line " + tokenLine + ") Expected identifier, integer, or \"(\", but found \"" + tokenSymbol + "\"");

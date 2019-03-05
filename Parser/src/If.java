@@ -11,9 +11,9 @@ public class If{
             this.ss1 = new StmtSeq();
         }
         public void parseIf() {
-            Parser.matchConsume("if");
+            Parser.matchConsume("if", "If");
             this.cond.parseCond();
-            Parser.matchConsume("then");
+            Parser.matchConsume("then", "If");
             this.ss1.parseStmtSeq();
             if(Parser.currentToken().symbol.equals("else")) {
                 Parser.nextToken();
@@ -21,8 +21,8 @@ public class If{
                 this.ss2 = new StmtSeq();
                 this.ss2.parseStmtSeq();
             }
-            Parser.matchConsume("end");
-            Parser.matchConsume(";");
+            Parser.matchConsume("end", "If");
+            Parser.matchConsume(";", "If");
         }
         public void printIf() {
             System.out.print(Parser.indent() + "if ");
