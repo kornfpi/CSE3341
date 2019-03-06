@@ -1,4 +1,11 @@
-
+/**
+ * Fac Class
+ * Contains sub-nodes and methods associated with <fac> node of the CORE grammar.
+ * 
+ * @author John E. Wolford
+ * @date 3-6-2019 
+ * 
+ */
 
 public class Fac{
         private int alt;

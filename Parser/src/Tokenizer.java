@@ -2,11 +2,10 @@
  * Tokenizer class which takes CORE language file as input, and converts into properly formatted CORE object code.
  * Follows all instructions as required by PA1 documentation. For CSE3341, SP19, Professor Joshi
  * Instantiation of this class will not produce any output unless the Tokenizer.printParseValues() method 
- * is called upon from the instantiation class. When this class is executed on it's own with a command line argument, 
- * the main method will parse all tokens from args[0] and print thir object code to the screen. Other args are ignored.
+ * is called upon from the instantiation class. 
  * 
  * @author John E Wolford
- * @date 1/31/2019
+ * @date 3/06/2019
  */
 
 import java.io.*;
@@ -79,22 +78,6 @@ public class Tokenizer {
         openInputFile();  
         parseToTokens();
         closeInputFile();
-    }
-    
-    /** 
-     * Main method for running Tokenizer as main instead of as an object.
-     * This method will automatically print out parsed values to the console.
-     * @param args[0] location of input file to be converted
-     */
-    public static void main(String[] args) {
-        Tokenizer tokenizer;
-        if(args.length != 0) {
-            tokenizer = new Tokenizer(args[0]);
-            tokenizer.printParseValues();
-        }else { // No argument passed
-            System.out.println("[Tokenizer Error!] No input file specefied in command line!");
-            System.exit(0);
-        }   
     }
     
     /**

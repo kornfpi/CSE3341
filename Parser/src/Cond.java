@@ -1,3 +1,11 @@
+/**
+ * Cond Class
+ * Contains sub-nodes and methods associated with <cond> node of the CORE grammar.
+ * 
+ * @author John E. Wolford
+ * @date 3-6-2019 
+ * 
+ */
 
 public class Cond{
         private int alt;

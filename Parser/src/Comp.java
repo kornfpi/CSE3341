@@ -1,3 +1,14 @@
+/**
+ * Comp Class
+ * Contains sub-nodes and methods associated with <comp> node of the CORE grammar.
+ * 
+ * @author John E. Wolford
+ * @date 3-6-2019 
+ * 
+ */
+
+
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

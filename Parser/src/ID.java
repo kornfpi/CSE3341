@@ -1,4 +1,14 @@
-    public class ID{
+/**
+ * ID Class
+ * Contains sub-nodes and methods associated with <id> node of the CORE grammar.
+ * 
+ * @author John E. Wolford
+ * @date 3-6-2019 
+ * 
+ */
+
+
+public class ID{
         private String identifier;
         private boolean isDecl;
         public ID(boolean isDecl) {

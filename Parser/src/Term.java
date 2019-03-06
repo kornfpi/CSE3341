@@ -1,4 +1,11 @@
-
+/**
+ * Term Class
+ * Contains sub-nodes and methods associated with <term> node of the CORE grammar.
+ * 
+ * @author John E. Wolford
+ * @date 3-6-2019 
+ * 
+ */
 
 public class Term{
         private int alt;

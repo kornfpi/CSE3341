@@ -1,8 +1,17 @@
+/**
+ * Prog Class
+ * Contains sub-nodes and methods associated with <program> node of the CORE grammar.
+ * 
+ * @author John E. Wolford
+ * @date 3-6-2019 
+ * 
+ */
 
-public class Begin{
+
+public class Prog{
         private DeclSeq ds;
         private StmtSeq ss;
-        public Begin() {      
+        public Prog() {      
             this.ds = new DeclSeq();
             this.ss = new StmtSeq();
         }
