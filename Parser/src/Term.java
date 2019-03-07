@@ -24,6 +24,10 @@ public class Term{
             this.term.parseTerm();
         }
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printTerm() {
         this.fac.printFac();
         if(this.alt == 2) {

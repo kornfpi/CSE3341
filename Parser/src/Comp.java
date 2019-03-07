@@ -31,13 +31,16 @@ public class Comp{
         this.fac2.parseFac();
         Parser.matchConsume(")", "Comp");
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printComp() {
         System.out.print("( ");
         this.fac1.printFac();
         System.out.print(" " + this.compOp + " ");
         this.fac2.printFac();
-        System.out.print(" )");
-        
+        System.out.print(" )"); 
     }
     
     /**

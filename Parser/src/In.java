@@ -17,6 +17,10 @@ public class In{
         this.idl.parseIDList();
         Parser.matchConsume(";", "IDList");
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printIn() {
         System.out.print(Parser.indent() + "read ");
         this.idl.printIDList();

@@ -26,6 +26,10 @@ public class IDList{
             this.idl.parseIDList();
         }
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printIDList() {
         this.id.printID();
         if(this.alt == 2) {

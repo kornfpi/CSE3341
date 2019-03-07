@@ -45,8 +45,7 @@ public class Assign{
         this.id.printID();
         System.out.print(" = ");
         this.expr.printExpr();
-        System.out.print(";\n");
-        
+        System.out.print(";\n");  
     }
     
     /**

@@ -17,6 +17,10 @@ public class Decl{
         this.idl.parseIDList();
         Parser.matchConsume(";", "Decl");
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printDecl() {
         System.out.print(Parser.indent() + "int ");
         this.idl.printIDList();

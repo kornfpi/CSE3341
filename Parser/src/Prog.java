@@ -21,6 +21,10 @@ public class Prog{
         this.ss.parseStmtSeq();
         Parser.matchConsume("end", "Begin");
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printBegin() {
         System.out.print("program\n");
         Parser.increaseIndent();

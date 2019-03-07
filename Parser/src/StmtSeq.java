@@ -23,6 +23,10 @@ public class StmtSeq{
             this.ss.parseStmtSeq();
         }  
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printStmtSeq() {
         this.s.printStmt();
         if(this.alt == 2) {

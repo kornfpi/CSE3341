@@ -55,6 +55,10 @@ public class ID{
         }
         
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printID() {
         System.out.print(this.identifier);
     }

@@ -42,6 +42,10 @@ public class Fac{
                 System.exit(0);
         }   
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printFac() {
         switch (this.alt) {
             case(1):

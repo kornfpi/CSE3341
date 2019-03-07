@@ -42,6 +42,10 @@ public class Expr{
                 System.exit(0);
         }     
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printExpr() {
         this.term.printTerm();
         switch (this.alt) {

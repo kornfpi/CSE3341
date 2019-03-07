@@ -23,6 +23,10 @@ public class DeclSeq{
             this.ds.parseDeclSeq();
         }
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printDeclSeq() {
         this.d.printDecl();
         if(this.alt == 2) {

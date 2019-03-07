@@ -31,6 +31,10 @@ public class If{
         Parser.matchConsume("end", "If");
         Parser.matchConsume(";", "If");
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printIf() {
         System.out.print(Parser.indent() + "if ");
         this.cond.printCond();
@@ -44,8 +48,7 @@ public class If{
             this.ss2.printStmtSeq();
             Parser.decreaseIndent();
         }
-        System.out.print(Parser.indent() + "end;\n");
-        
+        System.out.print(Parser.indent() + "end;\n"); 
     }
     
     /**

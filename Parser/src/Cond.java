@@ -46,6 +46,10 @@ public class Cond{
             this.comp.parseComp();
         }  
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printCond() {
         switch(this.alt) {
             case(1):
@@ -70,7 +74,6 @@ public class Cond{
                 System.out.print(" ]");
                 break;
         }
-
     }
     
     /**

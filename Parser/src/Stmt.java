@@ -46,6 +46,10 @@ public class Stmt{
                 System.exit(0);
         }     
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printStmt() {
         switch (this.alt) {
             case(1):

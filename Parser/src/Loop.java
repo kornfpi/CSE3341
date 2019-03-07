@@ -22,6 +22,10 @@ public class Loop{
         Parser.matchConsume("end", "Loop");
         Parser.matchConsume(";", "Loop");
     }
+    
+    /**
+     * Method to print relevant tokens and symbols 
+     */
     public void printLoop() {
         System.out.print(Parser.indent() + "while ");
         this.cond.printCond();
@@ -29,8 +33,7 @@ public class Loop{
         Parser.increaseIndent();
         this.ss.printStmtSeq();
         Parser.decreaseIndent();
-        System.out.print(Parser.indent() + "end;\n");
-        
+        System.out.print(Parser.indent() + "end;\n"); 
     }
     
     /**
