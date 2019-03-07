@@ -45,7 +45,7 @@ public class Prog{
         Parser.increaseIndent();
         this.ss.printStmtSeq();
         Parser.decreaseIndent();
-        System.out.print(Parser.indent() + "end");
+        System.out.print(Parser.indent() + "end\n");
         Parser.decreaseIndent(); 
     }
     
