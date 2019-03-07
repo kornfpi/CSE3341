@@ -8,6 +8,10 @@
  */
 
 public class IDList{
+    
+    /**
+     * Private members for sub-nodes, declaration type, and alt.
+     */
     private boolean isDecl;
     private int alt;
     private ID id;

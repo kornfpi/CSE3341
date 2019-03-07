@@ -8,6 +8,10 @@
  */
 
 public class Fac{
+    
+    /**
+     * Private members for sub-nodes and alt, and integer value.
+     */
     private int alt;
     private int intValue;
     private ID id;

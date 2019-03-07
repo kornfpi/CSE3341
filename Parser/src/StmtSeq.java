@@ -8,6 +8,10 @@
  */
 
 public class StmtSeq{
+    
+    /**
+     * Private members for sub-nodes and alt.
+     */
     private int alt;
     private Stmt s;
     private StmtSeq ss;

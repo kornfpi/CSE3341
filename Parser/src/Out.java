@@ -8,6 +8,10 @@
  */
 
 public class Out{
+    
+    /**
+     * Private member for sub-node.
+     */
     private IDList idl;
     
     /**

@@ -8,6 +8,10 @@
  */
 
 public class Prog{
+    
+    /**
+     * Private members for sub-nodes.
+     */
     private DeclSeq ds;
     private StmtSeq ss;
     

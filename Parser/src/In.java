@@ -8,6 +8,10 @@
  */
 
 public class In{
+    
+    /**
+     * Private member for sub-node.
+     */
     private IDList idl;
     
     /**

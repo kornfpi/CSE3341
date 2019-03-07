@@ -8,6 +8,10 @@
  */
 
 public class Stmt{
+    
+    /**
+     * Private members for sub-nodes and alt.
+     */
     private int alt;
     private Assign a;
     private If i_f;

@@ -8,6 +8,10 @@
  */
 
 public class Cond{
+    
+    /**
+     * Private members for sub-nodes and alt.
+     */
     private int alt;
     private Comp comp;
     private Cond cond1;

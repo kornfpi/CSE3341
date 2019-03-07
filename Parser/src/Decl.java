@@ -8,6 +8,10 @@
  */
 
 public class Decl{
+    
+    /**
+     * Private member for sub-node.
+     */
     private IDList idl;
     
     /**

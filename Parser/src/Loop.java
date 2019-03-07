@@ -8,6 +8,10 @@
  */
 
 public class Loop{
+    
+    /**
+     * Private members for sub-nodes.
+     */
     private Cond cond;
     private StmtSeq ss;
     

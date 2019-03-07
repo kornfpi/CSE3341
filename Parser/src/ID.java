@@ -8,6 +8,10 @@
  */
 
 public class ID{
+    
+    /**
+     * Private members for declaration type and ID string.
+     */
     private String identifier;
     private boolean isDecl;
     

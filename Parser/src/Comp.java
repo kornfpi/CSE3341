@@ -12,6 +12,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Comp{
+    
+    /**
+     * Private members for sub-nodes and comparison operator.
+     */
     private String compOp;
     private Fac fac1;
     private Fac fac2;
@@ -31,7 +35,8 @@ public class Comp{
         Parser.matchConsume("(", "Comp");
         this.fac1.parseFac();
         if(!isComp(Parser.currentToken().symbol)) {
-            System.out.println("ERROR expected comp");
+            System.out.println("[Parse Comp Error!] Expected comparison operator, but found " 
+                    + Parser.currentToken().symbol + ", Line " + Parser.currentToken().line);
             System.exit(0);
         }
         this.compOp = Parser.currentToken().symbol;
@@ -58,6 +63,11 @@ public class Comp{
         // Left blank for Project 2
     }
     
+    /**
+     * Method to check if string is a comparison operator
+     * @param inString string to be checked
+     * @return true if inString is comp-op, false otherwise
+     */
     private boolean isComp(String inString) {
         String[] compOpsArray = new String[]{"!=","==",">=","<=","<",">"};
         Set<String> compOpsSet = new HashSet<>(Arrays.asList(compOpsArray));

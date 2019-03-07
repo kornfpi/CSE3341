@@ -8,6 +8,10 @@
  */
 
 public class If{
+    
+    /**
+     * Private members for sub-nodes and alt.
+     */
     private int alt;
     private Cond cond;
     private StmtSeq ss1;

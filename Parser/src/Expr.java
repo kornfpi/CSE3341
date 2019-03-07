@@ -8,6 +8,10 @@
  */
 
 public class Expr{
+    
+    /**
+     * Private members for sub-nodes and alt.
+     */
     private int alt;
     private Term term;
     private Expr expr;

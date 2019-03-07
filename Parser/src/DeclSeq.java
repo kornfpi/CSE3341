@@ -8,6 +8,10 @@
  */
 
 public class DeclSeq{
+    
+    /**
+     * Private members for sub-nodes and alt.
+     */
     private int alt;
     private Decl d;
     private DeclSeq ds;
