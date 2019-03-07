@@ -16,6 +16,10 @@ public class Stmt{
     private Out o;
     public Stmt() {
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseStmt() {
         this.alt = Parser.stmtType();
         switch (this.alt) {

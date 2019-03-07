@@ -15,6 +15,10 @@ public class DeclSeq{
         this.alt = 1;
         this.d = new Decl();
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseDeclSeq() {
         this.d.parseDecl();
         if(Parser.currentToken().symbol.equals("int")) {

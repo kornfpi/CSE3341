@@ -17,6 +17,10 @@ public class If{
         this.cond = new Cond();
         this.ss1 = new StmtSeq();
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseIf() {
         Parser.matchConsume("if", "If");
         this.cond.parseCond();

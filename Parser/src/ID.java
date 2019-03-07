@@ -14,46 +14,16 @@ public class ID{
         this.isDecl = isDecl;
         this.identifier = null;
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseID() {
-        
         if(isDecl) {
-        
-            if(Parser.currentToken().type.equals("IDENT")) {
-                this.identifier = Parser.currentToken().symbol;
-                Parser.nextToken(); // Consume name
-                if(Parser.hasSymbol(this.identifier)) {
-                    System.out.println("Error! Multiple declarations of identifier \"" + this.identifier + "\"");
-                    System.exit(0);
-                }else {
-                    Parser.addSymbol(this.identifier);
-                }
-            }else {
-                String tokenSymbol = Parser.currentToken().symbol;
-                int tokenLine = Parser.currentToken().line;
-                System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
-                System.exit(0);
-            }
-        
+            parseDecl();
         }else {
-            
-            
-            String tokenSymbol = Parser.currentToken().symbol;
-            int tokenLine = Parser.currentToken().line;
-            if(Parser.currentToken().type.equals("IDENT")) {
-                this.identifier = Parser.currentToken().symbol;
-                Parser.nextToken(); // Consume name
-                if(!Parser.hasSymbol(this.identifier)) {
-                    System.out.println("Error! (Line " + tokenLine + ") Undeclared identifier \"" + tokenSymbol + "\"");
-                    System.exit(0);
-                }
-            }else {
-                System.out.println("Error! (Line " + tokenLine + ") Expected identifier but found \"" + tokenSymbol + "\"");
-                System.exit(0);
-            }   
-                      
-            
-        }
-        
+            parseNonDecl(); 
+        } 
     }
     
     /**
@@ -68,6 +38,52 @@ public class ID{
      */
     public void execID() {
         // Left blank for Project 2
+    }
+    
+    /**
+     * Method to parse declarative ID. Adds symbol to symbol table,
+     * or terminates program if symbol has already been declared.
+     */
+    public void parseDecl() {
+        if(Parser.currentToken().type.equals("IDENT")) {
+            this.identifier = Parser.currentToken().symbol;
+            Parser.nextToken(); // Consume name
+            if(Parser.hasSymbol(this.identifier)) {
+                System.out.println("Error! Multiple declarations of identifier \"" 
+            + this.identifier + "\"");
+                System.exit(0);
+            }else {
+                Parser.addSymbol(this.identifier);
+            }
+        }else {
+            String tokenSymbol = Parser.currentToken().symbol;
+            int tokenLine = Parser.currentToken().line;
+            System.out.println("Error! (Line " + tokenLine 
+                    + ") Expected identifier but found \"" + tokenSymbol + "\"");
+            System.exit(0);
+        }  
+    }
+    
+    /**
+     * Method to parse non declarative id. Makes sure that identifier
+     * has been previously declared. Terminates program if has not. 
+     */
+    public void parseNonDecl() {
+        String tokenSymbol = Parser.currentToken().symbol;
+        int tokenLine = Parser.currentToken().line;
+        if(Parser.currentToken().type.equals("IDENT")) {
+            this.identifier = Parser.currentToken().symbol;
+            Parser.nextToken(); // Consume name
+            if(!Parser.hasSymbol(this.identifier)) {
+                System.out.println("Error! (Line " + tokenLine 
+                        + ") Undeclared identifier \"" + tokenSymbol + "\"");
+                System.exit(0);
+            }
+        }else {
+            System.out.println("Error! (Line " + tokenLine 
+                    + ") Expected identifier but found \"" + tokenSymbol + "\"");
+            System.exit(0);
+        }  
     }
     
 }

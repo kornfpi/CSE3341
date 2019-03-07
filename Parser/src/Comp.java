@@ -19,6 +19,10 @@ public class Comp{
         this.fac1 = new Fac();
         this.fac2 = new Fac();
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseComp() {
         Parser.matchConsume("(", "Comp");
         this.fac1.parseFac();

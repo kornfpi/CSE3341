@@ -17,6 +17,10 @@ public class IDList{
         this.alt = 1;
         this.id = new ID(isDecl);
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseIDList() {
         this.id.parseID();
         if(Parser.currentToken().symbol.equals(",")) {

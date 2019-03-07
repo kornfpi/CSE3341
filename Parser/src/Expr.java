@@ -14,6 +14,10 @@ public class Expr{
     public Expr() {
         this.term = new Term();
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseExpr() {
         this.term.parseTerm();
         String tokenSymbol = Parser.currentToken().symbol;
@@ -38,7 +42,9 @@ public class Expr{
                 this.alt = 4;
                 break;
             default:
-                System.out.println("Error! Expression (Line " + tokenLine + ") Expected \";\", \"-\", or \"+\", but found \"" + tokenSymbol + "\"");
+                System.out.println("Error! Expression (Line " + tokenLine 
+                        + ") Expected \";\", \"-\", or \"+\", but found \"" 
+                        + tokenSymbol + "\"");
                 System.exit(0);
         }     
     }

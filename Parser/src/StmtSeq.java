@@ -15,6 +15,10 @@ public class StmtSeq{
         this.alt = 1;
         this.s = new Stmt();
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseStmtSeq() {
         this.s.parseStmt();
         if(Parser.stmtType() > 0) {

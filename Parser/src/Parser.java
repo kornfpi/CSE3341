@@ -72,7 +72,7 @@ public class Parser {
      */
     protected static void parseTokens() {
     	programStart = new Prog();
-    	programStart.parseBegin();
+    	programStart.parseProg();
     	// Check that no tokens remain to be parsed
     	if(!tokenizer.currentToken().symbol.equals("EOF")) {
     	    System.out.println("[Parser Error!] Tokens after final end!");
@@ -86,7 +86,7 @@ public class Parser {
      * a properly formatted way according to project guidelines.
      */
     protected static void prettyPrint() {
-    	programStart.printBegin();
+    	programStart.printProg();
     }
     
     /**

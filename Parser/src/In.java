@@ -12,6 +12,10 @@ public class In{
     public In() {
         this.idl = new IDList(false);
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseIn() {
         Parser.matchConsume("read", "IDList");
         this.idl.parseIDList();

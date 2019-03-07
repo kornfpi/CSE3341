@@ -14,7 +14,11 @@ public class Prog{
         this.ds = new DeclSeq();
         this.ss = new StmtSeq();
     }
-    public void parseBegin() {
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
+    public void parseProg() {
         Parser.matchConsume("program", "Begin");
         this.ds.parseDeclSeq();
         Parser.matchConsume("begin", "Begin");
@@ -25,7 +29,7 @@ public class Prog{
     /**
      * Method to print relevant tokens and symbols 
      */
-    public void printBegin() {
+    public void printProg() {
         System.out.print("program\n");
         Parser.increaseIndent();
         this.ds.printDeclSeq();

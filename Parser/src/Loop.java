@@ -14,6 +14,10 @@ public class Loop{
         this.cond = new Cond();
         this.ss = new StmtSeq();
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseLoop() {
         Parser.matchConsume("while", "Loop");
         this.cond.parseCond();

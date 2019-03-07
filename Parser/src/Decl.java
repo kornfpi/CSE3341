@@ -12,6 +12,10 @@ public class Decl{
     public Decl() {
         this.idl = new IDList(true);
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseDecl() {
         Parser.matchConsume("int", "Decl");
         this.idl.parseIDList();

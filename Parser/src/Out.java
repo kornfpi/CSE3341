@@ -12,6 +12,10 @@ public class Out{
     public Out() {
         this.idl = new IDList(false);
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseOut() {
         Parser.matchConsume("write", "Out");
         this.idl.parseIDList();

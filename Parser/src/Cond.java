@@ -14,6 +14,10 @@ public class Cond{
     private Cond cond2;
     public Cond() {
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseCond() {
         if(Parser.currentToken().symbol.equals("!")) {
             Parser.nextToken();

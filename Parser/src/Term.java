@@ -14,6 +14,10 @@ public class Term{
     public Term() {
         this.fac = new Fac();
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseTerm() {
         this.alt = 1;
         this.fac.parseFac();

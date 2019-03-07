@@ -14,6 +14,10 @@ public class Fac{
     private Expr expr;
     public Fac() {
     }
+    
+    /**
+     * Method to parse relevant tokens and symbols 
+     */
     public void parseFac() {
         String type = Parser.currentToken().type;
         String tokenSymbol = Parser.currentToken().symbol;
@@ -38,7 +42,9 @@ public class Fac{
                 Parser.matchConsume(")", "Fac");
                 break;
             default:
-                System.out.println("Error! Factor (Line " + tokenLine + ") Expected identifier, integer, or \"(\", but found \"" + tokenSymbol + "\"");
+                System.out.println("Error! Factor (Line " + tokenLine 
+                        + ") Expected identifier, integer, or \"(\", but found \"" 
+                        + tokenSymbol + "\"");
                 System.exit(0);
         }   
     }
