@@ -12,6 +12,10 @@ public class If{
     private Cond cond;
     private StmtSeq ss1;
     private StmtSeq ss2;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public If() {
         this.alt = 1;
         this.cond = new Cond();

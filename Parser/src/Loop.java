@@ -10,6 +10,10 @@
 public class Loop{
     private Cond cond;
     private StmtSeq ss;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public Loop() {
         this.cond = new Cond();
         this.ss = new StmtSeq();

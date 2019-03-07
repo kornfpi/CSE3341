@@ -14,6 +14,10 @@ public class Stmt{
     private Loop loop;
     private In i_n;
     private Out o;
+    
+    /**
+     * No argument constructor.
+     */
     public Stmt() {
     }
     

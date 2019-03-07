@@ -11,6 +11,10 @@ public class StmtSeq{
     private int alt;
     private Stmt s;
     private StmtSeq ss;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public StmtSeq() {
         this.alt = 1;
         this.s = new Stmt();

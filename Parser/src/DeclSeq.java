@@ -11,6 +11,10 @@ public class DeclSeq{
     private int alt;
     private Decl d;
     private DeclSeq ds;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public DeclSeq() {
         this.alt = 1;
         this.d = new Decl();

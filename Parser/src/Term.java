@@ -8,9 +8,17 @@
  */
 
 public class Term{
+    
+    /**
+     * Private members for sub-nodes and alt.
+     */
     private int alt;
     private Fac fac;
     private Term term;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public Term() {
         this.fac = new Fac();
     }

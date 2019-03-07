@@ -12,6 +12,12 @@ public class IDList{
     private int alt;
     private ID id;
     private IDList idl;
+    
+    /**
+     * Constructor. Creates private member objects.
+     * Sets the variable isDecl if IDList is declarative.
+     * @param isDecl determines if IDList is declarative.
+     */
     public IDList(boolean isDecl) {
         this.isDecl = isDecl;
         this.alt = 1;

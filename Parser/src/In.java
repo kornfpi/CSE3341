@@ -9,6 +9,10 @@
 
 public class In{
     private IDList idl;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public In() {
         this.idl = new IDList(false);
     }

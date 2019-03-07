@@ -9,6 +9,10 @@
 
 public class Out{
     private IDList idl;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public Out() {
         this.idl = new IDList(false);
     }

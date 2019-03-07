@@ -12,6 +12,10 @@ public class Fac{
     private int intValue;
     private ID id;
     private Expr expr;
+    
+    /**
+     * No argument constructor. 
+     */
     public Fac() {
     }
     

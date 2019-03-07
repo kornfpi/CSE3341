@@ -10,13 +10,9 @@
 public class Assign{
     
     /**
-     * ID sub-node
+     * Private members for sub-nodes.
      */
     private ID id;
-    
-    /**
-     * Expr sub-node
-     */
     private Expr expr;
     
     /**

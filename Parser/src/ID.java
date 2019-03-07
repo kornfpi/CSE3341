@@ -10,6 +10,12 @@
 public class ID{
     private String identifier;
     private boolean isDecl;
+    
+    /**
+     * Constructor. Creates private member objects.
+     * Sets the variable isDecl if ID is declarative.
+     * @param isDecl determines if ID is declarative.
+     */
     public ID(boolean isDecl) {
         this.isDecl = isDecl;
         this.identifier = null;

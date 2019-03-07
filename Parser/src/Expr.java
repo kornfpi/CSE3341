@@ -11,6 +11,10 @@ public class Expr{
     private int alt;
     private Term term;
     private Expr expr;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public Expr() {
         this.term = new Term();
     }

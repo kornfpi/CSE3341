@@ -12,6 +12,10 @@ public class Cond{
     private Comp comp;
     private Cond cond1;
     private Cond cond2;
+    
+    /**
+     * No argument constructor. 
+     */
     public Cond() {
     }
     

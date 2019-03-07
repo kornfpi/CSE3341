@@ -10,6 +10,10 @@
 public class Prog{
     private DeclSeq ds;
     private StmtSeq ss;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public Prog() {      
         this.ds = new DeclSeq();
         this.ss = new StmtSeq();

@@ -15,6 +15,10 @@ public class Comp{
     private String compOp;
     private Fac fac1;
     private Fac fac2;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public Comp() {
         this.fac1 = new Fac();
         this.fac2 = new Fac();

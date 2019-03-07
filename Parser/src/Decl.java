@@ -9,6 +9,10 @@
 
 public class Decl{
     private IDList idl;
+    
+    /**
+     * No argument constructor. Creates private member objects.
+     */
     public Decl() {
         this.idl = new IDList(true);
     }
