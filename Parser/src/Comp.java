@@ -59,8 +59,31 @@ public class Comp{
     /**
      * Method to execute node based on parsed values
      */
-    public void execComp() {
-        // Left blank for Project 2
+    public boolean execComp() {
+        boolean takeBranch = false;
+        int value1 = this.fac1.execFac();
+        int value2 = this.fac2.execFac();
+        switch(this.compOp) {
+            case "!=":
+                takeBranch = value1 != value2;
+                break;
+            case "==":
+                takeBranch = value1 == value2;
+                break;
+            case ">=":
+                takeBranch = value1 >= value2;
+                break;
+            case "<=":
+                takeBranch = value1 <= value2;
+                break;
+            case "<":
+                takeBranch = value1 < value2;
+                break;
+            case ">":
+                takeBranch = value1 > value2;
+                break;
+        }
+        return takeBranch;
     }
     
     /**
