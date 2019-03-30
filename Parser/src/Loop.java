@@ -52,7 +52,9 @@ public class Loop{
      * Method to execute node based on parsed values
      */
     public void execLoop() {
-        // Left blank for Project 2
+        while(this.cond.execCond()) {
+            this.ss.execStmtSeq();
+        }
     }
     
 }

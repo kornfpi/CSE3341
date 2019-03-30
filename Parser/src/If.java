@@ -67,7 +67,17 @@ public class If{
      * Method to execute node based on parsed values
      */
     public void execIf() {
-        // Left blank for Project 2
+        if(this.alt == 1) {
+            if(this.cond.execCond()) {
+                this.ss1.execStmtSeq();
+            }
+        }else {
+            if(this.cond.execCond()) {
+                this.ss1.execStmtSeq();
+            }else {
+                this.ss2.execStmtSeq();
+            }
+        }
     }
     
 }
