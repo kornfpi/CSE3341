@@ -210,4 +210,25 @@ public class Parser {
         return isInt;
     }
     
+    /**
+     * Method to test if string representation of int is too large for java
+     * Exits program if input larger than Long.MAX_VALUE
+     * @param input String value previously tested for numerical validity
+     * @return true if input value will overflow, false otherwise
+     */
+    protected static boolean isOverflowString(String input) {
+        long test = 0;
+        try {
+            test = Long.parseLong(input);
+        }catch(NumberFormatException e) {
+            System.out.println("Error: input too large for system!");
+            System.exit(0);
+        }
+        boolean isOver = false;
+        if (test > Integer.MAX_VALUE || test < Integer.MIN_VALUE) {
+            isOver = true;
+        }
+        return isOver;
+    }
+    
 }
