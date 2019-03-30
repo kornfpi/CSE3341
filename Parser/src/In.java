@@ -49,6 +49,7 @@ public class In{
         Scanner reader = new Scanner(System.in);
         for(String var : variables) {
             System.out.print(var + "=? ");
+            String input = reader.nextLine();
             int i = Integer.parseInt(reader.nextLine());
             // CHECK FOR VALIDITY
             Parser.setValue(var, i);
