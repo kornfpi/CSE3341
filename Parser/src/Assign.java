@@ -48,7 +48,9 @@ public class Assign{
      * Method to execute node based on parsed values
      */
     public void execAssign() {
-        // Left blank for Project 2
+        String identifier = this.id.execID();
+        int newValue = this.expr.execExpr();
+        Parser.setValue(identifier, newValue);
     }
     
 }

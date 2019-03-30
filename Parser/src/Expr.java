@@ -77,8 +77,9 @@ public class Expr{
     /**
      * Method to execute node based on parsed values
      */
-    public void execExpr() {
+    public int execExpr() {
         // Left blank for Project 2
+        return 0;
     }
     
 }

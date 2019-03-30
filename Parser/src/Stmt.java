@@ -86,7 +86,23 @@ public class Stmt{
      * Method to execute node based on parsed values
      */
     public void execStmt() {
-        // Left blank for Project 2
+        switch (this.alt) {
+        case(1):
+            this.a.execAssign();
+            break;
+        case(2):
+            this.i_f.execIf();
+            break;
+        case(3):
+            this.loop.execLoop();
+            break;
+        case(4):
+            this.i_n.execIn();
+            break;
+        case(5):
+            this.o.execOut();
+            break;
+        }  
     }
     
 }

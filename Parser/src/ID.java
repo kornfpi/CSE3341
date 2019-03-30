@@ -44,12 +44,9 @@ public class ID{
     }
     
     /**
-     * Method to execute node based on parsed values
+     * Method to 'execute' node. Returns key value for symbol table.
      */
-    public String execID(boolean isDecl) {
-    	if(isDecl) {
-    		
-    	}
+    public String execID() {
         return this.identifier;
     }
     

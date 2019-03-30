@@ -53,7 +53,7 @@ public class Prog{
      * Method to execute node based on parsed values
      */
     public void execProg() {
-        this.ds.execDeclSeq();
+        // This implementation does not execute Declaration Sequences. This is done during parsing. 
         this.ss.execStmtSeq();
     }
     

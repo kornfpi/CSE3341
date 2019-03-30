@@ -7,6 +7,8 @@
  * 
  */
 
+import java.util.*;
+
 public class IDList{
     
     /**
@@ -55,11 +57,13 @@ public class IDList{
     /**
      * Method to execute node based on parsed values
      */
-    public void execIDList() {
-        this.id.execID(this.isDecl);
+    public ArrayList<String> execIDList() {
+        ArrayList<String> variables = new ArrayList<String>();
+        variables.add(this.id.execID());
         if(this.alt == 2) {
-        	this.idl.execIDList();
+        	variables.addAll(this.idl.execIDList());
         }
+        return variables;
     }
     
 }

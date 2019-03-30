@@ -50,10 +50,7 @@ public class DeclSeq{
      * Method to execute node based on parsed values
      */
     public void execDeclSeq() {
-        this.d.execDecl();
-        if(this.alt == 2) {
-        	this.ds.execDeclSeq();
-        }
+        // This implementation does not execute Declaration Sequences. This is done during parsing. 
     }
     
 }
