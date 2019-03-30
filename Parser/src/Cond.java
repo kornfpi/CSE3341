@@ -91,8 +91,27 @@ public class Cond{
     /**
      * Method to execute node based on parsed values
      */
-    public void execCond() {
-        // Left blank for Project 2
+    public boolean execCond() {
+        boolean takeBranch = false, cond1 = false, cond2 = false;
+        switch(this.alt) {
+            case(1):
+                takeBranch = this.comp.execComp();
+                break;
+            case(2):
+                takeBranch = !this.cond1.execCond();
+                break;
+            case(3):
+                cond1 = this.cond1.execCond();
+                cond2 = this.cond2.execCond();
+                takeBranch = cond1 && cond2;
+                break;
+            case(4):
+                cond1 = this.cond1.execCond();
+                cond2 = this.cond2.execCond();
+                takeBranch = cond1 || cond2;
+                break;
+        }
+        return takeBranch;
     }
     
 }
