@@ -56,7 +56,10 @@ public class IDList{
      * Method to execute node based on parsed values
      */
     public void execIDList() {
-        // Left blank for Project 2
+        this.id.execID(this.isDecl);
+        if(this.alt == 2) {
+        	this.idl.execIDList();
+        }
     }
     
 }

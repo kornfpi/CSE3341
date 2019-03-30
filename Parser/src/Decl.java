@@ -43,7 +43,7 @@ public class Decl{
      * Method to execute node based on parsed values
      */
     public void execDecl() {
-        // Left blank for Project 2
+        this.idl.execIDList();
     }
     
 }

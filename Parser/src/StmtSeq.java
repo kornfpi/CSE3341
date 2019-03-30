@@ -50,7 +50,10 @@ public class StmtSeq{
      * Method to execute node based on parsed values
      */
     public void execStmtSeq() {
-        // Left blank for Project 2
+        this.s.execStmt();
+        if(this.alt == 2) {
+        	this.ss.execStmtSeq();
+        }
     }
     
 }

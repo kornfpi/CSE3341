@@ -46,8 +46,11 @@ public class ID{
     /**
      * Method to execute node based on parsed values
      */
-    public void execID() {
-        // Left blank for Project 2
+    public String execID(boolean isDecl) {
+    	if(isDecl) {
+    		
+    	}
+        return this.identifier;
     }
     
     /**

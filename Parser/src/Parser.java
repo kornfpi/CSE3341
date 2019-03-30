@@ -80,6 +80,10 @@ public class Parser {
     	}
     }
     
+    protected static void execProgram() {
+    	programStart.execProg();
+    }
+    
     /**
      * This method calls the printBegin() method on the programStart node.
      * This has the effect of printing the entire parsed input file in
