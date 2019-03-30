@@ -43,7 +43,8 @@ public class Parser {
             // Tokenize, parse, and print
             tokenizer = new Tokenizer(args[0]);
             parseTokens();
-            prettyPrint();
+            //prettyPrint();
+            execProgram();
         }else { // No argument passed
             System.out.println("[Parser Error!] No input file specefied in command line!");
             System.exit(0);
