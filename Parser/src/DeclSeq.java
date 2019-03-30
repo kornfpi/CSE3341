@@ -50,7 +50,10 @@ public class DeclSeq{
      * Method to execute node based on parsed values
      */
     public void execDeclSeq() {
-        // Left blank for Project 2
+        this.d.execDecl();
+        if(this.alt == 2) {
+        	this.ds.execDeclSeq();
+        }
     }
     
 }

@@ -52,8 +52,9 @@ public class Prog{
     /**
      * Method to execute node based on parsed values
      */
-    public void execBegin() {
-        // Left blank for Project 2
+    public void execProg() {
+        this.ds.execDeclSeq();
+        this.ss.execStmtSeq();
     }
     
 }
