@@ -103,6 +103,15 @@ public class Parser {
     }
     
     /**
+     * Returns value of key in symbol table
+     * @param symbol the key to lookup in the symbol table.
+     * @return the value of the passed key in the symbol table.
+     */
+    protected static int getSymbolValue(String symbol) {
+        return symbolTable.get(symbol);
+    }
+    
+    /**
      * This method will place a key into the symbol table with the value
      * of zero, if that key is not already added to the symbolTable.
      * @param symbol the key to be added to the symbol table.

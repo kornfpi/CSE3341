@@ -51,8 +51,15 @@ public class Term{
     /**
      * Method to execute node based on parsed values
      */
-    public void execTerm() {
-        // Left blank for Project 2
+    public int execTerm() {
+        int value1 = 0, finalValue = 0;
+        finalValue = this.fac.execFac();
+        if(this.alt == 2) {
+            value1 = this.term.execTerm();
+            finalValue = finalValue * value1;
+            // CHECK FOR OVERFLOW
+        }
+        return finalValue;
     }
     
 }

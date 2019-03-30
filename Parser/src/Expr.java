@@ -78,8 +78,25 @@ public class Expr{
      * Method to execute node based on parsed values
      */
     public int execExpr() {
-        // Left blank for Project 2
-        return 0;
+        int value1 = 0, value2 = 0, finalValue = 0;
+        switch (this.alt) {
+            case(1): // Term Only
+                finalValue = this.term.execTerm();
+                break;
+            case(2): // Term + Expr
+                value1 = this.term.execTerm();
+                value2 = this.expr.execExpr();
+                finalValue = value1 + value2;
+                //CHECK FOR OVERFLOW
+                break;
+            case(3): // Term - Expr
+                value1 = this.term.execTerm();
+                value2 = this.expr.execExpr();
+                finalValue = value1 - value2;
+                //CHECK FOR UNDERFLOW
+                break;
+        }
+        return finalValue;
     }
     
 }

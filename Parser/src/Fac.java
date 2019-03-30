@@ -79,8 +79,21 @@ public class Fac{
     /**
      * Method to execute node based on parsed values
      */
-    public void execFac() {
-        // Left blank for Project 2
+    public int execFac() {
+        int finalValue = 0;
+        switch (this.alt) {
+            case(1):
+                finalValue = this.intValue;
+                break;
+            case(2):
+                String identifier = this.id.execID();
+                finalValue = Parser.getSymbolValue(identifier);
+                break;
+            case(3):
+                finalValue = this.expr.execExpr();
+                break;
+        }
+        return finalValue;
     }
     
 }
