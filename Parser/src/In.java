@@ -7,6 +7,8 @@
  * 
  */
 
+import java.util.*;
+
 public class In{
     
     /**
@@ -43,7 +45,15 @@ public class In{
      * Method to execute node based on parsed values
      */
     public void execIn() {
-        // Left blank for Project 2
+        ArrayList<String> variables = this.idl.execIDList();
+        Scanner reader = new Scanner(System.in);
+        for(String var : variables) {
+            System.out.print(var + "=? ");
+            int i = Integer.parseInt(reader.nextLine());
+            // CHECK FOR VALIDITY
+            Parser.setValue(var, i);
+            System.out.print("\n");
+        }
     }
     
 }

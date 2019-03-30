@@ -88,6 +88,7 @@ public class Fac{
             case(2):
                 String identifier = this.id.execID();
                 finalValue = Parser.getSymbolValue(identifier);
+                // CHECK THAT ID HAS BEEN GIVEN A VALUE
                 break;
             case(3):
                 finalValue = this.expr.execExpr();

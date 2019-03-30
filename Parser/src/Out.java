@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * Out Class
  * Contains sub-nodes and methods associated with <out> node of the CORE grammar.
@@ -43,7 +46,10 @@ public class Out{
      * Method to execute node based on parsed values
      */
     public void execOut() {
-        // Left blank for Project 2
+        ArrayList<String> variables = this.idl.execIDList();
+        for(String var : variables) {
+            System.out.println(var + "= " + Parser.getSymbolValue(var));
+        }
     }
     
 }

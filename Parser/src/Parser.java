@@ -118,7 +118,7 @@ public class Parser {
      */
     protected static void addSymbol(String symbol) {
         if(!symbolTable.containsKey(symbol)) {
-            symbolTable.put(symbol, 0);
+            symbolTable.put(symbol, 999999999);
         }  
     }
     
