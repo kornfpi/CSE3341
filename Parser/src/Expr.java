@@ -23,17 +23,49 @@ public class Expr{
         this.term = new Term();
     }
     
+//    /**
+//     * Method to parse relevant tokens and symbols 
+//     */
+//    public void parseExpr() {
+//        this.term.parseTerm();
+//        String tokenSymbol = Parser.currentToken().symbol;
+//        int tokenLine = Parser.currentToken().line;
+//        switch (tokenSymbol) {
+//            case(";"):
+//                this.alt = 1;
+//                break;
+//            case("+"):
+//                this.alt = 2;
+//                Parser.nextToken();
+//                this.expr = new Expr();
+//                this.expr.parseExpr();
+//                break;
+//            case("-"):
+//                this.alt = 3;
+//                Parser.nextToken();
+//                this.expr = new Expr();
+//                this.expr.parseExpr();
+//                break;
+//            case(")"):
+//                this.alt = 4;
+//                break;
+//            default:
+//                System.out.println("Error! Expression (Line " + tokenLine 
+//                        + ") Expected \";\", \"-\", or \"+\", but found \"" 
+//                        + tokenSymbol + "\"");
+//                System.exit(0);
+//        }     
+//    }
+    
     /**
      * Method to parse relevant tokens and symbols 
      */
     public void parseExpr() {
+        this.alt = 1;
         this.term.parseTerm();
         String tokenSymbol = Parser.currentToken().symbol;
         int tokenLine = Parser.currentToken().line;
         switch (tokenSymbol) {
-            case(";"):
-                this.alt = 1;
-                break;
             case("+"):
                 this.alt = 2;
                 Parser.nextToken();
@@ -46,14 +78,6 @@ public class Expr{
                 this.expr = new Expr();
                 this.expr.parseExpr();
                 break;
-            case(")"):
-                this.alt = 4;
-                break;
-            default:
-                System.out.println("Error! Expression (Line " + tokenLine 
-                        + ") Expected \";\", \"-\", or \"+\", but found \"" 
-                        + tokenSymbol + "\"");
-                System.exit(0);
         }     
     }
     
