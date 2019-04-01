@@ -48,20 +48,9 @@ public class In{
         ArrayList<String> variables = this.idl.execIDList();
         Scanner reader = new Scanner(System.in);
         for(String var : variables) {
-            System.out.print(var + "=? ");
-            String input = reader.nextLine();
-            int i = 0;
-            boolean correct = false;
-            while(!correct) {
-                if(isInteger(input)) {
-                    i = Integer.parseInt(input);
-                    correct = true;
-                }else {
-                    System.out.print(input + " Is not a valid integer! Try again!\n");
-                    System.out.print(var + "=? ");
-                    input = reader.nextLine();
-                }
-            }
+            System.out.print(var + " =? ");
+            String input = reader.nextLine().trim();
+            int i = convInteger(input);
             Parser.setValue(var, i);
             System.out.print("\n");
         }
@@ -72,32 +61,15 @@ public class In{
      * @param str the string gathered from input to be checked
      * @return true if input string is proper java integer, false otherwise
      */
-    public static boolean isInteger(String str) {
-
-        boolean isInt = true;
-        if (!(str == null)) {
-            int length = str.length();
-            if (str.isEmpty()) {
-                isInt = false;
-            }
-            int i = 0;
-            if (str.charAt(0) == '-') {
-                if (length == 1) {
-                    isInt = false;
-                }
-                i = 1;
-            }
-            for (; i < length; i++) {
-                char c = str.charAt(i);
-                if (c < '0' || c > '9') {
-                    isInt = false;
-                }
-            }
-            if(isInt) {
-                isInt = !Parser.isOverflowString(str);
-            }
-        }
-        return isInt;
+    private static int convInteger(String str) {
+    	int parsedValue = 0;
+    	try {
+    		parsedValue = Integer.parseInt(str);
+    	}catch(NumberFormatException e) {
+    		System.out.print("Invalid input! System exiting!");
+    		System.exit(0);
+    	}
+    	return parsedValue;
     }
     
 }

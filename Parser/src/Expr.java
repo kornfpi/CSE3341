@@ -23,40 +23,6 @@ public class Expr{
         this.term = new Term();
     }
     
-//    /**
-//     * Method to parse relevant tokens and symbols 
-//     */
-//    public void parseExpr() {
-//        this.term.parseTerm();
-//        String tokenSymbol = Parser.currentToken().symbol;
-//        int tokenLine = Parser.currentToken().line;
-//        switch (tokenSymbol) {
-//            case(";"):
-//                this.alt = 1;
-//                break;
-//            case("+"):
-//                this.alt = 2;
-//                Parser.nextToken();
-//                this.expr = new Expr();
-//                this.expr.parseExpr();
-//                break;
-//            case("-"):
-//                this.alt = 3;
-//                Parser.nextToken();
-//                this.expr = new Expr();
-//                this.expr.parseExpr();
-//                break;
-//            case(")"):
-//                this.alt = 4;
-//                break;
-//            default:
-//                System.out.println("Error! Expression (Line " + tokenLine 
-//                        + ") Expected \";\", \"-\", or \"+\", but found \"" 
-//                        + tokenSymbol + "\"");
-//                System.exit(0);
-//        }     
-//    }
-    
     /**
      * Method to parse relevant tokens and symbols 
      */
@@ -102,7 +68,7 @@ public class Expr{
      * Method to execute node based on parsed values
      */
     public int execExpr() {
-        int value1 = 0, value2 = 0, finalValue = 0;
+        long value1 = 0, value2 = 0, finalValue = 0;
         switch (this.alt) {
             case(1): // Term Only
                 finalValue = this.term.execTerm();
@@ -111,16 +77,16 @@ public class Expr{
                 value1 = this.term.execTerm();
                 value2 = this.expr.execExpr();
                 finalValue = value1 + value2;
-                //CHECK FOR OVERFLOW
+                Parser.checkOverflow(finalValue);
                 break;
             case(3): // Term - Expr
                 value1 = this.term.execTerm();
                 value2 = this.expr.execExpr();
                 finalValue = value1 - value2;
-                //CHECK FOR UNDERFLOW
+                Parser.checkOverflow(finalValue);
                 break;
         }
-        return finalValue;
+        return (int)finalValue;
     }
     
 }

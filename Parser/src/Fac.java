@@ -80,7 +80,7 @@ public class Fac{
      * Method to execute node based on parsed values
      */
     public int execFac() {
-        int finalValue = 0;
+        Integer finalValue = 0;
         switch (this.alt) {
             case(1):
                 finalValue = this.intValue;
@@ -88,13 +88,12 @@ public class Fac{
             case(2):
                 String identifier = this.id.execID();
                 finalValue = Parser.getSymbolValue(identifier);
-                // CHECK THAT ID HAS BEEN GIVEN A VALUE
                 break;
             case(3):
                 finalValue = this.expr.execExpr();
                 break;
         }
-        return finalValue;
+        return (int)finalValue;
     }
     
 }

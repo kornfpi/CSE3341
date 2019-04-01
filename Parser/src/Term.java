@@ -52,14 +52,14 @@ public class Term{
      * Method to execute node based on parsed values
      */
     public int execTerm() {
-        int value1 = 0, finalValue = 0;
+        long value1 = 0, finalValue = 0;
         finalValue = this.fac.execFac();
         if(this.alt == 2) {
             value1 = this.term.execTerm();
             finalValue = finalValue * value1;
-            // CHECK FOR OVERFLOW
+            Parser.checkOverflow(finalValue);
         }
-        return finalValue;
+        return (int)finalValue;
     }
     
 }

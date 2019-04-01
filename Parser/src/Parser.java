@@ -109,7 +109,15 @@ public class Parser {
      * @return the value of the passed key in the symbol table.
      */
     protected static int getSymbolValue(String symbol) {
-        return symbolTable.get(symbol);
+    	int value = 0;
+    	try {
+    		value = symbolTable.get(symbol);
+    	}catch(NullPointerException e) {
+            	System.out.println("Error! Call to uninitialized variable " + symbol);
+            	System.out.println("System Exiting!");
+            	System.exit(0);
+        }
+        return value;
     }
     
     /**
@@ -119,7 +127,7 @@ public class Parser {
      */
     protected static void addSymbol(String symbol) {
         if(!symbolTable.containsKey(symbol)) {
-            symbolTable.put(symbol, 999999999);
+            symbolTable.put(symbol, null);
         }  
     }
     
@@ -229,6 +237,21 @@ public class Parser {
             isOver = true;
         }
         return isOver;
+    }
+    
+    /**
+     * Method to test if integer value is too big or small to be represented as int
+     * Exits the program if overflow is detected.
+     * @param input long value which will be checked against int min/max values
+     */
+    protected static void checkOverflow(long input) {
+        if (input > Integer.MAX_VALUE || input < Integer.MIN_VALUE) {
+            System.out.print("Overflow Detected! System Exiting!");
+            System.exit(0);
+        }else if(input < Integer.MIN_VALUE) {
+        	System.out.print("Underflow Detected! System Exiting!");
+        	System.exit(0);
+        }
     }
     
 }

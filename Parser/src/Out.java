@@ -48,7 +48,7 @@ public class Out{
     public void execOut() {
         ArrayList<String> variables = this.idl.execIDList();
         for(String var : variables) {
-            System.out.println(var + "= " + Parser.getSymbolValue(var));
+            System.out.println(var + " = " + Parser.getSymbolValue(var));
         }
     }
     

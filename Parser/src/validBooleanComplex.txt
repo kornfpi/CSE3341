@@ -1,8 +1,8 @@
 program
 int X,Y;
 begin 
-  X=20;
-  Y=0;
+  X=19;
+  Y=11;
   while [[(X>10)and(Y<10)]or[(X<20)and(Y>0)]] loop
     write X,Y;
     X=X-1;
