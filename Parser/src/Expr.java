@@ -74,14 +74,14 @@ public class Expr{
                 finalValue = this.term.execTerm();
                 break;
             case(2): // Term + Expr
-                value1 = this.term.execTerm();
-                value2 = this.expr.execExpr();
+                value1 = (long)this.term.execTerm();
+                value2 = (long)this.expr.execExpr();
                 finalValue = value1 + value2;
                 Parser.checkOverflow(finalValue);
                 break;
             case(3): // Term - Expr
-                value1 = this.term.execTerm();
-                value2 = this.expr.execExpr();
+                value1 = (long)this.term.execTerm();
+                value2 = (long)this.expr.execExpr();
                 finalValue = value1 - value2;
                 Parser.checkOverflow(finalValue);
                 break;

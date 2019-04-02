@@ -1,10 +1,11 @@
 program
-int X,Y;
+int X,Y,Z;
 begin 
-  X=13;
-  while(X>10)loop
-    write X;
+  read X, Y, Z;
+  while(X<10)loop
     read X;
-    X=(X+13);
+    X=(X-13);
+    write X;
     end;
+    X = X + Y;
 end

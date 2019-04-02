@@ -46,14 +46,17 @@ public class In{
      */
     public void execIn() {
         ArrayList<String> variables = this.idl.execIDList();
-        Scanner reader = new Scanner(System.in);
+        Scanner reader; 
         for(String var : variables) {
             System.out.print(var + " =? ");
+            reader = new Scanner(System.in);
             String input = reader.nextLine().trim();
             int i = convInteger(input);
             Parser.setValue(var, i);
             System.out.print("\n");
+
         }
+
     }
     
     /**

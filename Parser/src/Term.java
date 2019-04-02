@@ -55,7 +55,7 @@ public class Term{
         long value1 = 0, finalValue = 0;
         finalValue = this.fac.execFac();
         if(this.alt == 2) {
-            value1 = this.term.execTerm();
+            value1 = (long)this.term.execTerm();
             finalValue = finalValue * value1;
             Parser.checkOverflow(finalValue);
         }
