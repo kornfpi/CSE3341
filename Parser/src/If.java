@@ -30,37 +30,37 @@ public class If{
      * Method to parse relevant tokens and symbols 
      */
     public void parseIf() {
-        Parser.matchConsume("if", "If");
+        Interpreter.matchConsume("if", "If");
         this.cond.parseCond();
-        Parser.matchConsume("then", "If");
+        Interpreter.matchConsume("then", "If");
         this.ss1.parseStmtSeq();
-        if(Parser.currentToken().symbol.equals("else")) {
-            Parser.nextToken();
+        if(Interpreter.currentToken().symbol.equals("else")) {
+            Interpreter.nextToken();
             this.alt = 2;
             this.ss2 = new StmtSeq();
             this.ss2.parseStmtSeq();
         }
-        Parser.matchConsume("end", "If");
-        Parser.matchConsume(";", "If");
+        Interpreter.matchConsume("end", "If");
+        Interpreter.matchConsume(";", "If");
     }
     
     /**
      * Method to print relevant tokens and symbols 
      */
     public void printIf() {
-        System.out.print(Parser.indent() + "if ");
+        System.out.print(Interpreter.indent() + "if ");
         this.cond.printCond();
         System.out.print(" then\n");
-        Parser.increaseIndent();
+        Interpreter.increaseIndent();
         this.ss1.printStmtSeq();
-        Parser.decreaseIndent();
+        Interpreter.decreaseIndent();
         if(this.alt == 2) {
-            System.out.print(Parser.indent() + "else\n");
-            Parser.increaseIndent();
+            System.out.print(Interpreter.indent() + "else\n");
+            Interpreter.increaseIndent();
             this.ss2.printStmtSeq();
-            Parser.decreaseIndent();
+            Interpreter.decreaseIndent();
         }
-        System.out.print(Parser.indent() + "end;\n"); 
+        System.out.print(Interpreter.indent() + "end;\n"); 
     }
     
     /**

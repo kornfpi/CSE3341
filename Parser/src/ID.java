@@ -55,19 +55,19 @@ public class ID{
      * or terminates program if symbol has already been declared.
      */
     public void parseDecl() {
-        if(Parser.currentToken().type.equals("IDENT")) {
-            this.identifier = Parser.currentToken().symbol;
-            Parser.nextToken(); // Consume name
-            if(Parser.hasSymbol(this.identifier)) {
+        if(Interpreter.currentToken().type.equals("IDENT")) {
+            this.identifier = Interpreter.currentToken().symbol;
+            Interpreter.nextToken(); // Consume name
+            if(Interpreter.hasSymbol(this.identifier)) {
                 System.out.println("Error! Multiple declarations of identifier \"" 
             + this.identifier + "\"");
                 System.exit(0);
             }else {
-                Parser.addSymbol(this.identifier);
+                Interpreter.addSymbol(this.identifier);
             }
         }else {
-            String tokenSymbol = Parser.currentToken().symbol;
-            int tokenLine = Parser.currentToken().line;
+            String tokenSymbol = Interpreter.currentToken().symbol;
+            int tokenLine = Interpreter.currentToken().line;
             System.out.println("Error! (Line " + tokenLine 
                     + ") Expected identifier but found \"" + tokenSymbol + "\"");
             System.exit(0);
@@ -79,12 +79,12 @@ public class ID{
      * has been previously declared. Terminates program if has not. 
      */
     public void parseNonDecl() {
-        String tokenSymbol = Parser.currentToken().symbol;
-        int tokenLine = Parser.currentToken().line;
-        if(Parser.currentToken().type.equals("IDENT")) {
-            this.identifier = Parser.currentToken().symbol;
-            Parser.nextToken(); // Consume name
-            if(!Parser.hasSymbol(this.identifier)) {
+        String tokenSymbol = Interpreter.currentToken().symbol;
+        int tokenLine = Interpreter.currentToken().line;
+        if(Interpreter.currentToken().type.equals("IDENT")) {
+            this.identifier = Interpreter.currentToken().symbol;
+            Interpreter.nextToken(); // Consume name
+            if(!Interpreter.hasSymbol(this.identifier)) {
                 System.out.println("Error! (Line " + tokenLine 
                         + ") Undeclared identifier \"" + tokenSymbol + "\"");
                 System.exit(0);

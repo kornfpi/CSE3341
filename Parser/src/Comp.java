@@ -32,17 +32,17 @@ public class Comp{
      * Method to parse relevant tokens and symbols 
      */
     public void parseComp() {
-        Parser.matchConsume("(", "Comp");
+        Interpreter.matchConsume("(", "Comp");
         this.fac1.parseFac();
-        if(!isComp(Parser.currentToken().symbol)) {
+        if(!isComp(Interpreter.currentToken().symbol)) {
             System.out.println("[Parse Comp Error!] Expected comparison operator, but found " 
-                    + Parser.currentToken().symbol + ", Line " + Parser.currentToken().line);
+                    + Interpreter.currentToken().symbol + ", Line " + Interpreter.currentToken().line);
             System.exit(0);
         }
-        this.compOp = Parser.currentToken().symbol;
-        Parser.nextToken();
+        this.compOp = Interpreter.currentToken().symbol;
+        Interpreter.nextToken();
         this.fac2.parseFac();
-        Parser.matchConsume(")", "Comp");
+        Interpreter.matchConsume(")", "Comp");
     }
     
     /**

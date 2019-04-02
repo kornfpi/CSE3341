@@ -28,16 +28,16 @@ public class Out{
      * Method to parse relevant tokens and symbols 
      */
     public void parseOut() {
-        Parser.matchConsume("write", "Out");
+        Interpreter.matchConsume("write", "Out");
         this.idl.parseIDList();
-        Parser.matchConsume(";", "Out");
+        Interpreter.matchConsume(";", "Out");
     }
     
     /**
      * Method to print relevant tokens and symbols 
      */
     public void printOut() {
-        System.out.print(Parser.indent() + "write ");
+        System.out.print(Interpreter.indent() + "write ");
         this.idl.printIDList();
         System.out.print(";\n");
     }
@@ -48,7 +48,7 @@ public class Out{
     public void execOut() {
         ArrayList<String> variables = this.idl.execIDList();
         for(String var : variables) {
-            System.out.println(var + " = " + Parser.getSymbolValue(var));
+            System.out.println(var + " = " + Interpreter.getSymbolValue(var));
         }
     }
     

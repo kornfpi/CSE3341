@@ -29,18 +29,18 @@ public class Expr{
     public void parseExpr() {
         this.alt = 1;
         this.term.parseTerm();
-        String tokenSymbol = Parser.currentToken().symbol;
-        int tokenLine = Parser.currentToken().line;
+        String tokenSymbol = Interpreter.currentToken().symbol;
+        int tokenLine = Interpreter.currentToken().line;
         switch (tokenSymbol) {
             case("+"):
                 this.alt = 2;
-                Parser.nextToken();
+                Interpreter.nextToken();
                 this.expr = new Expr();
                 this.expr.parseExpr();
                 break;
             case("-"):
                 this.alt = 3;
-                Parser.nextToken();
+                Interpreter.nextToken();
                 this.expr = new Expr();
                 this.expr.parseExpr();
                 break;
@@ -77,13 +77,13 @@ public class Expr{
                 value1 = (long)this.term.execTerm();
                 value2 = (long)this.expr.execExpr();
                 finalValue = value1 + value2;
-                Parser.checkOverflow(finalValue);
+                Interpreter.checkOverflow(finalValue);
                 break;
             case(3): // Term - Expr
                 value1 = (long)this.term.execTerm();
                 value2 = (long)this.expr.execExpr();
                 finalValue = value1 - value2;
-                Parser.checkOverflow(finalValue);
+                Interpreter.checkOverflow(finalValue);
                 break;
         }
         return (int)finalValue;

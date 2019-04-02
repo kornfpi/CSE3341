@@ -29,7 +29,7 @@ public class DeclSeq{
      */
     public void parseDeclSeq() {
         this.d.parseDecl();
-        if(Parser.currentToken().symbol.equals("int")) {
+        if(Interpreter.currentToken().symbol.equals("int")) {
             this.alt = 2;
             this.ds = new DeclSeq();
             this.ds.parseDeclSeq();

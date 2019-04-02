@@ -29,7 +29,7 @@ public class Stmt{
      * Method to parse relevant tokens and symbols 
      */
     public void parseStmt() {
-        this.alt = Parser.stmtType();
+        this.alt = Interpreter.stmtType();
         switch (this.alt) {
             case(1):
                 this.a = new Assign();
@@ -52,8 +52,8 @@ public class Stmt{
                 this.o.parseOut();
                 break;
             default:
-                String tokenSymbol = Parser.currentToken().symbol;
-                int tokenLine = Parser.currentToken().line;
+                String tokenSymbol = Interpreter.currentToken().symbol;
+                int tokenLine = Interpreter.currentToken().line;
                 System.out.println("Error! Statement (Line " + tokenLine + ") Expected identifier, if, loop, in, or out but found \"" + tokenSymbol + "\"");
                 System.exit(0);
         }     

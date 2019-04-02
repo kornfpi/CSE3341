@@ -27,25 +27,25 @@ public class Loop{
      * Method to parse relevant tokens and symbols 
      */
     public void parseLoop() {
-        Parser.matchConsume("while", "Loop");
+        Interpreter.matchConsume("while", "Loop");
         this.cond.parseCond();
-        Parser.matchConsume("loop", "Loop");
+        Interpreter.matchConsume("loop", "Loop");
         this.ss.parseStmtSeq();
-        Parser.matchConsume("end", "Loop");
-        Parser.matchConsume(";", "Loop");
+        Interpreter.matchConsume("end", "Loop");
+        Interpreter.matchConsume(";", "Loop");
     }
     
     /**
      * Method to print relevant tokens and symbols 
      */
     public void printLoop() {
-        System.out.print(Parser.indent() + "while ");
+        System.out.print(Interpreter.indent() + "while ");
         this.cond.printCond();
         System.out.print(" loop\n");
-        Parser.increaseIndent();
+        Interpreter.increaseIndent();
         this.ss.printStmtSeq();
-        Parser.decreaseIndent();
-        System.out.print(Parser.indent() + "end;\n"); 
+        Interpreter.decreaseIndent();
+        System.out.print(Interpreter.indent() + "end;\n"); 
     }
     
     /**

@@ -28,16 +28,16 @@ public class Assign{
      */
     public void parseAssign() {
         this.id.parseID();
-        Parser.matchConsume("=", "Assign");
+        Interpreter.matchConsume("=", "Assign");
         this.expr.parseExpr();
-        Parser.matchConsume(";", "Assign");
+        Interpreter.matchConsume(";", "Assign");
     }
     
     /**
      * Method to print relevant tokens and symbols 
      */
     public void printAssign() {
-        System.out.print(Parser.indent());
+        System.out.print(Interpreter.indent());
         this.id.printID();
         System.out.print(" = ");
         this.expr.printExpr();
@@ -50,7 +50,7 @@ public class Assign{
     public void execAssign() {
         String identifier = this.id.execID();
         int newValue = this.expr.execExpr();
-        Parser.setValue(identifier, newValue);
+        Interpreter.setValue(identifier, newValue);
     }
     
 }

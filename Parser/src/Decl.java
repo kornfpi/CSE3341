@@ -25,16 +25,16 @@ public class Decl{
      * Method to parse relevant tokens and symbols 
      */
     public void parseDecl() {
-        Parser.matchConsume("int", "Decl");
+        Interpreter.matchConsume("int", "Decl");
         this.idl.parseIDList();
-        Parser.matchConsume(";", "Decl");
+        Interpreter.matchConsume(";", "Decl");
     }
     
     /**
      * Method to print relevant tokens and symbols 
      */
     public void printDecl() {
-        System.out.print(Parser.indent() + "int ");
+        System.out.print(Interpreter.indent() + "int ");
         this.idl.printIDList();
         System.out.print(";\n");
     }

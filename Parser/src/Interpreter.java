@@ -11,7 +11,7 @@
 
 import java.util.*;
 
-public class Parser {
+public class Interpreter {
 
     /**
      * Map which holds ID string values and maps them to their current integer value.
@@ -195,7 +195,7 @@ public class Parser {
     protected static int stmtType() {
         int type = 0;
         String inString = tokenizer.currentToken().symbol;
-        if(Parser.hasSymbol(inString)) type = 1;
+        if(Interpreter.hasSymbol(inString)) type = 1;
         if(inString.equals("if")) type = 2;
         if(inString.equals("while")) type = 3;
         if(inString.equals("read")) type = 4;

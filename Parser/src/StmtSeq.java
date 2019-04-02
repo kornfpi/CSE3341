@@ -29,7 +29,7 @@ public class StmtSeq{
      */
     public void parseStmtSeq() {
         this.s.parseStmt();
-        if(Parser.stmtType() > 0) {
+        if(Interpreter.stmtType() > 0) {
             this.alt = 2;
             this.ss = new StmtSeq();
             this.ss.parseStmtSeq();

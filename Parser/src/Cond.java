@@ -27,27 +27,27 @@ public class Cond{
      * Method to parse relevant tokens and symbols 
      */
     public void parseCond() {
-        if(Parser.currentToken().symbol.equals("!")) {
-            Parser.nextToken();
+        if(Interpreter.currentToken().symbol.equals("!")) {
+            Interpreter.nextToken();
             this.alt = 2;
             this.cond1 = new Cond();
             this.cond1.parseCond();
-        }else if(Parser.currentToken().symbol.equals("[")) {
-            Parser.nextToken();
+        }else if(Interpreter.currentToken().symbol.equals("[")) {
+            Interpreter.nextToken();
             this.cond1 = new Cond();
             this.cond1.parseCond();
-            if(Parser.currentToken().symbol.equals("and")) {
-                Parser.nextToken();
+            if(Interpreter.currentToken().symbol.equals("and")) {
+                Interpreter.nextToken();
                 this.alt = 3;
                 this.cond2 = new Cond();
                 this.cond2.parseCond();
-                Parser.matchConsume("]", "Cond");
-            }else if(Parser.currentToken().symbol.equals("or")) {
-                Parser.nextToken();
+                Interpreter.matchConsume("]", "Cond");
+            }else if(Interpreter.currentToken().symbol.equals("or")) {
+                Interpreter.nextToken();
                 this.alt = 4;
                 this.cond2 = new Cond();
                 this.cond2.parseCond();
-                Parser.matchConsume("]", "Cond");
+                Interpreter.matchConsume("]", "Cond");
             }else {
                 System.out.print("ERROR");
                 System.exit(0);

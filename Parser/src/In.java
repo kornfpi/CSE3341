@@ -27,16 +27,16 @@ public class In{
      * Method to parse relevant tokens and symbols 
      */
     public void parseIn() {
-        Parser.matchConsume("read", "IDList");
+        Interpreter.matchConsume("read", "IDList");
         this.idl.parseIDList();
-        Parser.matchConsume(";", "IDList");
+        Interpreter.matchConsume(";", "IDList");
     }
     
     /**
      * Method to print relevant tokens and symbols 
      */
     public void printIn() {
-        System.out.print(Parser.indent() + "read ");
+        System.out.print(Interpreter.indent() + "read ");
         this.idl.printIDList();
         System.out.print(";\n");
     }
@@ -52,7 +52,7 @@ public class In{
             reader = new Scanner(System.in);
             String input = reader.nextLine().trim();
             int i = convInteger(input);
-            Parser.setValue(var, i);
+            Interpreter.setValue(var, i);
             System.out.print("\n");
 
         }

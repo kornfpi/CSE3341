@@ -27,11 +27,11 @@ public class Prog{
      * Method to parse relevant tokens and symbols 
      */
     public void parseProg() {
-        Parser.matchConsume("program", "Begin");
+        Interpreter.matchConsume("program", "Begin");
         this.ds.parseDeclSeq();
-        Parser.matchConsume("begin", "Begin");
+        Interpreter.matchConsume("begin", "Begin");
         this.ss.parseStmtSeq();
-        Parser.matchConsume("end", "Begin");
+        Interpreter.matchConsume("end", "Begin");
     }
     
     /**
@@ -39,14 +39,14 @@ public class Prog{
      */
     public void printProg() {
         System.out.print("program\n");
-        Parser.increaseIndent();
+        Interpreter.increaseIndent();
         this.ds.printDeclSeq();
-        System.out.print(Parser.indent() + "begin\n");
-        Parser.increaseIndent();
+        System.out.print(Interpreter.indent() + "begin\n");
+        Interpreter.increaseIndent();
         this.ss.printStmtSeq();
-        Parser.decreaseIndent();
-        System.out.print(Parser.indent() + "end\n");
-        Parser.decreaseIndent(); 
+        Interpreter.decreaseIndent();
+        System.out.print(Interpreter.indent() + "end\n");
+        Interpreter.decreaseIndent(); 
     }
     
     /**

@@ -27,15 +27,15 @@ public class Fac{
      * Method to parse relevant tokens and symbols 
      */
     public void parseFac() {
-        String type = Parser.currentToken().type;
-        String tokenSymbol = Parser.currentToken().symbol;
-        int tokenLine = Parser.currentToken().line;
+        String type = Interpreter.currentToken().type;
+        String tokenSymbol = Interpreter.currentToken().symbol;
+        int tokenLine = Interpreter.currentToken().line;
         switch (type) {
             case("IDENT"):
-                if(Parser.isInt(tokenSymbol)) {
+                if(Interpreter.isInt(tokenSymbol)) {
                     this.alt = 1;
                     this.intValue = Integer.parseInt(tokenSymbol);
-                    Parser.nextToken();
+                    Interpreter.nextToken();
                 }else {
                     this.alt = 2;
                     this.id = new ID(false);
@@ -44,10 +44,10 @@ public class Fac{
                 break;
             case("SPEC"):
                 this.alt = 3;
-                Parser.matchConsume("(", "Fac");
+                Interpreter.matchConsume("(", "Fac");
                 this.expr = new Expr();
                 this.expr.parseExpr();
-                Parser.matchConsume(")", "Fac");
+                Interpreter.matchConsume(")", "Fac");
                 break;
             default:
                 System.out.println("Error! Factor (Line " + tokenLine 
@@ -87,7 +87,7 @@ public class Fac{
                 break;
             case(2):
                 String identifier = this.id.execID();
-                finalValue = Parser.getSymbolValue(identifier);
+                finalValue = Interpreter.getSymbolValue(identifier);
                 break;
             case(3):
                 finalValue = this.expr.execExpr();

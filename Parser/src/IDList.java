@@ -35,8 +35,8 @@ public class IDList{
      */
     public void parseIDList() {
         this.id.parseID();
-        if(Parser.currentToken().symbol.equals(",")) {
-            Parser.nextToken();
+        if(Interpreter.currentToken().symbol.equals(",")) {
+            Interpreter.nextToken();
             this.alt = 2;
             this.idl = new IDList(isDecl);
             this.idl.parseIDList();

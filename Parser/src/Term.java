@@ -29,8 +29,8 @@ public class Term{
     public void parseTerm() {
         this.alt = 1;
         this.fac.parseFac();
-        if(Parser.currentToken().symbol.equals("*")) {
-            Parser.nextToken();
+        if(Interpreter.currentToken().symbol.equals("*")) {
+            Interpreter.nextToken();
             this.alt = 2;
             this.term = new Term();
             this.term.parseTerm();
@@ -57,7 +57,7 @@ public class Term{
         if(this.alt == 2) {
             value1 = (long)this.term.execTerm();
             finalValue = finalValue * value1;
-            Parser.checkOverflow(finalValue);
+            Interpreter.checkOverflow(finalValue);
         }
         return (int)finalValue;
     }
